@@ -1147,6 +1147,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
   var CURRENT_YEAR = 2026;
   var TARGET_AGE = 40;
+  var START_AGE = 18;
   var AGE40_YEAR = CURRENT_YEAR + (TARGET_AGE - 18);
   var AGE50_YEAR = CURRENT_YEAR + (TARGET_AGE + 10 - 18);
   var RATE_NOMINAL = 0.07;
@@ -1201,6 +1202,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   function onAgeChange() {
     var age = parseInt(document.getElementById('currentAge').value) || 18;
     age = Math.max(10, Math.min(60, age));
+    START_AGE = age;
     TARGET_AGE = parseInt(document.getElementById('targetAge').value) || 40;
     TARGET_AGE = Math.max(age + 1, Math.min(70, TARGET_AGE));
     AGE40_YEAR = CURRENT_YEAR + (TARGET_AGE - age);
@@ -1594,7 +1596,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     var lastMilestoneYear = checkYears.length > 0 ? startYear + checkYears[checkYears.length-1] : endYear;
     var maxV = Math.max(1, valueAtYear(lastMilestoneYear));
 
-    var currentAge = parseInt(document.getElementById('currentAge').value) || 18;
+    var currentAge = START_AGE;
 
     var barsHTML = checkYears.map(function(y) {
       var yearAtMilestone = startYear + y;
@@ -1706,8 +1708,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     var pctCovered = Math.round((monthlyFromPortfolio / desiredMonthly) * 100);
 
     // ── RUNWAY SIMULATION — must run first so neverDepleted is known ──
-    var targetAge = parseInt(document.getElementById('targetAge').value) || 40;
-    var currentAge = parseInt(document.getElementById('currentAge').value) || 18;
+    var targetAge = TARGET_AGE;
     var stopYear = AGE40_YEAR;
     var annualWithdraw = desiredMonthly * 12;
     var runwayYears = [];
@@ -1841,7 +1842,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   // ── PRINT FUNCTION ────────────────────────────────────────────
   function printGoalDoc() {
     try {
-      var age       = Math.max(10, Math.min(60, parseInt(document.getElementById('currentAge').value) || 18));
+      var age       = START_AGE;
       var targetAge = TARGET_AGE;
       var savePct   = (document.getElementById('savePct') || {}).value || 20;
       var sel       = document.getElementById('jobSelect');
