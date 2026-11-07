@@ -11,9 +11,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Din finansiella resa · Din finansielle rejse</title>
+<title>Din finansiella resa</title>
 
-<!-- SEO: description shown in Google results (bilingual SV/DA) -->
+<!-- SEO: description (bilingual SV/DA), used where the page is shared or shown; the robots line below asks search engines not to index the page for now -->
 <meta name="description" content="En guide för unga om att investera, spara smart och nå ekonomisk frihet vid 40 år — med interaktiv kalkylator. · En guide til unge om at investere, spare smart og opnå økonomisk frihed ved 40 år — med interaktiv beregner.">
 <meta name="keywords" content="investera för unga, spara pengar, indexfonder, ekonomisk frihet, ISK, ränta på ränta, investering for unge, opsparing, indeksfonde, økonomisk frihed, FIRE, Avanza, Nordnet">
 <meta name="author" content="Din finansiella resa">
@@ -399,8 +399,9 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   button:focus-visible { outline:3px solid var(--green); outline-offset:2px; }
   .lang-btn:focus-visible { outline-color:white; }
 
-  /* PRIVACY NOTE: small print under the disclaimer, same size and colour. Screen only: the print
-     view shows the print panel, which leaves this note out. The link gets the buttons' focus ring. */
+  /* PRIVACY AND COPYRIGHT NOTES: small print under the disclaimer, same size and colour. Screen
+     only: the print view shows the print panel, which leaves these notes out. The privacy note's
+     link gets the buttons' focus ring. */
   .privacy-note, .copyright-note { margin-top:16px; font-size:12px; color:var(--muted); line-height:1.55; }
   .privacy-note a { color:var(--green); text-decoration:underline; text-underline-offset:2px; }
   .privacy-note a:focus-visible { outline:3px solid var(--green); outline-offset:2px; border-radius:2px; }
@@ -429,13 +430,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   <div class="stat"><div class="stat-num">7%</div><div class="stat-label" data-i18n="stat3">Antagen avkastning/år</div></div>
 </div>
 
-<div class="content">
+<div class="content" role="main">
 
   <!-- STEP 1 -->
   <div class="section">
     <div class="section-header">
       <div class="step-num">1</div>
-      <div class="section-title" data-i18n="s2-title">Din strategi — frihet vid 40 år</div>
+      <h2 class="section-title" data-i18n="s2-title">Din strategi — frihet vid 40 år</h2>
     </div>
     <div class="cards">
       <div class="card">
@@ -463,7 +464,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   <div class="section">
     <div class="section-header">
       <div class="step-num">2</div>
-      <div class="section-title" data-i18n="s3-title">Undvik dessa fallgropar</div>
+      <h2 class="section-title" data-i18n="s3-title">Undvik dessa fallgropar</h2>
     </div>
     <div class="cards">
       <div class="card">
@@ -498,7 +499,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   <div class="section">
     <div class="section-header">
       <div class="step-num" style="background:var(--gold);color:white;" aria-hidden="true">⚡</div>
-      <div class="section-title" data-i18n="crash-title">Din första krasch — vad gör du?</div>
+      <h2 class="section-title" data-i18n="crash-title">Din första krasch — vad gör du?</h2>
     </div>
     <div class="highlight" style="background:#fff8e6;border:1px solid var(--gold);">
       <div class="highlight-title" style="color:#7a5c10;">📉 <span data-i18n="crash-subtitle">Marknaden KOMMER att falla — räkna med det</span></div>
@@ -530,7 +531,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   <div class="section">
     <div class="section-header">
       <div class="step-num">3</div>
-      <div class="section-title" data-i18n="s4-title">Bygg goda vanor för livet</div>
+      <h2 class="section-title" data-i18n="s4-title">Bygg goda vanor för livet</h2>
     </div>
     <div class="cards">
       <div class="card">
@@ -566,7 +567,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   <div class="section">
     <div class="section-header">
       <div class="step-num">4</div>
-      <div class="section-title" data-i18n="s1-title">Öppna rätt konton</div>
+      <h2 class="section-title" data-i18n="s1-title">Öppna rätt konton</h2>
     </div>
     <div class="cards">
       <div class="card">
@@ -594,7 +595,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   <div class="section">
     <div class="section-header">
       <div class="step-num">5</div>
-      <div class="section-title" data-i18n="s5-title">Vad kan dina pengar bli?</div>
+      <h2 class="section-title" data-i18n="s5-title">Vad kan dina pengar bli?</h2>
     </div>
 
     <div class="calc-box">
@@ -671,13 +672,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
       <!-- Buttons row — 4 scenarios -->
       <div class="grid-4col" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:0;">
-        <button onclick="selectScenario(0)" id="sc0" class="scenario-btn active" aria-pressed="false" style="background:var(--green-pale);">
+        <button onclick="selectScenario(0)" id="sc0" class="scenario-btn" aria-pressed="false" style="background:var(--green-pale);">
           <div class="scenario-tag" style="color:var(--green);" data-i18n="sc0-tag">Sommarjobb</div>
         </button>
         <button onclick="selectScenario(1)" id="sc1" class="scenario-btn" aria-pressed="false" style="background:#fef9e7;">
           <div class="scenario-tag" style="color:#b7860a;" data-i18n="sc1-tag">Deltidsjobb</div>
         </button>
-        <button onclick="selectScenario(2)" id="sc2" class="scenario-btn" aria-pressed="true" style="background:var(--purple-pale);">
+        <button onclick="selectScenario(2)" id="sc2" class="scenario-btn active" aria-pressed="true" style="background:var(--purple-pale);">
           <div class="scenario-tag" style="color:var(--purple);" data-i18n="sc2-tag">Lön</div>
         </button>
         <button onclick="selectScenario(3)" id="sc3" class="scenario-btn" aria-pressed="false" style="background:#e8f0fe;">
@@ -766,8 +767,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       <!-- INFLATION WARNING — shown only when inflation toggle is OFF -->
       <div id="inflation-warning" style="margin-top:10px;background:#fff8e6;border:1px solid #f0cc6b;border-radius:10px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;">
         <span style="font-size:18px;flex-shrink:0;" aria-hidden="true">⚠️</span>
-        <div style="font-size:12px;color:#7a5c10;line-height:1.55;" data-i18n="infl-warning">
-          <strong>Beloppen är i framtida kronor — inte dagens köpkraft.</strong> Med 2% inflation per år är 1 Mkr år 2048 värd ca. 650 000 kr i dagens pengar. Slå på <em>inflationsjustering (5%)</em> ovan för att se reala värden i dagens köpkraft.
+        <div style="font-size:12px;color:#7a5c10;line-height:1.55;" id="infl-warning-text">
+          <strong>Beloppen är i framtida kronor — inte dagens köpkraft.</strong> Med 2% inflation per år är 1 Mkr år 2048 värd ca. 650 000 kr i dagens pengar. Välj <em>Med inflation</em> ovan för att se reala värden i dagens köpkraft.
         </div>
       </div>
 
@@ -938,9 +939,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       'infl-label-on': 'Med inflation',
       'infl-desc-off': 'Antagande: 7% nominell avkastning per år',
       'infl-desc-on': 'Antagande: 5% realavkastning per år efter inflation (Riksbankens inflationsmål 2%)',
-      'infl-warning': '<strong>Beloppen är i framtida kronor — inte dagens köpkraft.</strong> Med 2% inflation per år är 1 Mkr år 2048 värd ca. 650 000 kr i dagens pengar. Slå på <em>inflationsjustering (5%)</em> ovan för att se reala värden i dagens köpkraft.',
+      'infl-warning': '<strong>Beloppen är i framtida kronor — inte dagens köpkraft.</strong> Med 2% inflation per år är 1 Mkr år {year} värd ca. {amount} i dagens pengar. Välj <em>Med inflation</em> ovan för att se reala värden i dagens köpkraft.',
       'js-total40': 'Samlad portfölj vid {age} år',
       'js-total-invested': 'Totalt inbetalt',
+      'js-total-cap-note': 'Insättningar efter {year} (året då du fyller {age}) räknas inte med i summan.',
+      'js-year-err-lump': 'Investeringsåret måste vara tidigare än {year} (året då du fyller {age}). Därför kan inget resultat visas. Ändra investeringsåret.',
+      'js-year-err-summer': 'Slutåret måste vara samma år som startåret eller senare. Därför kan inget resultat visas. Ändra ett av åren.',
+      'js-year-err-later': 'Slutåret måste vara senare än startåret. Därför kan inget resultat visas. Ändra ett av åren.',
       'js-return': 'Avkastning',
       'js-value-at': 'Värde vid',
       'js-years-saving': 'års sparande',
@@ -1063,9 +1068,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       'infl-label-on': 'Med inflation',
       'infl-desc-off': 'Antagelse: 7% nominelt afkast om året',
       'infl-desc-on': 'Antagelse: 5% realafkast om året efter inflation (Riksbankens inflationsmål 2%)',
-      'infl-warning': '<strong>Beløbene er i fremtidige kroner — ikke i nutidens købekraft.</strong> Med 2% inflation om året er 1 Mkr i år 2048 kun ca. 650.000 kr værd i dagens penge. Slå <em>inflationsjustering (5%)</em> til ovenfor for at se reale værdier.',
+      'infl-warning': '<strong>Beløbene er i fremtidige kroner — ikke i nutidens købekraft.</strong> Med 2% inflation om året er 1 Mkr i år {year} kun ca. {amount} værd i dagens penge. Vælg <em>Med inflation</em> ovenfor for at se reale værdier.',
       'js-total40': 'Samlet portefølje som {age}-årig',
       'js-total-invested': 'Totalt indbetalt',
+      'js-total-cap-note': 'Indbetalinger efter {year} (året, hvor du fylder {age}) tælles ikke med i summen.',
+      'js-year-err-lump': 'Investeringsåret skal være tidligere end {year} (året, hvor du fylder {age}). Derfor kan der ikke vises et resultat. Ret investeringsåret.',
+      'js-year-err-summer': 'Slutåret skal være samme år som startåret eller senere. Derfor kan der ikke vises et resultat. Ret et af årene.',
+      'js-year-err-later': 'Slutåret skal ligge efter startåret. Derfor kan der ikke vises et resultat. Ret et af årene.',
       'js-return': 'Afkast',
       'js-value-at': 'Værdi ved',
       'js-years-saving': 'års opsparing',
@@ -1089,10 +1098,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
   function setLang(lang) {
     currentLang = lang;
-    var tr = translations[lang];
     document.querySelectorAll('[data-i18n]').forEach(function(el) {
-      var key = el.getAttribute('data-i18n');
-      if (tr[key] !== undefined) el.innerHTML = tr[key];
+      el.innerHTML = t(el.getAttribute('data-i18n'));
     });
     document.getElementById('btn-sv').classList.toggle('active', lang === 'sv');
     document.getElementById('btn-da').classList.toggle('active', lang === 'da');
@@ -1101,17 +1108,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     document.documentElement.lang = lang;
     document.title = lang === 'da' ? 'Din finansielle rejse' : 'Din finansiella resa';
     // Refresh inflation toggle desc
-    var desc = useInflation ? (tr['infl-desc-on'] || '') : (tr['infl-desc-off'] || '');
+    var desc = t(useInflation ? 'infl-desc-on' : 'infl-desc-off');
     var inflDesc = document.getElementById('infl-desc');
     if (inflDesc) inflDesc.innerHTML = desc;
     var inflDesc2 = document.getElementById('infl-desc2');
     if (inflDesc2) inflDesc2.innerHTML = desc;
     // Refresh inflation warning text
-    var warn = document.getElementById('inflation-warning');
-    if (warn) {
-      var warnEl = warn.querySelector('[data-i18n="infl-warning"]');
-      if (warnEl && tr['infl-warning']) warnEl.innerHTML = tr['infl-warning'];
-    }
+    refreshInflationWarning();
     // The age line is built by script, so it is refreshed here too
     var ageDesc = document.getElementById('age-desc');
     if (ageDesc) ageDesc.textContent = ageDescText();
@@ -1120,6 +1123,23 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
   function ageDescText() {
     return t('age-desc').replace('{age}', TARGET_AGE).replace('{year}', AGE40_YEAR);
+  }
+
+  // 1 Mkr in today's money at the target year, to the nearest 10 000 and written with a space as
+  // thousands separator in Swedish and a dot in Danish: "650 000 kr" / "650.000 kr". The screen's
+  // inflation note and the print both use this.
+  function todaysMoneyText(isDa) {
+    var todaysMoney = Math.round(1000000 / Math.pow(1.02, AGE40_YEAR - CURRENT_YEAR) / 10000) * 10000;
+    return String(todaysMoney).replace(/\B(?=(\d{3})+(?!\d))/g, isDa ? '.' : ' ') + ' kr';
+  }
+
+  function refreshInflationWarning() {
+    var warnEl = document.getElementById('infl-warning-text');
+    if (warnEl) {
+      warnEl.innerHTML = t('infl-warning')
+        .replace('{year}', AGE40_YEAR)
+        .replace('{amount}', todaysMoneyText(currentLang === 'da'));
+    }
   }
 
   // Init — default to Polislön scenario
@@ -1194,6 +1214,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     endYearInput.value = newEndYear;
     if (activeScenario >= 0) scenarios[activeScenario].endYear = newEndYear;
     document.getElementById('age-desc').textContent = ageDescText();
+    refreshInflationWarning();
     calcGrowth();
   }
 
@@ -1303,8 +1324,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   }
 
   function scenarioInvested(sc) {
-    if (sc.id === 0) return annualInvested(sc.amount, sc.startYear, sc.endYear);
-    var sY = sc.startYear, eY = sc.endYear, pmt = sc.amount;
+    if (sc.id === 0) return annualInvested(sc.amount, sc.startYear, Math.min(sc.endYear, AGE40_YEAR));
+    var sY = sc.startYear, eY = Math.min(sc.endYear, AGE40_YEAR), pmt = sc.amount;
     if (eY <= sY) return 0;
     return pmt * (eY - sY) * 12;
   }
@@ -1378,6 +1399,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     [0,1,2,3].forEach(function(j){
       var btn = document.getElementById('sc'+j);
       if (btn) {
+        btn.classList.toggle('active', j===i);
         btn.style.borderColor = j===i ? 'var(--green)' : 'transparent';
         btn.setAttribute('aria-pressed', j===i ? 'true' : 'false');
       }
@@ -1434,6 +1456,11 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     var totalGain50  = total50 - totalInvested;
     var totalGain50p = totalInvested > 0 ? Math.round((totalGain50 / totalInvested) * 100) : 0;
     var extra10 = total50 - total40;
+    var laterPayments = scenarios.some(function(sc) { return sc.amount > 0 && sc.endYear > AGE40_YEAR; });
+    var capNoteHTML = laterPayments
+      ? '<div id="total-cap-note" style="margin-top:6px;font-size:11.5px;opacity:0.85;">' +
+          t('js-total-cap-note').replace('{year}', AGE40_YEAR).replace('{age}', TARGET_AGE) + '</div>'
+      : '';
 
     var _lrd = getLumpData(); var lumpRowHTML = useLump() && _lrd.amount > 0 ?
       '<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 10px;border-radius:8px;background:#e8f0fe;margin-bottom:6px;">' +
@@ -1476,7 +1503,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           '<div style="margin-top:8px;font-size:12.5px;opacity:0.85;">' +
             t('js-total-invested') + ': <strong>' + fmt(totalInvested) + '</strong> &nbsp;·&nbsp; ' +
             t('js-return') + ': <span style="color:#b7f5c8;font-weight:700;">' + fmt(totalGain40) + '</span> (+' + totalGain40p + '%)' +
-          '</div>' +
+          '</div>' + capNoteHTML +
           '<div style="margin-top:14px;border-top:1px solid rgba(255,255,255,0.2);padding-top:12px;">' + lumpRowHTML + rowsHTML + '</div>' +
         '</div>'
     };
@@ -1509,17 +1536,11 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       // means (no result), what to change.
       var yearMsg;
       if (selectedButton === 3) {
-        yearMsg = currentLang==='da'
-          ? 'Investeringsåret skal være tidligere end ' + AGE40_YEAR + ' (året, hvor du fylder ' + TARGET_AGE + '). Derfor kan der ikke vises et resultat. Ret investeringsåret.'
-          : 'Investeringsåret måste vara tidigare än ' + AGE40_YEAR + ' (året då du fyller ' + TARGET_AGE + '). Därför kan inget resultat visas. Ändra investeringsåret.';
+        yearMsg = t('js-year-err-lump').replace('{year}', AGE40_YEAR).replace('{age}', TARGET_AGE);
       } else if (selectedButton === 0) {
-        yearMsg = currentLang==='da'
-          ? 'Slutåret skal være samme år som startåret eller senere. Derfor kan der ikke vises et resultat. Ret et af årene.'
-          : 'Slutåret måste vara samma år som startåret eller senare. Därför kan inget resultat visas. Ändra ett av åren.';
+        yearMsg = t('js-year-err-summer');
       } else {
-        yearMsg = currentLang==='da'
-          ? 'Slutåret skal ligge efter startåret. Derfor kan der ikke vises et resultat. Ret et af årene.'
-          : 'Slutåret måste vara senare än startåret. Därför kan inget resultat visas. Ändra ett av åren.';
+        yearMsg = t('js-year-err-later');
       }
       container.innerHTML = '<div style="text-align:center;color:var(--muted);font-size:14px;padding:16px;">' + yearMsg + '</div>';
       // The 4 % section works from the portfolio the years describe. With a year error there is
@@ -1820,8 +1841,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   // ── PRINT FUNCTION ────────────────────────────────────────────
   function printGoalDoc() {
     try {
-      var age       = parseInt(document.getElementById('currentAge').value) || 18;
-      var targetAge = parseInt(document.getElementById('targetAge').value)  || 40;
+      var age       = Math.max(10, Math.min(60, parseInt(document.getElementById('currentAge').value) || 18));
+      var targetAge = TARGET_AGE;
       var savePct   = (document.getElementById('savePct') || {}).value || 20;
       var sel       = document.getElementById('jobSelect');
       var jobName   = sel ? sel.options[sel.selectedIndex].text.split('—')[0].trim() : '';
@@ -1847,10 +1868,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       var total40 = sc0val + sc1val + sc2val + lumpVal;
       var monthlyPayout = Math.round((total40 * swrRate) / 12);
 
-      // 1 Mkr in today's money at the target year, to the nearest 10 000 and written like the
-      // screen's inflation note: "650 000 kr" in Swedish, "650.000 kr" in Danish.
-      var todaysMoney = Math.round(1000000 / Math.pow(1.02, AGE40_YEAR - CURRENT_YEAR) / 10000) * 10000;
-      var todaysMoneyText = String(todaysMoney).replace(/\B(?=(\d{3})+(?!\d))/g, da ? '.' : ' ') + ' kr';
+      var todaysMoneyLabel = todaysMoneyText(da);
 
       var panel = document.getElementById('print-panel');
       if (!panel) { console.error('print-panel not found'); return; }
@@ -1880,7 +1898,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           '<tr><td style="padding:6px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Spareprocent':'Sparandeprocent') + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;">' + savePct + '% ' + (da?'af nettoløn':'av nettolön') + '</td></tr>' +
           '<tr><td style="padding:6px 0;border-bottom:1px solid #e9e4d9;color:#7c5cbf;font-weight:600;">🟣 ' + (da?'Løn':'Lön') + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#7c5cbf;">' + fmt(scenarios[2].amount) + perMonth + ' · ' + scenarios[2].startYear + '–' + scenarios[2].endYear + '</td></tr>' +
           (scenarios[0].amount > 0 ?
-            '<tr><td style="padding:6px 0;border-bottom:1px solid #e9e4d9;color:#2d6a4f;font-weight:600;">🟢 ' + (da?'Sommerjob':'Sommarjobb') + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#2d6a4f;">' +
+            '<tr><td style="padding:6px 0;border-bottom:1px solid #e9e4d9;color:#2d6a4f;font-weight:600;">🟢 ' + (da?'Sommerferiejob':'Sommarjobb') + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#2d6a4f;">' +
             fmt(scenarios[0].amount) + '/år · ' + scenarios[0].startYear + '–' + scenarios[0].endYear + '</td></tr>' : '') +
           (scenarios[1].amount > 0 ?
             '<tr><td style="padding:6px 0;border-bottom:1px solid #e9e4d9;color:#b7860a;font-weight:600;">🟡 ' + (da?'Deltidsjob':'Deltidsjobb') + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#b7860a;">' + fmt(scenarios[1].amount) + perMonth + ' · ' + scenarios[1].startYear + '–' + scenarios[1].endYear + '</td></tr>' : '') +
@@ -1895,16 +1913,16 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           '<span style="font-size:16px;flex-shrink:0;">⚠️</span>' +
           '<div style="font-size:11px;color:#7a5c10;line-height:1.5;">' +
             '<strong>' + (da?'Beløbene er i fremtidige kroner — ikke dagens købekraft.':'Beloppen är i framtida kronor — inte dagens köpkraft.') + '</strong> ' +
-            (da?'Med 2% inflation per år er 1 Mkr i '+AGE40_YEAR+' værd ca. '+todaysMoneyText+' i dagens penge. Vælg <em>Med inflation (5%)</em> for at se reale værdier.':
-                'Med 2% inflation per år är 1 Mkr år '+AGE40_YEAR+' värd ca. '+todaysMoneyText+' i dagens pengar. Välj <em>Med inflation (5%)</em> för att se reala värden.') +
+            (da?'Med 2% inflation per år er 1 Mkr i '+AGE40_YEAR+' værd ca. '+todaysMoneyLabel+' i dagens penge. Vælg <em>Med inflation</em> for at se reale værdier.':
+                'Med 2% inflation per år är 1 Mkr år '+AGE40_YEAR+' värd ca. '+todaysMoneyLabel+' i dagens pengar. Välj <em>Med inflation</em> för att se reala värden.') +
           '</div>' +
         '</div>' : '') +
 
         // Portfolio breakdown
-        '<div style="font-size:11px;font-weight:700;color:#2d6a4f;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">' + (da?'Forventet portefølje ved '+targetAge+' år':'Förväntad portfölj vid '+targetAge+' år') + '</div>' +
+        '<div style="font-size:11px;font-weight:700;color:#2d6a4f;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">' + t('js-total40').replace('{age}', targetAge) + '</div>' +
         '<div style="font-size:26px;font-weight:700;color:#2d6a4f;margin-bottom:8px;">' + fmt(total40) + '</div>' +
         '<table style="width:100%;border-collapse:collapse;margin-bottom:16px;font-size:12px;">' +
-          (sc0val > 0 ? '<tr><td style="padding:5px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Sommerjob':'Sommarjobb') + ' (' + scenarios[0].startYear + '–' + scenarios[0].endYear + ')</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#2d6a4f;">' + fmt(sc0val) + '</td></tr>' : '') +
+          (sc0val > 0 ? '<tr><td style="padding:5px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Sommerferiejob':'Sommarjobb') + ' (' + scenarios[0].startYear + '–' + scenarios[0].endYear + ')</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#2d6a4f;">' + fmt(sc0val) + '</td></tr>' : '') +
           (sc1val > 0 ? '<tr><td style="padding:5px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Deltidsjob':'Deltidsjobb') + ' (' + scenarios[1].startYear + '–' + scenarios[1].endYear + ')</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#b7860a;">' + fmt(sc1val) + '</td></tr>' : '') +
           (sc2val > 0 ? '<tr><td style="padding:5px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Løn':'Lön') + ' (' + scenarios[2].startYear + '–' + scenarios[2].endYear + ')</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#7c5cbf;">' + fmt(sc2val) + '</td></tr>' : '') +
           (lump > 0 ? '<tr><td style="padding:5px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Engangsbeløb':'Engångsbelopp') + ' (' + lumpYear + '→' + AGE40_YEAR + ')</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#2c5aa0;">' + fmt(lumpVal) + '</td></tr>' : '') +
@@ -2009,6 +2027,12 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           '"' + (da?'Start enkelt, tænk langsigtet, og lad tiden arbejde for dig.':'Börja enkelt, tänk långsiktigt, och låt tiden arbeta för dig.') + '"' +
         '</div>' +
 
+        // Short disclaimer, last on page one
+        '<div style="margin-top:14px;font-size:11px;color:#6b6b5e;line-height:1.5;text-align:center;">' +
+          (da?'<strong>Generel information — ikke personlig rådgivning.</strong> Tallene er regneeksempler, ikke prognoser. Hele teksten står sidst i bilaget.'
+             :'<strong>Allmän information — inte personlig rådgivning.</strong> Siffrorna är räkneexempel, inte prognoser. Hela texten finns sist i bilagan.') +
+        '</div>' +
+
         // ── APPENDIX: full guide snapshot ──
         (function() {
           function T(k) { return (translations[currentLang] && translations[currentLang][k]) || translations['sv'][k] || ''; }
@@ -2040,7 +2064,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         })();
 
       panel.style.display = 'block';
-      panel.scrollIntoView({ behavior: 'smooth' });
+      var calmScroll = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      panel.scrollIntoView({ behavior: calmScroll ? 'auto' : 'smooth' });
       if (window.matchMedia && !window.matchMedia('(pointer: coarse)').matches) {
         setTimeout(function(){ window.print(); }, 300);
       }
