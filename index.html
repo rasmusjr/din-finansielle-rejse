@@ -341,6 +341,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   .bar-fill-invested { height:100%; border-radius:100px; position:absolute; left:0; top:0; }
   .bar-fill-gain { height:100%; border-radius:100px 0 0 100px; position:absolute; top:0; }
   .bar-val { font-size:11px; font-weight:600; color:var(--ink); width:70px; flex-shrink:0; }
+  /* "12,34 mio. kr." is longer than "12,34 Mkr" */
+  html[lang="da"] .bar-val { width:80px; }
   .bar-legend { display:flex; gap:14px; margin-top:8px; }
   .legend-dot { width:10px; height:10px; border-radius:3px; flex-shrink:0; margin-top:2px; }
   .legend-label { font-size:11px; color:var(--muted); }
@@ -383,6 +385,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     /* bar chart label narrower */
     .bar-label { width: 34px; font-size: 10px; }
     .bar-val { width: 58px; font-size: 10px; }
+    html[lang="da"] .bar-val { width: 72px; }
 
     /* result big number */
     .result-big { font-size: 26px; }
@@ -556,7 +559,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       </div>
       <div class="card">
         <div class="card-title"><span class="icon" aria-hidden="true">⏸️</span> <span data-i18n="s4-c6-title">Livet förändras — men planen överlever pauser</span></div>
-        <div class="card-text" data-i18n="s4-c6-text">Studier, föräldraledighet, sjukdom, sabbatsår — det är normalt att göra korta pauser i dina investeringar. Det viktiga är att du <em>inte säljer</em> när du pausar. Pengarna som redan är investerade fortsätter att växa medan du har paus. Starta om när du kan — även om det bara är ett mindre belopp per månad.</div>
+        <div class="card-text" data-i18n="s4-c6-text">Studier, föräldraledighet, sjukdom, sabbatsår — det är normalt att göra korta pauser i dina insättningar. Det viktiga är att du <em>inte säljer</em> när du pausar. Pengarna som redan är investerade fortsätter att växa medan du har paus. Starta om när du kan — även om det bara är ett mindre belopp per månad.</div>
       </div>
     </div>
   </div>
@@ -622,28 +625,28 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       <div style="margin-bottom:14px;">
         <select id="jobSelect" onchange="onJobSelect()" aria-labelledby="job-title-label" class="focus-edge"
           style="width:100%;border:1.5px solid var(--sand);border-radius:10px;padding:11px 14px;font-size:15px;font-family:inherit;color:var(--ink);background:var(--cream);outline:none;appearance:none;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2216%22 height=%2216%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%236b6b5e%22 stroke-width=%222%22><polyline points=%226 9 12 15 18 9%22/></svg>');background-repeat:no-repeat;background-position:right 14px center;">
-          <option value="specialistlakare"   data-salary="98000" data-i18n="job-specialistlakare">👨‍⚕️ Specialistläkare — 98 000 kr/mån</option>
-          <option value="civilingenjor"      data-salary="58500" data-i18n="job-civilingenjor">⚙️ Civilingenjör — 58 500 kr/mån</option>
-          <option value="it-arkitekt"        data-salary="57000" data-i18n="job-it-arkitekt">💻 IT-arkitekt / systemutvecklare — 57 000 kr/mån</option>
-          <option value="veterinar"          data-salary="54800" data-i18n="job-veterinar">🐾 Veterinär — 54 800 kr/mån</option>
-          <option value="jurist"             data-salary="52000" data-i18n="job-jurist">⚖️ Jurist — 52 000 kr/mån</option>
-          <option value="ekonom"             data-salary="51000" data-i18n="job-ekonom">📊 Revisor — 51 000 kr/mån</option>
-          <option value="psykolog"           data-salary="48600" data-i18n="job-psykolog">🧠 Psykolog — 48 600 kr/mån</option>
-          <option value="journalist"         data-salary="45500" data-i18n="job-journalist">📰 Journalist — 45 500 kr/mån</option>
-          <option value="gymnasielarare"     data-salary="44200" data-i18n="job-gymnasielarare">🎓 Gymnasielärare — 44 200 kr/mån</option>
-          <option value="sjukskoterska"      data-salary="44000" data-i18n="job-sjukskoterska">🏥 Sjuksköterska — 44 000 kr/mån</option>
-          <option value="polis"              data-salary="43900" data-i18n="job-polis" selected>🚔 Polis — 43 900 kr/mån</option>
-          <option value="grundskolelarare"   data-salary="41600" data-i18n="job-grundskolelarare">📚 Grundskollärare — 41 600 kr/mån</option>
-          <option value="socionom"           data-salary="41600" data-i18n="job-socionom">🤝 Socionom / socialarbetare — 41 600 kr/mån</option>
-          <option value="elektriker"         data-salary="39600" data-i18n="job-elektriker">⚡ Elektriker — 39 600 kr/mån</option>
-          <option value="brandman"           data-salary="38500" data-i18n="job-brandman">🚒 Brandman — 38 500 kr/mån</option>
-          <option value="forskollarare"      data-salary="37600" data-i18n="job-forskollarare">🧒 Förskollärare — 37 600 kr/mån</option>
-          <option value="djursjukvardare"    data-salary="34800" data-i18n="job-djursjukvardare">🩺 Djursjukvårdare (djurklinik) — 34 800 kr/mån</option>
-          <option value="lastbilschauffar"   data-salary="34600" data-i18n="job-lastbilschauffar">🚚 Lastbilschaufför — 34 600 kr/mån</option>
-          <option value="underskoterska"     data-salary="30500" data-i18n="job-underskoterska">🩻 Undersköterska — 30 500 kr/mån</option>
-          <option value="servitor"           data-salary="30500" data-i18n="job-servitor">🍽️ Servitör / restauranganställd — 30 500 kr/mån</option>
-          <option value="butiksanstalld"     data-salary="26500" data-i18n="job-butiksanstalld">🛒 Butiksanställd — 26 500 kr/mån</option>
-          <option value="ingen-lon"          data-salary="0" data-i18n="job-ingen-lon">⏸️ Ingen lön (studerande / föräldraledig) — 0 kr/mån</option>
+          <option value="specialistlakare"   data-salary="98000" data-salary-da="103070" data-i18n="job-specialistlakare">👨‍⚕️ Specialistläkare — 98 000 kr/mån</option>
+          <option value="civilingenjor"      data-salary="58500" data-salary-da="70280" data-i18n="job-civilingenjor">⚙️ Civilingenjör — 58 500 kr/mån</option>
+          <option value="it-arkitekt"        data-salary="57000" data-salary-da="69687" data-i18n="job-it-arkitekt">💻 IT-arkitekt / systemutvecklare — 57 000 kr/mån</option>
+          <option value="veterinar"          data-salary="54800" data-salary-da="62984" data-i18n="job-veterinar">🐾 Veterinär — 54 800 kr/mån</option>
+          <option value="jurist"             data-salary="52000" data-salary-da="80926" data-i18n="job-jurist">⚖️ Jurist — 52 000 kr/mån</option>
+          <option value="ekonom"             data-salary="51000" data-salary-da="68112" data-i18n="job-ekonom">📊 Revisor — 51 000 kr/mån</option>
+          <option value="psykolog"           data-salary="48600" data-salary-da="55475" data-i18n="job-psykolog">🧠 Psykolog — 48 600 kr/mån</option>
+          <option value="journalist"         data-salary="45500" data-salary-da="57517" data-i18n="job-journalist">📰 Journalist — 45 500 kr/mån</option>
+          <option value="gymnasielarare"     data-salary="44200" data-salary-da="57789" data-i18n="job-gymnasielarare">🎓 Gymnasielärare — 44 200 kr/mån</option>
+          <option value="sjukskoterska"      data-salary="44000" data-salary-da="51754" data-i18n="job-sjukskoterska">🏥 Sjuksköterska — 44 000 kr/mån</option>
+          <option value="polis"              data-salary="43900" data-salary-da="48125" data-i18n="job-polis" selected>🚔 Polis — 43 900 kr/mån</option>
+          <option value="grundskolelarare"   data-salary="41600" data-salary-da="51799" data-i18n="job-grundskolelarare">📚 Grundskollärare — 41 600 kr/mån</option>
+          <option value="socionom"           data-salary="41600" data-salary-da="47101" data-i18n="job-socionom">🤝 Socionom / socialarbetare — 41 600 kr/mån</option>
+          <option value="elektriker"         data-salary="39600" data-salary-da="48682" data-i18n="job-elektriker">⚡ Elektriker — 39 600 kr/mån</option>
+          <option value="brandman"           data-salary="38500" data-salary-da="49891" data-i18n="job-brandman">🚒 Brandman — 38 500 kr/mån</option>
+          <option value="forskollarare"      data-salary="37600" data-salary-da="42895" data-i18n="job-forskollarare">🧒 Förskollärare — 37 600 kr/mån</option>
+          <option value="djursjukvardare"    data-salary="34800" data-salary-da="35697" data-i18n="job-djursjukvardare">🩺 Djursjukvårdare (djurklinik) — 34 800 kr/mån</option>
+          <option value="lastbilschauffar"   data-salary="34600" data-salary-da="44115" data-i18n="job-lastbilschauffar">🚚 Lastbilschaufför — 34 600 kr/mån</option>
+          <option value="underskoterska"     data-salary="30500" data-salary-da="42477" data-i18n="job-underskoterska">🩻 Undersköterska — 30 500 kr/mån</option>
+          <option value="servitor"           data-salary="30500" data-salary-da="31273" data-i18n="job-servitor">🍽️ Servitör / restauranganställd — 30 500 kr/mån</option>
+          <option value="butiksanstalld"     data-salary="26500" data-salary-da="32260" data-i18n="job-butiksanstalld">🛒 Butiksanställd — 26 500 kr/mån</option>
+          <option value="ingen-lon"          data-salary="0" data-salary-da="0" data-i18n="job-ingen-lon">⏸️ Ingen lön (studerande / föräldraledig) — 0 kr/mån</option>
         </select>
         <div style="margin-top:6px;font-size:11.5px;color:var(--muted);font-style:italic;" data-i18n="s5-source">Egen beräkning baserad på SCB:s (Statistiska centralbyråns) lönestatistik 2025 (för Civilingenjör, IT-arkitekt / systemutvecklare, Jurist, Undersköterska och Butiksanställd: äldre uppgifter). Visar genomsnittlig bruttolön för hela yrket — inte startlön. Din verkliga startlön är lägre, men stiger typiskt 3–5% per år tidigt i karriären. Belopp och investeringar beräknas på nettolön (inkl. jobbskatteavdrag), ca. 74% av bruttolönen (ett försiktigt antagande). Kalkylatorn håller beloppet konstant — använder du dina löneökningar till att öka dina investeringar (istället för livsstilsinflation) blir ditt slutresultat betydligt högre.</div>
       </div>
@@ -934,7 +937,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       's4-c5-title': 'De första 100 000 kr är de svåraste',
       's4-c5-text': 'När du når 100 000 kr märker du något magiskt: ränta-på-ränta börjar arbeta på riktigt. Från 100 000 kr till 200 000 kr går fortare än från 0 till 100 000 kr — och med den antagna avkastningen växer portföljen varje år med fler kronor än året innan. Håll ut. Det blir lättare, inte svårare.',
       's4-c6-title': 'Livet förändras — men planen överlever pauser',
-      's4-c6-text': 'Studier, föräldraledighet, sjukdom, sabbatsår — det är normalt att göra korta pauser i dina investeringar. Det viktiga är att du <em>inte säljer</em> när du pausar. Pengarna som redan är investerade fortsätter att växa medan du har paus. Starta om när du kan — även om det bara är ett mindre belopp per månad.',
+      's4-c6-text': 'Studier, föräldraledighet, sjukdom, sabbatsår — det är normalt att göra korta pauser i dina insättningar. Det viktiga är att du <em>inte säljer</em> när du pausar. Pengarna som redan är investerade fortsätter att växa medan du har paus. Starta om när du kan — även om det bara är ett mindre belopp per månad.',
       'infl-label-off': 'Utan inflation',
       'infl-label-on': 'Med inflation',
       'infl-desc-off': 'Antagande: 7% nominell avkastning per år',
@@ -965,27 +968,27 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     da: {
             'hero-title':   'Start din<br><em>finansielle rejse</em>',
       'hero-sub':     'Tid er din vigtigste ressource. Jo tidligere du starter, desto mere arbejder pengene for dig — målet: økonomisk frihed ved 40 år.',
-      'stat1': 'Økonomisk frihed', 'stat2': 'Invester af nettolønnen', 'stat3': 'Estimeret afkast/år',
+      'stat1': 'Økonomisk frihed', 'stat2': 'Investér af nettolønnen', 'stat3': 'Estimeret afkast/år',
       's1-title': 'Åbn de rigtige konti',
-      's1-c1-title': 'Avanza eller Nordnet — hvad skal du vælge?',
-      's1-c1-text': '<strong>Avanza</strong> er en af Sveriges største netmæglere, med et enkelt interface og god app. <strong>Nordnet</strong> er stærk i hele Norden og fungerer godt hvis du senere flytter til Danmark, Norge eller Finland. Begge har lave gebyrer og tilbyder ISK.',
-      's1-c2-title': 'Brug en ISK (investeringssparekonto — findes kun i Sverige)',
-      's1-c2-text': 'ISK er perfekt for begyndere: du betaler en lav svensk standardskat (schablonskatt) i stedet for skat på hver gevinst, og du slipper for at deklarere hver enkelt handel. Fra 2026 er de første 300.000 svenske kroner per person (ISK og kapitalförsäkring tilsammen) skattefrie. <em>Obs: standardskatten betales også i år hvor markedet faldt, men kun af det der overstiger 300.000 kr. Flytter du til Danmark, ændres beskatningen af din ISK, og Danmark beskatter dine fonde efter danske regler. Spørg det svenske Skatteverket og Skattestyrelsen, før du flytter.</em> ISK er en svensk kontotype; i Danmark hedder det tætteste aktiesparekonto.',
+      's1-c1-title': 'Nordnet eller Saxo — hvad skal du vælge?',
+      's1-c1-text': '<strong>Nordnet</strong> og <strong>Saxo</strong> er eksempler på udbydere i Danmark, hvor du kan oprette en aktiesparekonto og købe ETF\'er på den. Se selv på gebyrer og app, før du vælger.',
+      's1-c2-title': 'Brug en aktiesparekonto',
+      's1-c2-text': 'På en aktiesparekonto betaler du 17% i skat af afkastet hvert år, også af gevinst på det, du ikke har solgt endnu. Der er et loft over, hvor meget du i alt må sætte ind: 174.200 kr. i 2026. Vokser værdien over loftet, skal du ikke sælge noget. <em>Obs: når loftet er nået, må du investere videre uden for kontoen, hvor afkastet beskattes med 27% op til 79.400 kr. om året (enlig, 2026) og 42% derover.</em> Du kan have én aktiesparekonto, og du skal være fuldt skattepligtig i Danmark.',
       's1-c3-title': 'Sæt dine investeringer på autopilot',
-      's1-c3-text': 'Forsøg ikke at finde de bedste enkeltaktier — på sigt slår langt de fleste professionelle ikke markedet. Investér i stedet i hele verden via én enkelt ETF med lav omkostning. Et eksempel er Amundi Prime All Country World UCITS ETF (kortnavn: WEBG): 0,07% om året, over 3.000 selskaber i hele verden. Med et automatisk månedligt køb skal du derefter gøre meget lidt.',
+      's1-c3-text': 'Forsøg ikke at finde de bedste enkeltaktier — på sigt slår langt de fleste professionelle ikke markedet. Investér i stedet i hele verden via én enkelt ETF med lav omkostning. Et eksempel er Amundi Prime All Country World UCITS ETF (kortnavn: WEBG): ca. 0,07% om året, med selskaber fra hele verden. Med et automatisk månedligt køb skal du derefter gøre meget lidt.',
       's1-c4-title': 'Glem ikke din arbejdsmarkedspension',
-      's1-c4-text': 'I Sverige får du tjänstepension, hvis din arbejdsgiver har kollektivavtal (overenskomst) — oftest 4,5–6% af lønnen, i flere aftaler først fra 22–25 år. Det er gratis penge der investeres for dig. Sørg for at vide hvor pengene placeres og vælg et alternativ med lave gebyrer. Den danske pendant hedder arbejdsmarkedspension og har andre satser.',
+      's1-c4-text': 'Har du et job med overenskomst, får du næsten altid arbejdsmarkedspension — typisk 12–18% af lønnen, og din arbejdsgiver betaler ca. to tredjedele. Hvor meget du får, og hvornår den begynder, afhænger af overenskomsten. Pengene investeres for dig. Sørg for at vide hvor de placeres, og hvad det koster.',
       's2-title': 'Din strategi — frihed ved 40 år',
       's2-alloc-title': 'Eksempel på investering',
       'alloc1': 'Globale indexfonde',
-      's2-alloc-text': 'Indexfonde er basen — billigt og automatisk diversificeret. Eksempler: Nordnet Global Index (0,20% gebyr) eller Länsförsäkringar Global Index. To kendte bøger skriver om samme grundidé: John Bogle (<em>"The Little Book of Common Sense Investing"</em>) og Morgan Housel (<em>"The Psychology of Money"</em>) skriver om at eje billige indexfonde, der spreder pengene bredt over aktiemarkedet, og at beholde dem længe i stedet for at vælge enkeltaktier.',
+      's2-alloc-text': 'Indexfonde er basen — billigt og automatisk diversificeret. Eksempler: Danske Invest Global Indeks (ca. 0,40% om året) eller den brede ETF WEBG (Amundi Prime All Country World, ca. 0,07% om året), som du kan købe gennem en udbyder som Nordnet. To kendte bøger skriver om samme grundidé: John Bogle (<em>"The Little Book of Common Sense Investing"</em>) og Morgan Housel (<em>"The Psychology of Money"</em>) skriver om at eje billige indexfonde, der spreder pengene bredt over aktiemarkedet, og at beholde dem længe i stedet for at vælge enkeltaktier.',
       's2-c1-title': 'Målet: økonomisk frihed ved 40 år',
       's2-c1-text': 'Med konsekvente investeringer og rentes rente-effekten kan en normal løn blive til en solid formue — nok til at vælge hvordan du lever dit liv. Se punkt 5 for konkrete tal.',
       's2-c2-title': 'Sigt efter at investere 20% af din nettoløn',
       's2-c2-text': 'Uanset om det er sommerferiejob, deltid eller fuldtidsløn: sæt mindst 20% af din nettoløn (udbetalt løn) til side automatisk hver måned. Og hver gang du tjener mere — hæv investeringerne lidt. Det du aldrig ser på kontoen, savner du ikke.',
       's3-title': 'Undgå disse faldgruber',
       's3-li1-title': 'Tag aldrig dyre lån',
-      's3-li1-text': 'Kviklån, SMS-lån og forbrugslån er investeringens værste fjende. I Sverige kan de koste op til godt 20% i rente (lovens loft: den svenske referencerente plus 20 procentpoint); i Danmark er forbrugslån med ÅOP over 35% forbudt. Det æder alt afkast.',
+      's3-li1-text': 'Kviklån, SMS-lån og forbrugslån er investeringens værste fjende. I Danmark er forbrugslån med ÅOP over 35% forbudt, men selv lån under den grænse kan være meget dyre. Det æder alt afkast.',
       's3-li2-title': 'Hav altid en buffer',
       's3-li2-text': 'Hav altid en buffer på 3 måneders udgifter i kontanter — på en opsparingskonto, ikke i aktier. Pengene skal være tilgængelige med det samme hvis noget uforudset sker.',
       's3-li3-title': 'Følg ikke blindt råd fra TikTok eller Reddit',
@@ -993,7 +996,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       's3-li4-text': 'Det er normalt. Brede globale indeks har indtil nu rejst sig igen på lang sigt.',
       's4-title': 'Byg gode vaner for livet',
       's4-c1-title': 'Investér i viden',
-      's4-c1-text': 'Læs <em>"The Psychology of Money"</em> af Morgan Housel og <em>"The Little Book of Common Sense Investing"</em> af John Bogle og lyt til svenske podcasts som Kapitalet og meld dig ind i den svenske forening Unga Aktiesparare for unge investorer for at lære mere. Tidlig viden er den bedste beskyttelse mod dårlige beslutninger.',
+      's4-c1-text': 'Læs <em>"The Psychology of Money"</em> af Morgan Housel og <em>"The Little Book of Common Sense Investing"</em> af John Bogle, lyt til podcasten "Sådan investerer jeg" fra Børsen, og se på foreningen Dansk Aktionærforening for at lære mere. Tidlig viden er den bedste beskyttelse mod dårlige beslutninger.',
       's4-c2-title': 'Behold kontrollen — livet forandrer sig',
       's4-c2-text': 'Når livet forandrer sig — kørekort, bolig, partner, børn — er det let at stoppe med at investere. Behold <em>altid</em> dine investeringer i eget navn. Din økonomiske frihed er dit eget ansvar, uanset livssituation. En fælles økonomi er godt; en egen portefølje er nødvendig.',
       's4-c3-title': '20% af nettolønnen — som grundregel',
@@ -1001,30 +1004,30 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       's4-c4-title': 'Boliglån er ikke det samme som dyre lån',
       's4-c4-text': 'At købe en bolig med boliglån kan være klogt — du investerer i et aktiv der ofte stiger i værdi, til en relativt lav låneomkostning. Gør det som et tillæg til dine investeringer i indexfonde, ikke som et alternativ.',
       's5-title': 'Hvad kan dine penge blive til?',
-      's5-source': 'Egen beregning baseret på SCB\'s (Statistiska centralbyrån — Sveriges statistikmyndighed) lønstatistik 2025 (for Civilingeniør, IT-arkitekt / systemudvikler, Jurist, Social- og sundhedsassistent og Butiksansat: ældre tal). Alle beløb og lønstatistik er i svenske kroner (SEK). Viser gennemsnitlig bruttoløn for hele erhvervet — ikke startløn. Din reelle startløn er lavere, men stiger typisk 3–5% om året tidligt i karrieren. Beløb og investeringer beregnes på nettoløn (inkl. jobbskatteavdrag), ca. 74% af bruttolønnen (et forsigtigt skøn). Beregneren holder beløbet konstant — bruger du dine lønstigninger til at øge dine investeringer (i stedet for livsstilsinflation) bliver dit slutresultat markant højere.',
+      's5-source': 'Egen beregning baseret på Danmarks Statistiks lønstatistik 2025, i danske kroner. Viser gennemsnitlig månedsløn for hele erhvervet, inkl. pension og bonus — ikke startløn. Din reelle startløn er lavere. Gymnasielærer, Pædagog og Social- og sundhedsassistent passer kun cirka til statistikkens grupper. Beløb og investeringer beregnes på nettoløn (udbetalt løn), ca. 55% af Danmarks Statistiks tal (et groft skøn: for højt ved de højeste lønninger, for lavt ved de laveste). Beregneren holder beløbet konstant — bruger du dine lønstigninger til at øge dine investeringer (i stedet for livsstilsinflation) bliver dit slutresultat markant højere.',
       's5-scenario-title': 'Juster scenarie per indkomstkilde',
       'job-title': 'Vælg erhverv (omtrentlig gennemsnitsløn, se kilden nedenfor)',
-      'job-specialistlakare': '👨‍⚕️ Speciallæge — 98 000 kr./md.',
-      'job-civilingenjor': '⚙️ Civilingeniør — 58 500 kr./md.',
-      'job-it-arkitekt': '💻 IT-arkitekt / systemudvikler — 57 000 kr./md.',
-      'job-veterinar': '🐾 Dyrlæge — 54 800 kr./md.',
-      'job-jurist': '⚖️ Jurist — 52 000 kr./md.',
-      'job-psykolog': '🧠 Psykolog — 48 600 kr./md.',
-      'job-ekonom': '📊 Revisor — 51 000 kr./md.',
-      'job-gymnasielarare': '🎓 Gymnasielærer — 44 200 kr./md.',
-      'job-sjukskoterska': '🏥 Sygeplejerske — 44 000 kr./md.',
-      'job-grundskolelarare': '📚 Folkeskolelærer — 41 600 kr./md.',
-      'job-polis': '🚔 Politibetjent — 43 900 kr./md.',
-      'job-elektriker': '⚡ Elektriker — 39 600 kr./md.',
-      'job-socionom': '🤝 Socialrådgiver — 41 600 kr./md.',
-      'job-brandman': '🚒 Brandmand — 38 500 kr./md.',
-      'job-djursjukvardare': '🩺 Veterinærsygeplejerske — 34 800 kr./md.',
-      'job-forskollarare': '🧒 Pædagog — 37 600 kr./md.',
-      'job-journalist': '📰 Journalist — 45 500 kr./md.',
-      'job-lastbilschauffar': '🚚 Lastbilchauffør — 34 600 kr./md.',
-      'job-underskoterska': '🩻 Social- og sundhedsassistent — 30 500 kr./md.',
-      'job-butiksanstalld': '🛒 Butiksansat — 26 500 kr./md.',
-      'job-servitor': '🍽️ Tjener / restaurantansat — 30 500 kr./md.',
+      'job-specialistlakare': '👨‍⚕️ Speciallæge — 103.070 kr./md.',
+      'job-civilingenjor': '⚙️ Ingeniør — 70.280 kr./md.',
+      'job-it-arkitekt': '💻 Softwareudvikler — 69.687 kr./md.',
+      'job-veterinar': '🐾 Dyrlæge — 62.984 kr./md.',
+      'job-jurist': '⚖️ Advokat — 80.926 kr./md.',
+      'job-psykolog': '🧠 Psykolog — 55.475 kr./md.',
+      'job-ekonom': '📊 Revisor — 68.112 kr./md.',
+      'job-gymnasielarare': '🎓 Gymnasielærer — 57.789 kr./md.',
+      'job-sjukskoterska': '🏥 Sygeplejerske — 51.754 kr./md.',
+      'job-grundskolelarare': '📚 Folkeskolelærer — 51.799 kr./md.',
+      'job-polis': '🚔 Politibetjent — 48.125 kr./md.',
+      'job-elektriker': '⚡ Elektriker — 48.682 kr./md.',
+      'job-socionom': '🤝 Socialrådgiver — 47.101 kr./md.',
+      'job-brandman': '🚒 Brandmand — 49.891 kr./md.',
+      'job-djursjukvardare': '🩺 Veterinærassistent — 35.697 kr./md.',
+      'job-forskollarare': '🧒 Pædagog — 42.895 kr./md.',
+      'job-journalist': '📰 Journalist — 57.517 kr./md.',
+      'job-lastbilschauffar': '🚚 Lastbilchauffør — 44.115 kr./md.',
+      'job-underskoterska': '🩻 Social- og sundhedsassistent — 42.477 kr./md.',
+      'job-butiksanstalld': '🛒 Butiksansat — 32.260 kr./md.',
+      'job-servitor': '🍽️ Tjener / restaurantansat — 31.273 kr./md.',
       'job-ingen-lon': '⏸️ Ingen løn (studerende / på barsel) — 0 kr./md.',
       'age-desc': 'Du fylder {age} i {year}',
       'lbl-age': 'Startalder', 'lbl-current-age': 'Startalder', 'lbl-target-age': 'Målalder',
@@ -1034,17 +1037,17 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       'sc2-tag': 'Løn',
       'sc3-tag': 'Engangsbeløb',
       'sc0-lump-hint': 'Beløbet investeres én gang om året i perioden — hver indbetaling vokser frem til målalderen.',
-      'lbl-lump': 'Beløb (kr)',
+      'lbl-lump': 'Beløb (kr.)',
       'lbl-lump-year': 'Investeringsår',
       'lump-hint': 'Har du en opsparing, du vil investere på én gang? Indtast beløb og år — beregningen viser, hvad netop det beløb vokser til.',
       'swr-label-on': 'Månedlig udbetaling, når du er stoppet med at indbetale',
       'swr-desc-4pct': '4%-reglen: at hæve 4% af porteføljen om året har historisk oftest holdt i 30 år (Trinity-studiet, USA).',
-      'swr-isk-note': '💡 Udbetalinger fra en ISK er skattefrie. Den svenske standardskat (2026: 1,065% om året af det, der overstiger 300.000 svenske kroner) betales hvert år og er ikke regnet med her.',
-      'swr-input-label': 'Ønsket udbetaling om måneden (kr)',
+      'swr-isk-note': '💡 Udbetalinger fra en aktiesparekonto koster ingen ekstra skat, fordi skatten betales løbende: 17% af afkastet hvert år. Det gælder kun penge på kontoen. Resten beskattes efter de almindelige regler. Den skat er ikke regnet med her.',
+      'swr-input-label': 'Ønsket udbetaling om måneden (kr.)',
       'swr-ref-label': 'Pejlemærke (egen antagelse)',
-      'swr-ref-text': 'Komfortabelt liv: ca. 20.000–25.000 kr./md. (enlig)',
+      'swr-ref-text': 'Et groft bud på et komfortabelt liv: ca. 20.000–25.000 kr./md. (enlig)',
       'swr-lasts-shrinks': 'Pengene rækker hele livet, men porteføljen skrumper hvert år.',
-      's5-disclaimer': '<strong>Generel information — ikke personlig rådgivning.</strong> Intet her er tilpasset din situation. Tallene er regneeksempler, ikke prognoser. De bygger på antagelser: det valgte afkast (7% nominelt eller 5% realt efter inflation) og 4%-reglen. Historisk afkast er ingen garanti for fremtidigt afkast, og du kan tabe penge, også i indexfonde. Banker, netmæglere og fonde, som guiden nævner, er kun eksempler. Beløbene er i svenske kroner (SEK) og beregnet efter svenske regler. I Danmark gælder andre skatter og konti. Vil du have råd om netop din situation: tal med din bank eller en rådgiver med tilladelse fra Finanstilsynet (i Sverige: Finansinspektionen), og lav din egen research.',
+      's5-disclaimer': '<strong>Generel information — ikke personlig rådgivning.</strong> Intet her er tilpasset din situation. Tallene er regneeksempler, ikke prognoser. De bygger på antagelser: det valgte afkast (7% nominelt eller 5% realt efter inflation) og 4%-reglen. Historisk afkast er ingen garanti for fremtidigt afkast, og du kan tabe penge, også i indexfonde. Banker, netmæglere og fonde, som guiden nævner, er kun eksempler. Beløbene er i danske kroner. Tallene er før skat af afkastet. Vil du have råd om netop din situation: tal med din bank eller en rådgiver med tilladelse fra Finanstilsynet, og lav din egen research.',
       's5-privacy': '<strong>Dit privatliv.</strong> Siden bruger ingen cookies og gemmer ikke selv noget om dig. De tal, du skriver i beregneren, bliver i din egen browser. Siden gemmer dem ikke og sender dem ingen steder hen. Den henter heller ikke noget fra andre virksomheder: skrifttyperne er indbygget i siden, og der er hverken besøgsstatistik eller reklamer. Men siden ligger på GitHub Pages, og når du besøger den, gemmer GitHub din IP-adresse af sikkerhedshensyn. Læs mere i <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#data-collection" hreflang="en">GitHubs egen beskrivelse</a> (på engelsk).',
       's5-copyright': '© Din finansielle rejse. Guiden må bruges til privat brug. Videredeling eller kommerciel brug kræver tilladelse.',
 
@@ -1059,16 +1062,16 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       's3-li6-title': 'Undgå livsstilsinflation',
       's3-li6-text': 'Hver gang din indkomst stiger — sommerferiejob, første job, lønforhøjelse — er der en stærk fristelse til at hæve din livsstil i samme takt. Det er en af de hyppigste grunde til at man aldrig opbygger formue — man <em>ser</em> rig ud men bliver det aldrig. Reglen: når indkomsten stiger, øg dine investeringer FØRST. Lev af resten.',
       's3-li5-title': 'Betal dyr gæld inden du investerer',
-      's3-li5-text': 'Tommelfingerreglen: har du lån med over 4% rente (kviklån, SMS-lån, kreditkort) — betal dem FØRST. Du kan ikke tjene 7% på børsen hvis du betaler 20% i rente. CSN-lån (det svenske SU) og boliglån er undtagelser — deres rente er lav nok til at investere parallelt.',
-      's4-c5-title': 'De første 100.000 kr er de sværeste',
-      's4-c5-text': 'Når du når 100.000 kr mærker du noget magisk: rentes rente begynder for alvor at arbejde. Fra 100.000 kr til 200.000 kr går hurtigere end fra 0 til 100.000 kr — og med det antagne afkast vokser porteføljen hvert år med flere kroner end året før. Hold ud. Det bliver lettere, ikke sværere.',
+      's3-li5-text': 'Tommelfingerreglen: har du lån med over 4% rente (kviklån, SMS-lån, kreditkort) — betal dem FØRST. Du kan ikke tjene 7% på børsen hvis du betaler 20% i rente. SU-lån og boliglån er undtagelser — deres rente er normalt lav nok til at investere parallelt.',
+      's4-c5-title': 'De første 100.000 kr. er de sværeste',
+      's4-c5-text': 'Når du når 100.000 kr. mærker du noget magisk: rentes rente begynder for alvor at arbejde. Fra 100.000 kr. til 200.000 kr. går hurtigere end fra 0 til 100.000 kr. — og med det estimerede afkast vokser porteføljen hvert år med flere kroner end året før. Hold ud. Det bliver lettere, ikke sværere.',
       's4-c6-title': 'Livet ændrer sig — men planen overlever pauser',
-      's4-c6-text': 'Studie, barsel, sygdom, sabbatår — det er normalt at holde korte pauser i dine investeringer. Det vigtige er at du <em>ikke sælger</em> når du holder pause. Pengene der allerede er investeret fortsætter med at vokse. Start igen når du kan — selv om det kun er et mindre beløb om måneden.',
+      's4-c6-text': 'Studie, barsel, sygdom, sabbatår — det er normalt at holde korte pauser i dine indbetalinger. Det vigtige er at du <em>ikke sælger</em> når du holder pause. Pengene der allerede er investeret fortsætter med at vokse. Start igen når du kan — selv om det kun er et mindre beløb om måneden.',
       'infl-label-off': 'Uden inflation',
       'infl-label-on': 'Med inflation',
-      'infl-desc-off': 'Antagelse: 7% nominelt afkast om året',
-      'infl-desc-on': 'Antagelse: 5% realafkast om året efter inflation (Riksbankens inflationsmål 2%)',
-      'infl-warning': '<strong>Beløbene er i fremtidige kroner — ikke i nutidens købekraft.</strong> Med 2% inflation om året er 1 Mkr i år {year} kun ca. {amount} værd i dagens penge. Vælg <em>Med inflation</em> ovenfor for at se reale værdier.',
+      'infl-desc-off': 'Estimeret afkast: 7% nominelt om året',
+      'infl-desc-on': 'Estimeret afkast: 5% realt om året efter inflation (ECB\'s inflationsmål 2%)',
+      'infl-warning': '<strong>Beløbene er i fremtidige kroner — ikke i nutidens købekraft.</strong> Med 2% inflation om året er 1 mio. kr. i år {year} kun ca. {amount} værd i dagens penge. Vælg <em>Med inflation</em> ovenfor for at se reale værdier.',
       'js-total40': 'Samlet portefølje som {age}-årig',
       'js-total-invested': 'Totalt indbetalt',
       'js-total-cap-note': 'Indbetalinger efter {year} (året, hvor du fylder {age}) tælles ikke med i summen.',
@@ -1118,6 +1121,12 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     // The age line is built by script, so it is refreshed here too
     var ageDesc = document.getElementById('age-desc');
     if (ageDesc) ageDesc.textContent = ageDescText();
+    // The job list and Lön follow the language's salaries; amounts the visitor typed stay
+    sortJobOptions();
+    if (!lonTyped) {
+      scenarios[2].amount = lonAmountFromJob();
+      if (selectedButton === 2) document.getElementById('monthly').value = scenarios[2].amount;
+    }
     calcGrowth();
   }
 
@@ -1130,7 +1139,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   // inflation note and the print both use this.
   function todaysMoneyText(isDa) {
     var todaysMoney = Math.round(1000000 / Math.pow(1.02, AGE40_YEAR - CURRENT_YEAR) / 10000) * 10000;
-    return String(todaysMoney).replace(/\B(?=(\d{3})+(?!\d))/g, isDa ? '.' : ' ') + ' kr';
+    return String(todaysMoney).replace(/\B(?=(\d{3})+(?!\d))/g, isDa ? '.' : ' ') + (isDa ? ' kr.' : ' kr');
   }
 
   function refreshInflationWarning() {
@@ -1155,6 +1164,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   var useInflation = false;
   var RATE = RATE_NOMINAL;
   var NET_FACTOR = 0.74; // nettolön ≈ 74% av bruttolön (Sverige, inkl. jobbskatteavdrag)
+  var NET_FACTOR_DA = 0.55; // udbetalt løn ≈ 55% af Danmarks Statistiks tal (Danmark)
+  var lonTyped = false; // true while Lön's amount is one the visitor typed, not the job's
 
   function toggleInflation() {
     useInflation = !useInflation;
@@ -1223,13 +1234,33 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   // Lön's monthly amount: the chosen job's salary x net factor x the saving percent.
   function lonAmountFromJob() {
     var sel = document.getElementById('jobSelect');
-    var salary = parseInt(sel.options[sel.selectedIndex].dataset.salary) || 0;
+    var isDa = currentLang === 'da';
+    var option = sel.options[sel.selectedIndex].dataset;
+    var salary = parseInt(isDa ? option.salaryDa : option.salary) || 0;
     var pct = parseFloat(document.getElementById('savePct').value) || 20;
-    var netSalary = Math.round(salary * NET_FACTOR);
+    var netSalary = Math.round(salary * (isDa ? NET_FACTOR_DA : NET_FACTOR));
     return Math.round(netSalary * pct / 100);
   }
 
+  // Orders the job list by the current language's salary, highest first, "Ingen lön" last;
+  // equal salaries keep their order. The chosen job stays chosen.
+  function sortJobOptions() {
+    var sel = document.getElementById('jobSelect');
+    var chosen = sel.value;
+    var key = currentLang === 'da' ? 'salaryDa' : 'salary';
+    var options = Array.prototype.slice.call(sel.options).map(function(o, i) {
+      return { el: o, index: i, salary: parseInt(o.dataset[key]) || 0, none: o.value === 'ingen-lon' };
+    });
+    options.sort(function(a, b) {
+      if (a.none !== b.none) return a.none ? 1 : -1;
+      return (b.salary - a.salary) || (a.index - b.index);
+    });
+    options.forEach(function(o) { sel.appendChild(o.el); });
+    sel.value = chosen;
+  }
+
   function onJobSelect() {
+    lonTyped = false;
     var amount = lonAmountFromJob();
     // A job always belongs to Lön. Switch the normal way, so panel, border, numbers and print
     // agree whichever scenario was chosen; the switch first stores the open scenario's own fields,
@@ -1243,6 +1274,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   function onPctInput() {
     // The percent belongs to Lön alone: with another scenario chosen it changes nothing.
     if (selectedButton !== 2) return;
+    lonTyped = false;
     var amount = lonAmountFromJob();
     scenarios[2].amount = amount;
     document.getElementById('monthly').value = amount;
@@ -1332,9 +1364,12 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     return pmt * (eY - sY) * 12;
   }
 
+  // Amounts in the style of the chosen language: "250 000 kr" / "2,53 Mkr" in Swedish,
+  // "250.000 kr." / "2,53 mio. kr." in Danish.
   function fmt(n) {
-    if (n >= 1000000) return (n/1000000).toFixed(2).replace('.',',') + ' Mkr';
-    return Math.round(n).toLocaleString('sv-SE') + ' kr';
+    var da = currentLang === 'da';
+    if (n >= 1000000) return (n/1000000).toFixed(2).replace('.',',') + (da ? ' mio. kr.' : ' Mkr');
+    return Math.round(n).toLocaleString(da ? 'da-DK' : 'sv-SE') + (da ? ' kr.' : ' kr');
   }
 
   function readCurrentScenario() {
@@ -1430,6 +1465,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   }
 
   function onManualInput() {
+    if (selectedButton === 2) lonTyped = true;
     readCurrentScenario();
     calcGrowth();
   }
@@ -1791,10 +1827,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         '</div>' +
         '<div class="bar-track">' +
           (isDepleted
-            ? '<div style="position:absolute;left:0;top:50%;transform:translateY(-50%);font-size:9px;color:#c0392b;font-weight:600;padding-left:4px;">0 kr</div>'
+            ? '<div style="position:absolute;left:0;top:50%;transform:translateY(-50%);font-size:9px;color:#c0392b;font-weight:600;padding-left:4px;">' + (currentLang==='da' ? '0 kr.' : '0 kr') + '</div>'
             : '<div style="position:absolute;left:0;top:0;height:100%;width:' + pct + '%;background:' + barColor + ';border-radius:100px;"></div>') +
         '</div>' +
-        '<div class="bar-val" style="' + (isDepleted ? 'color:#c0392b;' : '') + '">' + (isDepleted ? '💸 0 kr' : fmt(r.balance)) + '</div>' +
+        '<div class="bar-val" style="' + (isDepleted ? 'color:#c0392b;' : '') + '">' + (isDepleted ? (currentLang==='da' ? '💸 0 kr.' : '💸 0 kr') : fmt(r.balance)) + '</div>' +
       '</div>';
     }).join('');
 
@@ -1914,7 +1950,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           '<span style="font-size:16px;flex-shrink:0;">⚠️</span>' +
           '<div style="font-size:11px;color:#7a5c10;line-height:1.5;">' +
             '<strong>' + (da?'Beløbene er i fremtidige kroner — ikke dagens købekraft.':'Beloppen är i framtida kronor — inte dagens köpkraft.') + '</strong> ' +
-            (da?'Med 2% inflation per år er 1 Mkr i '+AGE40_YEAR+' værd ca. '+todaysMoneyLabel+' i dagens penge. Vælg <em>Med inflation</em> for at se reale værdier.':
+            (da?'Med 2% inflation per år er 1 mio. kr. i '+AGE40_YEAR+' værd ca. '+todaysMoneyLabel+' i dagens penge. Vælg <em>Med inflation</em> for at se reale værdier.':
                 'Med 2% inflation per år är 1 Mkr år '+AGE40_YEAR+' värd ca. '+todaysMoneyLabel+' i dagens pengar. Välj <em>Med inflation</em> för att se reala värden.') +
           '</div>' +
         '</div>' : '') +
@@ -1933,10 +1969,11 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         '<div style="background:#faf7f2;border-left:4px solid #c9a84c;padding:12px 16px;border-radius:6px;margin-bottom:16px;">' +
           '<div style="font-size:11px;color:#7a5c10;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">' + (da?'Månedlig udbetaling · 4%-reglen':'Månatlig utbetalning · 4%-regeln') + '</div>' +
           '<div style="font-size:24px;font-weight:700;color:#7a5c10;">' + fmt(monthlyPayout) + perMonth + '</div>' +
-          '<div style="font-size:12px;color:#6b6b5e;margin-top:2px;margin-bottom:14px;">' + (da?'Ønsket: ':'Önskat: ') + fmt(desired) + perMonth + ' · ' + (da?'Udtag fra ISK er skattefrie':'Uttag från ISK är skattefria') + '</div>' +
+          '<div style="font-size:12px;color:#6b6b5e;margin-top:2px;margin-bottom:14px;">' + (da?'Ønsket: ':'Önskat: ') + fmt(desired) + perMonth + ' · ' + (da?'På en aktiesparekonto: ingen ekstra skat ved udbetaling, da skatten betales løbende. Det gælder kun penge på kontoen. Resten beskattes efter de almindelige regler.':'Uttag från ISK är skattefria') + '</div>' +
           // SVG line chart
           (function() {
-            var W = 320, H = 130, padL = 48, padB = 24, padT = 10, padR = 8;
+            // Danish axis labels ("288,5 mio. kr.") are wider, so the plot starts further right.
+            var W = 320, H = 130, padL = da ? 58 : 48, padB = 24, padT = 10, padR = 8;
             var innerW = W - padL - padR;
             var innerH = H - padB - padT;
             var startAge = targetAge;
@@ -1979,6 +2016,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             var midAge = Math.round((startAge + 90) / 2);
             // Format millions
             function fmtM(v) {
+              if (da) {
+                if (v >= 1000000) return (v/1000000).toFixed(1).replace('.',',') + ' mio. kr.';
+                return Math.round(v).toLocaleString('da-DK') + ' kr.';
+              }
               if (v >= 1000000) return (v/1000000).toFixed(1).replace('.',',') + ' Mkr';
               if (v >= 1000) return Math.round(v/1000) + ' Tkr';
               return Math.round(v) + ' kr';
@@ -2006,9 +2047,9 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
               '<path d="' + path4 + '" fill="none" stroke="#2d6a4f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
               // Legend
               '<rect x="' + padL + '" y="' + (padT+2) + '" width="8" height="8" rx="2" fill="#2d6a4f"/>' +
-              '<text x="' + (padL+11) + '" y="' + (padT+9) + '" font-size="8" fill="#2d6a4f">' + (da?'4%-udtag':'4%-uttag') + '</text>' +
-              '<rect x="' + (padL+60) + '" y="' + (padT+2) + '" width="8" height="8" rx="2" fill="#2c5aa0"/>' +
-              '<text x="' + (padL+71) + '" y="' + (padT+9) + '" font-size="8" fill="#2c5aa0">' + (da?'Ønsket udtag':'Önskat uttag') + '</text>' +
+              '<text x="' + (padL+11) + '" y="' + (padT+9) + '" font-size="8" fill="#2d6a4f">' + (da?'4%-udbetaling':'4%-uttag') + '</text>' +
+              '<rect x="' + (padL+(da?68:60)) + '" y="' + (padT+2) + '" width="8" height="8" rx="2" fill="#2c5aa0"/>' +
+              '<text x="' + (padL+(da?79:71)) + '" y="' + (padT+9) + '" font-size="8" fill="#2c5aa0">' + (da?'Ønsket udbetaling':'Önskat uttag') + '</text>' +
               // Zero crossing markers
               (zeroAge4 ? '<circle cx="' + xp(zeroAge4) + '" cy="' + yp(0) + '" r="3" fill="#2d6a4f"/>' +
                 '<text x="' + xp(zeroAge4) + '" y="' + (yp(0)-6) + '" text-anchor="middle" font-size="8" fill="#2d6a4f" font-weight="700">' + zeroAge4 + ' ' + (da?'år':'år') + '</text>' : '') +
