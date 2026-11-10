@@ -237,9 +237,9 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     --cream: #faf7f2;
     --sand: #e9e4d9;
     --ink: #1a1a1a;
-    --muted: #6b6b5e;
+    --muted: #66665a;
     --gold: #c9a84c;
-    --purple: #7c5cbf;
+    --purple: #7858bb;
     --purple-pale: #f0f0ff;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -252,13 +252,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   .badge { display:inline-block; background:var(--green-light); color:white; font-size:11px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; padding:6px 14px; border-radius:100px; margin-bottom:20px; }
   .hero h1 { font-family:'Fraunces',serif; font-size:clamp(34px,9vw,50px); font-weight:800; color:white; line-height:1.1; max-width:500px; position:relative; z-index:1; }
   .hero h1 em { font-style:italic; color:var(--green-pale); }
-  .hero-sub { margin-top:16px; color:rgba(255,255,255,0.72); font-size:15px; line-height:1.6; max-width:400px; position:relative; z-index:1; }
+  .hero-sub { margin-top:16px; color:white; font-size:15px; line-height:1.6; max-width:400px; position:relative; z-index:1; }
 
   .stat-strip { background:var(--gold); display:flex; overflow-x:auto; }
   .stat { flex:1; min-width:100px; padding:16px 12px; text-align:center; border-right:1px solid rgba(0,0,0,0.1); }
   .stat:last-child { border-right:none; }
-  .stat-num { font-family:'Fraunces',serif; font-size:22px; font-weight:800; color:white; line-height:1; }
-  .stat-label { font-size:9px; font-weight:500; letter-spacing:0.07em; text-transform:uppercase; color:rgba(255,255,255,0.8); margin-top:4px; }
+  .stat-num { font-family:'Fraunces',serif; font-size:22px; font-weight:800; color:#4a3300; line-height:1; }
+  .stat-label { font-size:9px; font-weight:500; letter-spacing:0.07em; text-transform:uppercase; color:#4a3300; margin-top:4px; }
 
   .content { padding:40px 24px 60px; max-width:600px; margin:0 auto; }
 
@@ -300,7 +300,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
   .mantra { background:var(--green); border-radius:20px; padding:32px 24px; text-align:center; margin-top:40px; }
   .mantra p { font-family:'Fraunces',serif; font-size:22px; font-weight:600; font-style:italic; color:white; line-height:1.4; }
-  .mantra-sub { margin-top:12px; font-size:13px; color:rgba(255,255,255,0.65); font-family:'DM Sans',sans-serif; }
+  .mantra-sub { margin-top:12px; font-size:13px; color:rgba(255,255,255,0.8); font-family:'DM Sans',sans-serif; }
 
   .divider { height:1px; background:var(--sand); margin:32px 0; }
 
@@ -309,6 +309,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   .calc-section-title { font-size:11px; color:var(--muted); margin-bottom:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.09em; }
   .calc-label { font-size:12px; color:var(--muted); display:block; margin-bottom:4px; }
   .calc-input { width:100%; border:1.5px solid var(--sand); border-radius:8px; padding:9px 12px; font-size:15px; font-family:inherit; color:var(--ink); background:var(--cream); outline:none; transition: border-color 0.15s; }
+  .calc-input::placeholder { color: var(--muted); }
   .calc-input:focus { border-color: var(--green); }
   /* Fields styled inline (job list, the two ages, wanted withdrawal) get the same darker green edge on focus.
      !important because their inline border would win otherwise. */
@@ -317,7 +318,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
   .scenario-grid { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px; margin-bottom:20px; }
   .scenario-btn { border:2px solid transparent; border-radius:10px; padding:12px 8px; cursor:pointer; text-align:center; transition: all 0.15s; display:flex; align-items:center; justify-content:center; }
-  .scenario-btn:hover { opacity:0.85; }
+  .scenario-btn:hover { filter:brightness(0.95); }
   .scenario-btn.active { border-color: var(--green); }
   .scenario-tag { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; text-align:center; width:100%; }
   .scenario-amount { font-size:14px; color:var(--ink); font-weight:600; margin-top:3px; }
@@ -330,8 +331,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   .result-card.secondary { background:var(--purple-pale); border-left:4px solid var(--purple); }
   .result-card.insight { background:var(--green-pale); display:flex; align-items:flex-start; gap:12px; }
   .result-big { font-family:'Fraunces',serif; font-size:30px; font-weight:800; line-height:1; }
-  .result-label { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:6px; opacity:0.75; }
-  .result-detail { margin-top:8px; font-size:12.5px; opacity:0.85; }
+  .result-label { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:6px; opacity:0.8; }
+  .result-detail { margin-top:8px; font-size:12.5px; opacity:0.92; }
 
   /* COMPOUND CHART */
   .compound-visual { margin-top:16px; }
@@ -352,6 +353,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     body > *:not(#print-panel) { display: none !important; }
     #print-panel { display: block !important; position: static !important; font-family: Georgia, serif; padding: 20px; box-shadow: none !important; }
     #print-close { display: none !important; }
+    .print-keep { break-inside: avoid; page-break-inside: avoid; }
   }
   #print-panel {
     display: none;
@@ -365,9 +367,9 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     color: #1a1a1a;
   }
   .lang-switch { position:absolute; top:20px; right:20px; z-index:10; display:flex; gap:6px; }
-  .lang-btn { background:rgba(255,255,255,0.15); border:1.5px solid rgba(255,255,255,0.3); color:white; border-radius:8px; padding:8px 12px; min-height:44px; font-size:12px; font-family:inherit; font-weight:500; cursor:pointer; transition:all 0.15s; display:flex; align-items:center; }
+  .lang-btn { background:rgba(255,255,255,0.1); border:1.5px solid rgba(255,255,255,0.3); color:white; border-radius:8px; padding:8px 12px; min-height:44px; font-size:12px; font-family:inherit; font-weight:500; cursor:pointer; transition:all 0.15s; display:flex; align-items:center; }
   .lang-btn.active { background:white; color:var(--green); border-color:white; }
-  .lang-btn:hover { background:rgba(255,255,255,0.25); }
+  .lang-btn:not(.active):hover { border-color:white; }
 
   /* RESPONSIVE — iPhone (≤480px) */
   @media (max-width: 480px) {
@@ -378,7 +380,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     .grid-4col { grid-template-columns: 1fr 1fr !important; }
 
     /* 3-col scenario buttons → keep 3 but smaller padding */
-    .scenario-btn { padding: 8px 6px; }
+    .scenario-btn { padding: 8px 6px; min-height: 44px; }
     .scenario-amount { font-size: 13px; }
     .scenario-tag { font-size: 10px; }
 
@@ -609,12 +611,12 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
           <button onclick="if(useInflation)toggleInflation()" id="infl-btn-no" aria-pressed="true"
             style="padding:10px 6px;border-radius:8px;border:2px solid var(--green);background:var(--green);color:white;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s;text-align:center;">
-            <div style="font-size:10px;opacity:0.85;" data-i18n="infl-label-off">Utan inflation</div>
+            <div style="font-size:10px;" data-i18n="infl-label-off">Utan inflation</div>
             <div style="font-size:15px;font-weight:800;">7%</div>
           </button>
           <button onclick="if(!useInflation)toggleInflation()" id="infl-btn-yes" aria-pressed="false"
             style="padding:10px 6px;border-radius:8px;border:2px solid transparent;background:white;color:var(--muted);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s;text-align:center;">
-            <div style="font-size:10px;opacity:0.85;" data-i18n="infl-label-on">Med inflation</div>
+            <div style="font-size:10px;" data-i18n="infl-label-on">Med inflation</div>
             <div style="font-size:15px;font-weight:800;">5%</div>
           </button>
         </div>
@@ -679,7 +681,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           <div class="scenario-tag" style="color:var(--green);" data-i18n="sc0-tag">Sommarjobb</div>
         </button>
         <button onclick="selectScenario(1)" id="sc1" class="scenario-btn" aria-pressed="false" style="background:#fef9e7;">
-          <div class="scenario-tag" style="color:#b7860a;" data-i18n="sc1-tag">Deltidsjobb</div>
+          <div class="scenario-tag" style="color:#7a5c10;" data-i18n="sc1-tag">Deltidsjobb</div>
         </button>
         <button onclick="selectScenario(2)" id="sc2" class="scenario-btn active" aria-pressed="true" style="background:var(--purple-pale);">
           <div class="scenario-tag" style="color:var(--purple);" data-i18n="sc2-tag">Lön</div>
@@ -754,14 +756,14 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       <div style="margin-top:10px;background:var(--sand);border-radius:12px;padding:10px 14px;">
         <div style="font-size:11px;color:var(--muted);margin-bottom:8px;text-align:center;" id="infl-desc2" data-i18n="infl-desc-off">Antagande: 7% nominell avkastning per år</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-          <button onclick="if(useInflation)toggleInflation()" id="infl-btn-no2" aria-pressed="true"
+          <button onclick="leaveFocusedInput();if(useInflation)toggleInflation()" onmousedown="event.preventDefault()" id="infl-btn-no2" aria-pressed="true"
             style="padding:10px 6px;border-radius:8px;border:2px solid var(--green);background:var(--green);color:white;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s;text-align:center;">
-            <div style="font-size:10px;opacity:0.85;" data-i18n="infl-label-off">Utan inflation</div>
+            <div style="font-size:10px;" data-i18n="infl-label-off">Utan inflation</div>
             <div style="font-size:15px;font-weight:800;">7%</div>
           </button>
-          <button onclick="if(!useInflation)toggleInflation()" id="infl-btn-yes2" aria-pressed="false"
+          <button onclick="leaveFocusedInput();if(!useInflation)toggleInflation()" onmousedown="event.preventDefault()" id="infl-btn-yes2" aria-pressed="false"
             style="padding:10px 6px;border-radius:8px;border:2px solid transparent;background:white;color:var(--muted);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s;text-align:center;">
-            <div style="font-size:10px;opacity:0.85;" data-i18n="infl-label-on">Med inflation</div>
+            <div style="font-size:10px;" data-i18n="infl-label-on">Med inflation</div>
             <div style="font-size:15px;font-weight:800;">5%</div>
           </button>
         </div>
@@ -810,7 +812,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
   <!-- PRINT BUTTON -->
   <div style="text-align:center;margin-top:28px;margin-bottom:16px;">
-    <button onclick="printGoalDoc()"
+    <button onclick="printGoalDoc()" onmousedown="event.preventDefault()"
       style="background:var(--green);color:white;border:none;border-radius:12px;padding:14px 28px;font-size:15px;font-family:inherit;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:10px;">
       🖨️ <span data-i18n="print-btn">Skriv ut mitt mål-dokument</span>
     </button>
@@ -1053,7 +1055,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
       'crash-title': 'Dit første krak — hvad gør du?',
       'crash-subtitle': 'Markedet KOMMER til at falde — regn med det',
-      'crash-text': 'Du vil sandsynligvis opleve dit første kursfald inden for de næste par år. Måske -20%, måske -40%. Det vil føles forkert ikke at gøre noget. Alle sælger. Nyhederne råber katastrofe. Det er præcis i dette øjeblik din fremtid afgøres.',
+      'crash-text': 'Du vil sandsynligvis opleve dit første kursfald inden for de næste par år. Måske -20%, måske -40%. Det vil føles forkert ikke at gøre noget. Alle sælger. Nyhederne råber katastrofe. Det er præcis i dette øjeblik, at din fremtid afgøres.',
       'crash-do-title': 'Gør dette',
       'crash-do-text': 'Log ikke ind på din konto. Fortsæt dine automatiske månedlige investeringer — du køber nu billigere. Husk at brede globale indeks indtil nu har rejst sig igen på lang sigt efter hvert krak (2001, 2008, 2020). Det plejer at betale sig bedre at blive i markedet end at prøve at ramme det rigtige tidspunkt.<br>Hvis markedet krakker: fortsæt med at investere, du køber til discount. Tid er din fordel.',
       'crash-dont-title': 'Gør ikke dette',
@@ -1064,7 +1066,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       's3-li5-title': 'Betal dyr gæld inden du investerer',
       's3-li5-text': 'Tommelfingerreglen: har du lån med over 4% rente (kviklån, SMS-lån, kreditkort) — betal dem FØRST. Du kan ikke tjene 7% på børsen hvis du betaler 20% i rente. SU-lån og boliglån er undtagelser — deres rente er normalt lav nok til at investere parallelt.',
       's4-c5-title': 'De første 100.000 kr. er de sværeste',
-      's4-c5-text': 'Når du når 100.000 kr. mærker du noget magisk: rentes rente begynder for alvor at arbejde. Fra 100.000 kr. til 200.000 kr. går hurtigere end fra 0 til 100.000 kr. — og med det estimerede afkast vokser porteføljen hvert år med flere kroner end året før. Hold ud. Det bliver lettere, ikke sværere.',
+      's4-c5-text': 'Når du når 100.000 kr., mærker du noget magisk: rentes rente begynder for alvor at arbejde. Fra 100.000 kr. til 200.000 kr. går hurtigere end fra 0 til 100.000 kr. — og med det estimerede afkast vokser porteføljen hvert år med flere kroner end året før. Hold ud. Det bliver lettere, ikke sværere.',
       's4-c6-title': 'Livet ændrer sig — men planen overlever pauser',
       's4-c6-text': 'Studie, barsel, sygdom, sabbatår — det er normalt at holde korte pauser i dine indbetalinger. Det vigtige er at du <em>ikke sælger</em> når du holder pause. Pengene der allerede er investeret fortsætter med at vokse. Start igen når du kan — selv om det kun er et mindre beløb om måneden.',
       'infl-label-off': 'Uden inflation',
@@ -1166,6 +1168,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   var NET_FACTOR = 0.74; // nettolön ≈ 74% av bruttolön (Sverige, inkl. jobbskatteavdrag)
   var NET_FACTOR_DA = 0.55; // udbetalt løn ≈ 55% af Danmarks Statistiks tal (Danmark)
   var lonTyped = false; // true while Lön's amount is one the visitor typed, not the job's
+
+  // A press on a button does not leave the field being typed in: leave it here, so the year
+  // check and the recalculation run as on screen. Only a field is left; other focus is kept.
+  function leaveFocusedInput() {
+    var focused = document.activeElement;
+    if (focused && focused.tagName === 'INPUT') focused.blur();
+  }
 
   function toggleInflation() {
     useInflation = !useInflation;
@@ -1364,11 +1373,18 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     return pmt * (eY - sY) * 12;
   }
 
+  // Millions with a decimal comma and a thousands separator from 1 000: "1.334,18" / "1 334,18".
+  function fmtMillions(n, decimals, da) {
+    var parts = (n/1000000).toFixed(decimals).split('.');
+    var whole = Number(parts[0]).toLocaleString(da ? 'da-DK' : 'sv-SE');
+    return parts.length > 1 ? whole + ',' + parts[1] : whole;
+  }
+
   // Amounts in the style of the chosen language: "250 000 kr" / "2,53 Mkr" in Swedish,
   // "250.000 kr." / "2,53 mio. kr." in Danish.
   function fmt(n) {
     var da = currentLang === 'da';
-    if (n >= 1000000) return (n/1000000).toFixed(2).replace('.',',') + (da ? ' mio. kr.' : ' Mkr');
+    if (n >= 1000000) return fmtMillions(n, 2, da) + (da ? ' mio. kr.' : ' Mkr');
     return Math.round(n).toLocaleString(da ? 'da-DK' : 'sv-SE') + (da ? ' kr.' : ' kr');
   }
 
@@ -1381,7 +1397,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     var monthlyVal = document.getElementById('monthly').value.toString();
     var startVal   = document.getElementById('startYear').value;
     var endVal     = document.getElementById('endYear').value;
-    if (monthlyVal !== '' && !isNaN(parseFloat(monthlyVal))) scenarios[i].amount    = parseFloat(monthlyVal);
+    scenarios[i].amount = parseFloat(monthlyVal) || 0;
     if (startVal   !== '' && !isNaN(parseInt(startVal)))     scenarios[i].startYear = parseInt(startVal);
     if (endVal     !== '' && !isNaN(parseInt(endVal)))       scenarios[i].endYear   = parseInt(endVal);
   }
@@ -1474,7 +1490,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     var total40 = 0, total50 = 0, totalInvested = 0;
     var scColors = [
       { bg: 'var(--green-pale)', tag: 'var(--green)', border: 'var(--green-light)' },
-      { bg: '#fef9e7',           tag: '#b7860a',       border: '#f0cc6b' },
+      { bg: '#fef9e7',           tag: '#7a5c10',       border: '#f0cc6b' },
       { bg: 'var(--purple-pale)', tag: 'var(--purple)', border: 'var(--purple)' }
     ];
     // The total always holds the three monthly scenarios; the one-off amount is added below
@@ -1494,10 +1510,9 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     var totalGain50  = total50 - totalInvested;
     var totalGain50p = totalInvested > 0 ? Math.round((totalGain50 / totalInvested) * 100) : 0;
     var extra10 = total50 - total40;
-    var laterPayments = scenarios.some(function(sc) { return sc.amount > 0 && sc.endYear > AGE40_YEAR; });
-    var capNoteHTML = laterPayments
-      ? '<div id="total-cap-note" style="margin-top:6px;font-size:11.5px;opacity:0.85;">' +
-          t('js-total-cap-note').replace('{year}', AGE40_YEAR).replace('{age}', TARGET_AGE) + '</div>'
+    var capNoteText = totalCapNoteText();
+    var capNoteHTML = capNoteText
+      ? '<div id="total-cap-note" style="margin-top:6px;font-size:11.5px;opacity:0.85;">' + capNoteText + '</div>'
       : '';
 
     var _lrd = getLumpData(); var lumpRowHTML = useLump() && _lrd.amount > 0 ?
@@ -1536,9 +1551,9 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       total40Value: total40,
       total40HTML:
         '<div style="background:var(--green);border-radius:14px;padding:20px 20px 16px;color:white;margin-bottom:10px;">' +
-          '<div style="font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;opacity:0.75;margin-bottom:6px;">' + t('js-total40').replace('{age}', TARGET_AGE) + ' (' + AGE40_YEAR + ')</div>' +
+          '<div style="font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;opacity:0.8;margin-bottom:6px;">' + t('js-total40').replace('{age}', TARGET_AGE) + ' (' + AGE40_YEAR + ')</div>' +
           '<div style="font-family:Fraunces,serif;font-size:36px;font-weight:800;line-height:1;">' + fmt(total40) + '</div>' +
-          '<div style="margin-top:8px;font-size:12.5px;opacity:0.85;">' +
+          '<div style="margin-top:8px;font-size:12.5px;opacity:0.92;">' +
             t('js-total-invested') + ': <strong>' + fmt(totalInvested) + '</strong> &nbsp;·&nbsp; ' +
             t('js-return') + ': <span style="color:#b7f5c8;font-weight:700;">' + fmt(totalGain40) + '</span> (+' + totalGain40p + '%)' +
           '</div>' + capNoteHTML +
@@ -1547,9 +1562,9 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     };
   }
 
-  function calcGrowth() {
-    readCurrentScenario();
-
+  // The scenario whose years the result is drawn from; Engångsbelopp is a period from the
+  // investment year to the target year.
+  function currentYearScenario() {
     var sc = activeScenario >= 0 ? scenarios[activeScenario] : {
       amount:    0,
       startYear: parseInt(document.getElementById('startYear').value)   || CURRENT_YEAR,
@@ -1561,25 +1576,35 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       var _sc3d = getLumpData();
       sc = { amount: 0, startYear: _sc3d.year, endYear: AGE40_YEAR };
     }
+    return sc;
+  }
+
+  // The year message for the current state, or '' when the years are valid. The message names
+  // the check that failed: Sommarjobb allows one year (end = start), Deltidsjobb and Lön need a
+  // later end year, Engångsbelopp needs an investment year before the target year. Each message
+  // has three sentences: what is wrong, what that means (no result), what to change.
+  function yearErrorMessage() {
+    var sc = currentYearScenario();
+    if (!(sc.endYear < sc.startYear || (sc.endYear === sc.startYear && selectedButton !== 0))) return '';
+    if (selectedButton === 3) {
+      return t('js-year-err-lump').replace('{year}', AGE40_YEAR).replace('{age}', TARGET_AGE);
+    }
+    if (selectedButton === 0) return t('js-year-err-summer');
+    return t('js-year-err-later');
+  }
+
+  function calcGrowth() {
+    readCurrentScenario();
+
+    var sc = currentYearScenario();
 
     var monthly   = sc.amount;   // for sc0 this is the annual deposit
     var startYear = sc.startYear;
     var endYear   = sc.endYear;
     var container = document.getElementById('results');
 
-    if (endYear < startYear || (endYear === startYear && selectedButton !== 0)) {
-      // The message names the check that failed: Sommarjobb allows one year (end = start),
-      // Deltidsjobb and Lön need a later end year, Engångsbelopp needs an investment year
-      // before the target year. Each message has three sentences: what is wrong, what that
-      // means (no result), what to change.
-      var yearMsg;
-      if (selectedButton === 3) {
-        yearMsg = t('js-year-err-lump').replace('{year}', AGE40_YEAR).replace('{age}', TARGET_AGE);
-      } else if (selectedButton === 0) {
-        yearMsg = t('js-year-err-summer');
-      } else {
-        yearMsg = t('js-year-err-later');
-      }
+    var yearMsg = yearErrorMessage();
+    if (yearMsg) {
       container.innerHTML = '<div style="text-align:center;color:var(--muted);font-size:14px;padding:16px;">' + yearMsg + '</div>';
       // The 4 % section works from the portfolio the years describe. With a year error there is
       // none, so its result block stays empty until the years are valid and renderSwrResult runs.
@@ -1682,7 +1707,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         return '<div class="bar-row">' +
           '<div class="bar-label" style="width:48px;line-height:1.2;color:var(--purple);">' +
             '<span style="display:block;">' + yr + '</span>' +
-            '<span style="display:block;font-size:9px;color:var(--purple);opacity:0.7;">' + ageAtYr + ' år</span>' +
+            '<span style="display:block;font-size:9px;color:var(--purple);">' + ageAtYr + ' år</span>' +
           '</div>' +
           '<div class="bar-track">' +
             '<div style="position:absolute;left:0;top:0;height:100%;width:' + Math.round(cv/maxV*100) + '%;background:#c4b5fd;border-radius:100px;"></div>' +
@@ -1695,8 +1720,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       '<div style="margin-top:12px;background:#f3effc;border-left:3px solid var(--purple);border-radius:8px;padding:12px 14px;font-size:12px;color:#5b4a8a;line-height:1.55;">' +
         '🪄 <strong>' + (currentLang==='da' ? 'Magien ved rentes rente:' : 'Magin med ränta-på-ränta:') + '</strong> ' +
         (currentLang==='da'
-          ? 'På bare 10 år — uden at sætte en eneste krone mere ind — næsten fordobles porteføljen. Jo større din portefølje bliver, jo flere penge tjener den til dig helt af sig selv. Til sidst vokser porteføljen mere på ét år end du kunne sætte ind på flere. Derfor er det så kraftfuldt at starte tidligt.'
-          : 'På bara 10 år — utan att sätta in en enda krona till — nästan fördubblas portföljen. Ju större din portfölj blir, desto mer pengar tjänar den åt dig helt av sig själv. Till slut växer portföljen mer på ett år än du kunde sätta in på flera. Det är därför tidig start är så kraftfullt.') +
+          ? 'Med ' + (RATE*100).toFixed(0) + '% om året vokser porteføljen på 10 år med ca. ' + Math.round((Math.pow(1+RATE,10)-1)*100) + '% — uden at du sætter en eneste krone mere ind. Jo større din portefølje bliver, jo flere penge tjener den til dig helt af sig selv. Til sidst vokser porteføljen mere på ét år end du kunne sætte ind på flere. Derfor er det så kraftfuldt at starte tidligt.'
+          : 'Med ' + (RATE*100).toFixed(0) + '% per år växer portföljen på 10 år med ca. ' + Math.round((Math.pow(1+RATE,10)-1)*100) + '% — utan att du sätter in en enda krona till. Ju större din portfölj blir, desto mer pengar tjänar den åt dig helt av sig själv. Till slut växer portföljen mer på ett år än du kunde sätta in på flera. Det är därför tidig start är så kraftfullt.') +
       '</div>';
 
     var savingLabel = isAnnual
@@ -1710,7 +1735,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         '<div class="result-label">' + t('js-value-at') + ' ' + endYear + ' (' + savingLabel + ')</div>' +
         '<div class="result-big">' + fmt(value) + '</div>' +
         '<div class="result-detail">' + t('js-paid-in') + ': <strong>' + fmt(invested) + '</strong> &nbsp;·&nbsp; ' + t('js-return') + ': <span style="color:#b7f5c8;font-weight:700;">' + fmt(gain) + '</span> (+' + gainPct + '%)</div>' +
-        (useLump() && _ld.amount > 0 ? '<div style="margin-top:4px;font-size:11px;opacity:0.75;">' + (currentLang==='da' ? 'Inkl. engangsbeløb ' : 'Inkl. engångsbelopp ') + fmt(_ld.amount) + ' (' + _ld.year + ')</div>' : '') +
+        (useLump() && _ld.amount > 0 ? '<div style="margin-top:4px;font-size:11px;opacity:0.8;">' + (currentLang==='da' ? 'Inkl. engangsbeløb ' : 'Inkl. engångsbelopp ') + fmt(_ld.amount) + ' (' + _ld.year + ')</div>' : '') +
       '</div>' +
 
       '<div style="background:white;border-radius:12px;padding:16px 18px;margin-bottom:10px;">' +
@@ -1776,7 +1801,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     var lastsShrinksText = lastsButShrinks ? t('swr-lasts-shrinks') : '';
 
     // ── RESULT CARD CALCULATIONS ──────────────────────────────────
-    var color = neverDepleted ? 'var(--green)' : pctCovered >= 75 ? '#b7860a' : '#c0392b';
+    var color = neverDepleted ? 'var(--green)' : pctCovered >= 75 ? '#7a5c10' : '#c0392b';
     var emoji = neverDepleted ? '✅' : pctCovered >= 75 ? '⚠️' : '❌';
     var coverageText = lastsButShrinks
       ? '✅ ' + lastsShrinksText
@@ -1785,7 +1810,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           ? '✅ Porteføljen dækker fuldt ud — og vokser fortsat.'
           : '✅ Portföljen täcker fullt ut — och fortsätter växa.')
       : (emoji + ' <strong style="color:' + color + ';">' + pctCovered + '%</strong> ' +
-          (currentLang==='da' ? 'af ønsket beløb dækket af afkast' : 'av önskat belopp täckt av avkastning'));
+          (currentLang==='da' ? 'af ønsket beløb dækkes af 4%-udbetalingen' : 'av önskat belopp täcks av 4%-uttaget'));
     var swrLabel = (swrRate===0.04)
       ? (currentLang==='da' ? '4%-reglen' : '4%-regeln')
       : (currentLang==='da' ? '3,5%-reglen (konservativ)' : '3,5%-regeln (konservativ)');
@@ -1793,7 +1818,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       ? ''
       : neverDepleted
       ? (currentLang==='da'
-          ? '✅ Porteføljen vokser fortsat — pengene løber aldrig ud ved dette hævebeløb.'
+          ? '✅ Porteføljen vokser fortsat — pengene løber aldrig ud ved denne udbetaling.'
           : '✅ Portföljen fortsätter växa — pengarna tar aldrig slut med detta uttag.')
       : (currentLang==='da'
           ? '⚠️ Portefølje løber ud ved ' + depletedAge + ' år — overvej at reducere det månedlige beløb.'
@@ -1805,7 +1830,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
     var neverDepleted = !depletedYear;
     var runwayTitle = currentLang === 'da'
-      ? 'Porteføljens udvikling — månedlig hævning ' + fmt(desiredMonthly)
+      ? 'Porteføljens udvikling — månedlig udbetaling ' + fmt(desiredMonthly)
       : 'Portföljens utveckling — månatligt uttag ' + fmt(desiredMonthly);
     var runwayNote = lastsButShrinks
       ? '✅ ' + lastsShrinksText
@@ -1827,7 +1852,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         '</div>' +
         '<div class="bar-track">' +
           (isDepleted
-            ? '<div style="position:absolute;left:0;top:50%;transform:translateY(-50%);font-size:9px;color:#c0392b;font-weight:600;padding-left:4px;">' + (currentLang==='da' ? '0 kr.' : '0 kr') + '</div>'
+            ? '<div style="position:absolute;left:0;top:50%;transform:translateY(-50%);font-size:9px;color:#b83326;font-weight:600;padding-left:4px;">' + (currentLang==='da' ? '0 kr.' : '0 kr') + '</div>'
             : '<div style="position:absolute;left:0;top:0;height:100%;width:' + pct + '%;background:' + barColor + ';border-radius:100px;"></div>') +
         '</div>' +
         '<div class="bar-val" style="' + (isDepleted ? 'color:#c0392b;' : '') + '">' + (isDepleted ? (currentLang==='da' ? '💸 0 kr.' : '💸 0 kr') : fmt(r.balance)) + '</div>' +
@@ -1856,7 +1881,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         '<div style="font-size:12px;color:var(--muted);margin-bottom:4px;">' + coverageText + '</div>' +
         (neverDepleted && !lastsButShrinks ? '<div style="font-size:11px;color:var(--muted);font-style:italic;">' +
           (currentLang==='da'
-            ? 'Afkastet (' + (RATE*100).toFixed(0) + '%) overstiger dit hævebeløb — porteføljen vokser netto hvert år.'
+            ? 'Afkastet (' + (RATE*100).toFixed(0) + '%) overstiger din udbetaling — porteføljen vokser netto hvert år.'
             : 'Avkastningen (' + (RATE*100).toFixed(0) + '%) överstiger ditt uttag — portföljen växer netto varje år.') +
         '</div>' : '') +
         (surplusText ? '<div style="font-size:12px;color:var(--muted);margin-top:4px;">' + surplusText + '</div>' : '') +
@@ -1875,9 +1900,58 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       '</div>';
   }
 
+  // The note under the total when a scenario's deposits run past the target year; '' when not.
+  // Used by both the screen and the print so the two cannot differ.
+  function totalCapNoteText() {
+    var later = scenarios.some(function(sc) { return sc.amount > 0 && sc.endYear > AGE40_YEAR; });
+    return later
+      ? t('js-total-cap-note').replace('{year}', AGE40_YEAR).replace('{age}', TARGET_AGE)
+      : '';
+  }
+
   // ── PRINT FUNCTION ────────────────────────────────────────────
+  var pendingPrintTimer = null;
+
+  function closePrintPanel() {
+    var panel = document.getElementById('print-panel');
+    if (!panel) return;
+    panel.style.display = 'none';
+    if (pendingPrintTimer === null) panel.innerHTML = '';
+  }
+
+  function runPendingPrint() {
+    pendingPrintTimer = null;
+    window.print();
+    var panel = document.getElementById('print-panel');
+    if (panel && panel.style.display === 'none') panel.innerHTML = '';
+  }
+
+  function printCloseButtonHtml(da) {
+    return '<button onclick="closePrintPanel()" style="background:#e9e4d9;border:none;border-radius:8px;padding:8px 14px;font-size:13px;font-family:inherit;cursor:pointer;">✕ ' + (da?'Luk':'Stäng') + '</button>';
+  }
+
+  function showPrintPanel(panel) {
+    panel.style.display = 'block';
+    var calmScroll = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    panel.scrollIntoView({ behavior: calmScroll ? 'auto' : 'smooth' });
+  }
+
   function printGoalDoc() {
     try {
+      leaveFocusedInput();
+      var yearMsg = yearErrorMessage();
+      if (yearMsg) {
+        var errPanel = document.getElementById('print-panel');
+        if (!errPanel) { console.error('print-panel not found'); return; }
+        errPanel.innerHTML =
+          '<div id="print-close" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid #e9e4d9;">' +
+            printCloseButtonHtml(currentLang === 'da') +
+          '</div>' +
+          '<div style="font-size:14px;color:var(--muted);padding:16px;">' + yearMsg + '</div>';
+        showPrintPanel(errPanel);
+        return;
+      }
+
       var age       = START_AGE;
       var targetAge = TARGET_AGE;
       var savePct   = (document.getElementById('savePct') || {}).value || 20;
@@ -1906,6 +1980,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       var monthlyPayout = Math.round((total40 * swrRate) / 12);
 
       var todaysMoneyLabel = todaysMoneyText(da);
+      var printCapNote = totalCapNoteText();
 
       var panel = document.getElementById('print-panel');
       if (!panel) { console.error('print-panel not found'); return; }
@@ -1913,7 +1988,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       panel.innerHTML =
         // Header bar
         '<div id="print-close" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid #e9e4d9;">' +
-          '<button onclick="document.getElementById(\'print-panel\').style.display=\'none\'" style="background:#e9e4d9;border:none;border-radius:8px;padding:8px 14px;font-size:13px;font-family:inherit;cursor:pointer;">✕ ' + (da?'Luk':'Stäng') + '</button>' +
+          printCloseButtonHtml(da) +
           '<div style="font-size:11px;color:#6b6b5e;text-align:right;">' + (da?'📸 Screenshot eller Del → Gem som PDF':'📸 Screenshot eller Dela → Spara som PDF') + '</div>' +
         '</div>' +
 
@@ -1938,7 +2013,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             '<tr><td style="padding:6px 0;border-bottom:1px solid #e9e4d9;color:#2d6a4f;font-weight:600;">🟢 ' + (da?'Sommerferiejob':'Sommarjobb') + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#2d6a4f;">' +
             fmt(scenarios[0].amount) + '/år · ' + scenarios[0].startYear + '–' + scenarios[0].endYear + '</td></tr>' : '') +
           (scenarios[1].amount > 0 ?
-            '<tr><td style="padding:6px 0;border-bottom:1px solid #e9e4d9;color:#b7860a;font-weight:600;">🟡 ' + (da?'Deltidsjob':'Deltidsjobb') + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#b7860a;">' + fmt(scenarios[1].amount) + perMonth + ' · ' + scenarios[1].startYear + '–' + scenarios[1].endYear + '</td></tr>' : '') +
+            '<tr><td style="padding:6px 0;border-bottom:1px solid #e9e4d9;color:#7a5c10;font-weight:600;">🟡 ' + (da?'Deltidsjob':'Deltidsjobb') + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#7a5c10;">' + fmt(scenarios[1].amount) + perMonth + ' · ' + scenarios[1].startYear + '–' + scenarios[1].endYear + '</td></tr>' : '') +
           (selectedButton === 3 && lump > 0 ?
             '<tr><td style="padding:6px 0;border-bottom:1px solid #e9e4d9;color:#2c5aa0;font-weight:600;">🔵 ' + (da?'Engangsbeløb':'Engångsbelopp') + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#2c5aa0;">' + fmt(lump) + ' (' + lumpYear + ')</td></tr>' : '') +
           '<tr><td style="padding:6px 0;color:#6b6b5e;">' + (da?'Afkastforudsætning':'Avkastningsantagande') + '</td><td style="text-align:right;font-weight:600;">' + inflLabel + '</td></tr>' +
@@ -1958,16 +2033,17 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         // Portfolio breakdown
         '<div style="font-size:11px;font-weight:700;color:#2d6a4f;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">' + t('js-total40').replace('{age}', targetAge) + '</div>' +
         '<div style="font-size:26px;font-weight:700;color:#2d6a4f;margin-bottom:8px;">' + fmt(total40) + '</div>' +
+        (printCapNote ? '<div id="print-total-cap-note" style="font-size:11px;color:#6b6b5e;margin:-4px 0 10px;">' + printCapNote + '</div>' : '') +
         '<table style="width:100%;border-collapse:collapse;margin-bottom:16px;font-size:12px;">' +
           (sc0val > 0 ? '<tr><td style="padding:5px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Sommerferiejob':'Sommarjobb') + ' (' + scenarios[0].startYear + '–' + scenarios[0].endYear + ')</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#2d6a4f;">' + fmt(sc0val) + '</td></tr>' : '') +
-          (sc1val > 0 ? '<tr><td style="padding:5px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Deltidsjob':'Deltidsjobb') + ' (' + scenarios[1].startYear + '–' + scenarios[1].endYear + ')</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#b7860a;">' + fmt(sc1val) + '</td></tr>' : '') +
+          (sc1val > 0 ? '<tr><td style="padding:5px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Deltidsjob':'Deltidsjobb') + ' (' + scenarios[1].startYear + '–' + scenarios[1].endYear + ')</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#7a5c10;">' + fmt(sc1val) + '</td></tr>' : '') +
           (sc2val > 0 ? '<tr><td style="padding:5px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Løn':'Lön') + ' (' + scenarios[2].startYear + '–' + scenarios[2].endYear + ')</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#7c5cbf;">' + fmt(sc2val) + '</td></tr>' : '') +
           (lump > 0 ? '<tr><td style="padding:5px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Engangsbeløb':'Engångsbelopp') + ' (' + lumpYear + '→' + AGE40_YEAR + ')</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#2c5aa0;">' + fmt(lumpVal) + '</td></tr>' : '') +
         '</table>' +
 
         // Monthly payout section with timeline chart
         '<div style="background:#faf7f2;border-left:4px solid #c9a84c;padding:12px 16px;border-radius:6px;margin-bottom:16px;">' +
-          '<div style="font-size:11px;color:#7a5c10;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">' + (da?'Månedlig udbetaling · 4%-reglen':'Månatlig utbetalning · 4%-regeln') + '</div>' +
+          '<div style="font-size:11px;color:#7a5c10;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">' + (da?'Månedlig udbetaling · 4%-reglen':'Månatligt uttag · 4%-regeln') + '</div>' +
           '<div style="font-size:24px;font-weight:700;color:#7a5c10;">' + fmt(monthlyPayout) + perMonth + '</div>' +
           '<div style="font-size:12px;color:#6b6b5e;margin-top:2px;margin-bottom:14px;">' + (da?'Ønsket: ':'Önskat: ') + fmt(desired) + perMonth + ' · ' + (da?'På en aktiesparekonto: ingen ekstra skat ved udbetaling, da skatten betales løbende. Det gælder kun penge på kontoen. Resten beskattes efter de almindelige regler.':'Uttag från ISK är skattefria') + '</div>' +
           // SVG line chart
@@ -2017,10 +2093,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             // Format millions
             function fmtM(v) {
               if (da) {
-                if (v >= 1000000) return (v/1000000).toFixed(1).replace('.',',') + ' mio. kr.';
+                if (v >= 1000000) return fmtMillions(v, 1, true) + ' mio. kr.';
                 return Math.round(v).toLocaleString('da-DK') + ' kr.';
               }
-              if (v >= 1000000) return (v/1000000).toFixed(1).replace('.',',') + ' Mkr';
+              if (v >= 1000000) return fmtMillions(v, 1, false) + ' Mkr';
               if (v >= 1000) return Math.round(v/1000) + ' Tkr';
               return Math.round(v) + ' kr';
             }
@@ -2034,11 +2110,11 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
               [0.25,0.5,0.75,1].map(function(f) {
                 var y = (padT + innerH - f*innerH).toFixed(1);
                 return '<line x1="' + padL + '" y1="' + y + '" x2="' + (W-padR) + '" y2="' + y + '" stroke="#e9e4d9" stroke-width="1"/>' +
-                  '<text x="' + (padL-4) + '" y="' + (parseFloat(y)+3) + '" text-anchor="end" font-size="8" fill="#9a9a8a">' + fmtM(maxVal*f) + '</text>';
+                  '<text x="' + (padL-4) + '" y="' + (parseFloat(y)+3) + '" text-anchor="end" font-size="8" fill="#6b6b5e">' + fmtM(maxVal*f) + '</text>';
               }).join('') +
               // Desired dashed line
               '<line x1="' + padL + '" y1="' + yd + '" x2="' + (W-padR) + '" y2="' + yd + '" stroke="#b0a090" stroke-width="1.5" stroke-dasharray="4,3"/>' +
-              '<text x="' + (W-padR+2) + '" y="' + (parseFloat(yd)+3) + '" font-size="8" fill="#b0a090">' + (da?'Mål':'Mål') + '</text>' +
+              '<text x="' + (W-padR+2) + '" y="' + (parseFloat(yd)+3) + '" font-size="8" fill="#7a5c10">' + (da?'Mål':'Mål') + '</text>' +
               // Portfolio area fill
               '<path d="' + path4 + ' L' + xp(Math.min(points4[points4.length-1].age,endAge)).toFixed(1) + ',' + (padT+innerH) + ' L' + padL + ',' + (padT+innerH) + ' Z" fill="#2d6a4f" opacity="0.12"/>' +
               // Desired withdrawal curve (blue)
@@ -2081,7 +2157,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           function card(titleKey, textKey) {
             var ti = T(titleKey), tx = T(textKey);
             if (!ti && !tx) return '';
-            return '<div style="margin-bottom:10px;">' +
+            return '<div class="print-keep" style="margin-bottom:10px;">' +
               (ti ? '<div style="font-size:12px;font-weight:700;color:#2d6a4f;margin-bottom:2px;">' + ti + '</div>' : '') +
               (tx ? '<div style="font-size:11px;color:#444;line-height:1.5;">' + tx + '</div>' : '') +
             '</div>';
@@ -2089,7 +2165,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           function section(numTxt, titleKey, cards) {
             var h = '<div style="margin-top:18px;margin-bottom:8px;padding-bottom:4px;border-bottom:2px solid #d8f3dc;font-size:14px;font-weight:700;color:#2d6a4f;">' +
               numTxt + ' ' + T(titleKey) + '</div>';
-            return h + cards.map(function(c){ return card(c[0], c[1]); }).join('');
+            var rendered = cards.map(function(c){ return card(c[0], c[1]); });
+            return '<div class="print-keep">' + h + rendered[0] + '</div>' + rendered.slice(1).join('');
           }
           return '<div style="margin-top:30px;padding-top:20px;border-top:3px double #c9a84c;page-break-before:always;">' +
             '<h2 style="color:#2d6a4f;font-family:Georgia,serif;font-size:19px;margin:0 0 4px;">' + (da?'Bilag — Hele guiden':'Bilaga — Hela guiden') + '</h2>' +
@@ -2101,15 +2178,14 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             section('3.', 's4-title', [['s4-c1-title','s4-c1-text'],['s4-c2-title','s4-c2-text'],['s4-c3-title','s4-c3-text'],['s4-c4-title','s4-c4-text'],['s4-c5-title','s4-c5-text'],['s4-c6-title','s4-c6-text']]) +
             section('4.', 's1-title', [['s1-c1-title','s1-c1-text'],['s1-c2-title','s1-c2-text'],['s1-c3-title','s1-c3-text'],['s1-c4-title','s1-c4-text']]) +
 
-            '<div style="margin-top:16px;font-size:11px;color:#6b6b5e;line-height:1.5;">' + T('s5-disclaimer') + '</div>' +
+            '<div class="print-keep" style="margin-top:16px;font-size:11px;color:#6b6b5e;line-height:1.5;">' + T('s5-disclaimer') + '</div>' +
           '</div>';
         })();
 
-      panel.style.display = 'block';
-      var calmScroll = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      panel.scrollIntoView({ behavior: calmScroll ? 'auto' : 'smooth' });
+      showPrintPanel(panel);
       if (window.matchMedia && !window.matchMedia('(pointer: coarse)').matches) {
-        setTimeout(function(){ window.print(); }, 300);
+        if (pendingPrintTimer !== null) clearTimeout(pendingPrintTimer);
+        pendingPrintTimer = setTimeout(runPendingPrint, 300);
       }
     } catch(e) {
       console.error('Print error:', e.message);
