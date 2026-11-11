@@ -350,9 +350,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
   /* PRINT STYLES */
   @media print {
+    body { background: #fff !important; }
     body > *:not(#print-panel) { display: none !important; }
-    #print-panel { display: block !important; position: static !important; font-family: Georgia, serif; padding: 20px; box-shadow: none !important; }
+    #print-panel { display: block !important; position: static !important; font-family: Georgia, serif; padding: 6px 20px 20px !important; box-shadow: none !important; }
     #print-close { display: none !important; }
+    #print-panel .p1-gap { margin-bottom: 10px !important; }
+    #print-panel .p1-gap-top { margin-top: 8px !important; }
+    #print-panel .p1-pad { padding-top: 8px !important; }
     .print-keep { break-inside: avoid; page-break-inside: avoid; }
   }
   #print-panel {
@@ -541,7 +545,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     <div class="cards">
       <div class="card">
         <div class="card-title"><span class="icon" aria-hidden="true">📚</span> <span data-i18n="s4-c1-title">Investera i kunskap</span></div>
-        <div class="card-text" data-i18n="s4-c1-text">Läs <em>"The Psychology of Money"</em> av Morgan Housel och <em>"The Little Book of Common Sense Investing"</em> av John Bogle och lyssna på poddar som Kapitalet och gå med i Unga Aktiesparare för unga investerare för att lära sig mer. Tidig kunskap är det bästa skyddet mot dåliga beslut.</div>
+        <div class="card-text" data-i18n="s4-c1-text">Läs <em>"The Psychology of Money"</em> av Morgan Housel och <em>"The Little Book of Common Sense Investing"</em> av John Bogle. Lyssna på poddar som Kapitalet och gå med i Unga Aktiesparare för att lära dig mer. Tidig kunskap är det bästa skyddet mot dåliga beslut.</div>
       </div>
       <div class="card">
         <div class="card-title"><span class="icon" aria-hidden="true">👩‍👧</span> <span data-i18n="s4-c2-title">Behåll kontrollen — livet förändras</span></div>
@@ -585,7 +589,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       </div>
       <div class="card">
         <div class="card-title"><span class="icon" aria-hidden="true">🤖</span> <span data-i18n="s1-c3-title">Sätt dina investeringar på autopilot</span></div>
-        <div class="card-text" data-i18n="s1-c3-text">Försök inte hitta de bästa enskilda aktierna — på sikt slår de allra flesta proffs inte marknaden. Investera istället i hela världen genom en enda ETF med låg avgift. Ett exempel är Amundi Prime All Country World UCITS ETF (kortnamn: WEBG): 0,07% avgift per år, över 3 000 bolag i hela världen. Med ett automatiskt månadsköp behöver du sedan göra väldigt lite.</div>
+        <div class="card-text" data-i18n="s1-c3-text">Försök inte hitta de bästa enskilda aktierna — på sikt slår de allra flesta proffs inte marknaden. Investera istället i hela världen genom en enda börshandlad fond (ETF) med låg avgift. Ett exempel är Amundi Prime All Country World UCITS ETF (kortnamn: WEBG): 0,07% avgift per år, över 3 000 bolag i hela världen. Med ett automatiskt månadsköp behöver du sedan göra väldigt lite.</div>
       </div>
       <div class="card">
         <div class="card-title"><span class="icon" aria-hidden="true">🏢</span> <span data-i18n="s1-c4-title">Glöm inte tjänstepensionen</span></div>
@@ -607,7 +611,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
       <!-- INFLATION TOGGLE — segmented control -->
       <div style="background:var(--sand);border-radius:12px;padding:10px 14px;margin-bottom:16px;">
-        <div style="font-size:11px;color:var(--muted);margin-bottom:8px;text-align:center;" id="infl-desc" data-i18n="infl-desc-off">Antagande: 7% nominell avkastning per år</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:8px;text-align:center;" id="infl-desc" data-i18n="infl-desc-off">Antagande: 7% avkastning per år, före inflation</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
           <button onclick="if(useInflation)toggleInflation()" id="infl-btn-no" aria-pressed="true"
             style="padding:10px 6px;border-radius:8px;border:2px solid var(--green);background:var(--green);color:white;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s;text-align:center;">
@@ -754,7 +758,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
       <!-- MINI INFLATION TOGGLE — same segmented control -->
       <div style="margin-top:10px;background:var(--sand);border-radius:12px;padding:10px 14px;">
-        <div style="font-size:11px;color:var(--muted);margin-bottom:8px;text-align:center;" id="infl-desc2" data-i18n="infl-desc-off">Antagande: 7% nominell avkastning per år</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:8px;text-align:center;" id="infl-desc2" data-i18n="infl-desc-off">Antagande: 7% avkastning per år, före inflation</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
           <button onclick="leaveFocusedInput();if(useInflation)toggleInflation()" onmousedown="event.preventDefault()" id="infl-btn-no2" aria-pressed="true"
             style="padding:10px 6px;border-radius:8px;border:2px solid var(--green);background:var(--green);color:white;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s;text-align:center;">
@@ -773,7 +777,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       <div id="inflation-warning" style="margin-top:10px;background:#fff8e6;border:1px solid #f0cc6b;border-radius:10px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;">
         <span style="font-size:18px;flex-shrink:0;" aria-hidden="true">⚠️</span>
         <div style="font-size:12px;color:#7a5c10;line-height:1.55;" id="infl-warning-text">
-          <strong>Beloppen är i framtida kronor — inte dagens köpkraft.</strong> Med 2% inflation per år är 1 Mkr år 2048 värd ca. 650 000 kr i dagens pengar. Välj <em>Med inflation</em> ovan för att se reala värden i dagens köpkraft.
+          <strong>Beloppen är i framtida kronor — inte dagens köpkraft.</strong> Med 2% inflation per år är 1 Mkr år 2048 värd ca. 650 000 kr i dagens pengar. Välj <em>Med inflation</em> ovan för att se värdena i dagens köpkraft.
         </div>
       </div>
 
@@ -820,7 +824,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   </div>
 
   <div id="disclaimer" style="margin-top:20px; font-size:12px; color:var(--muted); line-height:1.55;" data-i18n="s5-disclaimer">
-    <strong>Allmän information — inte personlig rådgivning.</strong> Inget här är anpassat efter din situation. Siffrorna är räkneexempel, inte prognoser. De bygger på antaganden: vald avkastning (7% nominellt eller 5% realt efter inflation) och 4%-regeln. Historisk avkastning är ingen garanti för framtida avkastning, och du kan förlora pengar, även i indexfonder. Banker, nätmäklare och fonder som guiden nämner är bara exempel. Beloppen är i svenska kronor (SEK) och beräknade efter svenska regler. I Danmark gäller andra skatter och konton. Vill du ha råd om just din situation: prata med din bank eller en rådgivare som har tillstånd från Finansinspektionen (i Danmark: Finanstilsynet), och gör din egen research.
+    <strong>Allmän information — inte personlig rådgivning.</strong> Inget här är anpassat efter din situation. Siffrorna är räkneexempel, inte prognoser. De bygger på antaganden: vald avkastning (7% före inflation eller 5% efter inflation) och 4%-regeln. Historisk avkastning är ingen garanti för framtida avkastning, och du kan förlora pengar, även i indexfonder. Banker, nätmäklare och fonder som guiden nämner är bara exempel. Beloppen är i svenska kronor (SEK) och beräknade efter svenska regler. I Danmark gäller andra skatter och konton. Vill du ha råd om just din situation: prata med din bank eller en rådgivare som har tillstånd från Finansinspektionen (i Danmark: Finanstilsynet), och gör din egen research.
   </div>
 
   <p id="privacy" class="privacy-note" data-i18n="s5-privacy">
@@ -848,7 +852,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       's1-c1-text': '<strong>Avanza</strong> är en av Sveriges största nätmäklare, med ett enkelt gränssnitt och bra app. <strong>Nordnet</strong> är starkt i hela Norden och fungerar smidigt om du senare flyttar till Danmark, Norge eller Finland. Båda har låga avgifter och erbjuder ISK.',
       's1-c2-title': 'Använd ett ISK (Investeringssparkonto)',
       's1-c3-title': 'Sätt dina investeringar på autopilot',
-      's1-c3-text': 'Försök inte hitta de bästa enskilda aktierna — på sikt slår de allra flesta proffs inte marknaden. Investera istället i hela världen genom en enda ETF med låg avgift. Ett exempel är Amundi Prime All Country World UCITS ETF (kortnamn: WEBG): 0,07% avgift per år, över 3 000 bolag i hela världen. Med ett automatiskt månadsköp behöver du sedan göra väldigt lite.',
+      's1-c3-text': 'Försök inte hitta de bästa enskilda aktierna — på sikt slår de allra flesta proffs inte marknaden. Investera istället i hela världen genom en enda börshandlad fond (ETF) med låg avgift. Ett exempel är Amundi Prime All Country World UCITS ETF (kortnamn: WEBG): 0,07% avgift per år, över 3 000 bolag i hela världen. Med ett automatiskt månadsköp behöver du sedan göra väldigt lite.',
       's1-c2-text': 'ISK är perfekt för nybörjare: du betalar en låg schablonskatt istället för skatt på varje vinst, och du slipper deklarera varje enskild affär. Från 2026 är de första 300 000 kr per person (ISK och kapitalförsäkring sammanlagt) skattefria. <em>Obs: schablonskatten betalas även år då marknaden gick ner, men bara på det som överstiger 300 000 kr. Flyttar du till Danmark ändras beskattningen av ditt ISK, och Danmark beskattar dina fonder enligt danska regler. Fråga Skatteverket och danska Skattestyrelsen innan du flyttar.</em>',
       's1-c4-title': 'Glöm inte tjänstepensionen',
       's1-c4-text': 'Har din arbetsgivare kollektivavtal får du tjänstepension — oftast 4,5–6% av lönen, i flera avtal först från 22–25 års ålder. Det är gratis pengar som investeras åt dig. Se till att du vet var pengarna placeras och välj ett alternativ med låga avgifter.',
@@ -870,7 +874,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       's3-li4-text': 'Det är normalt. Breda globala index har hittills återhämtat sig på lång sikt.',
       's4-title': 'Bygg goda vanor för livet',
       's4-c1-title': 'Investera i kunskap',
-      's4-c1-text': 'Läs <em>"The Psychology of Money"</em> av Morgan Housel och <em>"The Little Book of Common Sense Investing"</em> av John Bogle och lyssna på poddar som Kapitalet och gå med i Unga Aktiesparare för unga investerare för att lära sig mer. Tidig kunskap är det bästa skyddet mot dåliga beslut.',
+      's4-c1-text': 'Läs <em>"The Psychology of Money"</em> av Morgan Housel och <em>"The Little Book of Common Sense Investing"</em> av John Bogle. Lyssna på poddar som Kapitalet och gå med i Unga Aktiesparare för att lära dig mer. Tidig kunskap är det bästa skyddet mot dåliga beslut.',
       's4-c2-title': 'Behåll kontrollen — livet förändras',
       's4-c2-text': 'När livet förändras — körkort, bostad, partner, barn — är det lätt att sluta investera. Behåll <em>alltid</em> dina investeringar i eget namn. Din ekonomiska frihet är ditt eget ansvar, oavsett livssituation. En gemensam ekonomi är bra; en egen portfölj är nödvändig.',
       's4-c3-title': '20% av nettolönen — som grundregel',
@@ -919,8 +923,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       'swr-input-label': 'Önskat uttag per månad (kr)',
       'swr-ref-label': 'Riktmärke (eget antagande)',
       'swr-ref-text': 'Bekvämt liv: ca 20&nbsp;000–25&nbsp;000 kr/mån (ensamstående)',
-      'swr-lasts-shrinks': 'Pengarna räcker hela livet, men portföljen krymper varje år.',
-      's5-disclaimer': '<strong>Allmän information — inte personlig rådgivning.</strong> Inget här är anpassat efter din situation. Siffrorna är räkneexempel, inte prognoser. De bygger på antaganden: vald avkastning (7% nominellt eller 5% realt efter inflation) och 4%-regeln. Historisk avkastning är ingen garanti för framtida avkastning, och du kan förlora pengar, även i indexfonder. Banker, nätmäklare och fonder som guiden nämner är bara exempel. Beloppen är i svenska kronor (SEK) och beräknade efter svenska regler. I Danmark gäller andra skatter och konton. Vill du ha råd om just din situation: prata med din bank eller en rådgivare som har tillstånd från Finansinspektionen (i Danmark: Finanstilsynet), och gör din egen research.',
+      'swr-lasts-shrinks': 'Pengarna räcker hela livet om avkastningen håller, men portföljen krymper varje år.',
+      's5-disclaimer': '<strong>Allmän information — inte personlig rådgivning.</strong> Inget här är anpassat efter din situation. Siffrorna är räkneexempel, inte prognoser. De bygger på antaganden: vald avkastning (7% före inflation eller 5% efter inflation) och 4%-regeln. Historisk avkastning är ingen garanti för framtida avkastning, och du kan förlora pengar, även i indexfonder. Banker, nätmäklare och fonder som guiden nämner är bara exempel. Beloppen är i svenska kronor (SEK) och beräknade efter svenska regler. I Danmark gäller andra skatter och konton. Vill du ha råd om just din situation: prata med din bank eller en rådgivare som har tillstånd från Finansinspektionen (i Danmark: Finanstilsynet), och gör din egen research.',
       's5-privacy': '<strong>Din integritet.</strong> Sidan använder inga cookies och sparar själv ingenting om dig. Siffrorna du skriver in i kalkylatorn stannar i din egen webbläsare. Sidan sparar dem inte och skickar dem ingenstans. Den hämtar inte heller något från andra företag: typsnitten är inbyggda i sidan, och här finns varken besöksstatistik eller annonser. Men sidan ligger på GitHub Pages, och när du besöker den sparar GitHub din IP-adress av säkerhetsskäl. Läs mer i <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#data-collection" hreflang="en">GitHubs egen beskrivning</a> (på engelska).',
       's5-copyright': '© Din finansiella resa. Guiden får användas för privat bruk. Spridning eller kommersiell användning kräver tillstånd.',
 
@@ -942,21 +946,21 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       's4-c6-text': 'Studier, föräldraledighet, sjukdom, sabbatsår — det är normalt att göra korta pauser i dina insättningar. Det viktiga är att du <em>inte säljer</em> när du pausar. Pengarna som redan är investerade fortsätter att växa medan du har paus. Starta om när du kan — även om det bara är ett mindre belopp per månad.',
       'infl-label-off': 'Utan inflation',
       'infl-label-on': 'Med inflation',
-      'infl-desc-off': 'Antagande: 7% nominell avkastning per år',
-      'infl-desc-on': 'Antagande: 5% realavkastning per år efter inflation (Riksbankens inflationsmål 2%)',
-      'infl-warning': '<strong>Beloppen är i framtida kronor — inte dagens köpkraft.</strong> Med 2% inflation per år är 1 Mkr år {year} värd ca. {amount} i dagens pengar. Välj <em>Med inflation</em> ovan för att se reala värden i dagens köpkraft.',
+      'infl-desc-off': 'Antagande: 7% avkastning per år, före inflation',
+      'infl-desc-on': 'Antagande: 5% avkastning per år, efter inflation (Riksbankens inflationsmål 2%)',
+      'infl-warning': '<strong>Beloppen är i framtida kronor — inte dagens köpkraft.</strong> Med 2% inflation per år är 1 Mkr år {year} värd ca. {amount} i dagens pengar. Välj <em>Med inflation</em> ovan för att se värdena i dagens köpkraft.',
       'js-total40': 'Samlad portfölj vid {age} år',
-      'js-total-invested': 'Totalt inbetalt',
+      'js-total-invested': 'Totalt insatt',
       'js-total-cap-note': 'Insättningar efter {year} (året då du fyller {age}) räknas inte med i summan.',
       'js-year-err-lump': 'Investeringsåret måste vara tidigare än {year} (året då du fyller {age}). Därför kan inget resultat visas. Ändra investeringsåret.',
       'js-year-err-summer': 'Slutåret måste vara samma år som startåret eller senare. Därför kan inget resultat visas. Ändra ett av åren.',
       'js-year-err-later': 'Slutåret måste vara senare än startåret. Därför kan inget resultat visas. Ändra ett av åren.',
       'js-return': 'Avkastning',
-      'js-value-at': 'Värde vid',
+      'js-value-at': 'Värde år',
       'js-years-saving': 'års investerande',
-      'js-paid-in': 'Inbetalt',
+      'js-paid-in': 'Insatt',
       'js-compound': 'Ränta-på-ränta-effekten år för år',
-      'js-legend1': 'Inbetalt kapital',
+      'js-legend1': 'Insatt kapital',
       'js-legend2': 'Avkastning medan du investerar',
       'js-legend3': 'Växer vidare när du slutat sätta in pengar',
       'js-coasting': 'Växer vidare — inga nya insättningar',
@@ -977,13 +981,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       's1-c2-title': 'Brug en aktiesparekonto',
       's1-c2-text': 'På en aktiesparekonto betaler du 17% i skat af afkastet hvert år, også af gevinst på det, du ikke har solgt endnu. Der er et loft over, hvor meget du i alt må sætte ind: 174.200 kr. i 2026. Vokser værdien over loftet, skal du ikke sælge noget. <em>Obs: når loftet er nået, må du investere videre uden for kontoen, hvor afkastet beskattes med 27% op til 79.400 kr. om året (enlig, 2026) og 42% derover.</em> Du kan have én aktiesparekonto, og du skal være fuldt skattepligtig i Danmark.',
       's1-c3-title': 'Sæt dine investeringer på autopilot',
-      's1-c3-text': 'Forsøg ikke at finde de bedste enkeltaktier — på sigt slår langt de fleste professionelle ikke markedet. Investér i stedet i hele verden via én enkelt ETF med lav omkostning. Et eksempel er Amundi Prime All Country World UCITS ETF (kortnavn: WEBG): ca. 0,07% om året, med selskaber fra hele verden. Med et automatisk månedligt køb skal du derefter gøre meget lidt.',
+      's1-c3-text': 'Forsøg ikke at finde de bedste enkeltaktier — på sigt slår langt de fleste professionelle ikke markedet. Investér i stedet i hele verden via én enkelt børshandlet fond (ETF) med lav omkostning. Et eksempel er Amundi Prime All Country World UCITS ETF (kortnavn: WEBG): ca. 0,07% om året, med selskaber fra hele verden. Med et automatisk månedligt køb skal du derefter gøre meget lidt.',
       's1-c4-title': 'Glem ikke din arbejdsmarkedspension',
       's1-c4-text': 'Har du et job med overenskomst, får du næsten altid arbejdsmarkedspension — typisk 12–18% af lønnen, og din arbejdsgiver betaler ca. to tredjedele. Hvor meget du får, og hvornår den begynder, afhænger af overenskomsten. Pengene investeres for dig. Sørg for at vide hvor de placeres, og hvad det koster.',
       's2-title': 'Din strategi — frihed ved 40 år',
       's2-alloc-title': 'Eksempel på investering',
       'alloc1': 'Globale indexfonde',
-      's2-alloc-text': 'Indexfonde er basen — billigt og automatisk diversificeret. Eksempler: Danske Invest Global Indeks (ca. 0,40% om året) eller den brede ETF WEBG (Amundi Prime All Country World, ca. 0,07% om året), som du kan købe gennem en udbyder som Nordnet. To kendte bøger skriver om samme grundidé: John Bogle (<em>"The Little Book of Common Sense Investing"</em>) og Morgan Housel (<em>"The Psychology of Money"</em>) skriver om at eje billige indexfonde, der spreder pengene bredt over aktiemarkedet, og at beholde dem længe i stedet for at vælge enkeltaktier.',
+      's2-alloc-text': 'Indexfonde er basen — billigt og automatisk diversificeret. Eksempler: Danske Invest Global Indeks (ca. 0,40% om året) eller den brede børshandlede fond (ETF) WEBG (Amundi Prime All Country World, ca. 0,07% om året), som du kan købe gennem en udbyder som Nordnet. To kendte bøger skriver om samme grundidé: John Bogle (<em>"The Little Book of Common Sense Investing"</em>) og Morgan Housel (<em>"The Psychology of Money"</em>) skriver om at eje billige indexfonde, der spreder pengene bredt over aktiemarkedet, og at beholde dem længe i stedet for at vælge enkeltaktier.',
       's2-c1-title': 'Målet: økonomisk frihed ved 40 år',
       's2-c1-text': 'Med konsekvente investeringer og rentes rente-effekten kan en normal løn blive til en solid formue — nok til at vælge hvordan du lever dit liv. Se punkt 5 for konkrete tal.',
       's2-c2-title': 'Sigt efter at investere 20% af din nettoløn',
@@ -1000,7 +1004,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       's4-c1-title': 'Investér i viden',
       's4-c1-text': 'Læs <em>"The Psychology of Money"</em> af Morgan Housel og <em>"The Little Book of Common Sense Investing"</em> af John Bogle, lyt til podcasten "Sådan investerer jeg" fra Børsen, og se på foreningen Dansk Aktionærforening for at lære mere. Tidlig viden er den bedste beskyttelse mod dårlige beslutninger.',
       's4-c2-title': 'Behold kontrollen — livet forandrer sig',
-      's4-c2-text': 'Når livet forandrer sig — kørekort, bolig, partner, børn — er det let at stoppe med at investere. Behold <em>altid</em> dine investeringer i eget navn. Din økonomiske frihed er dit eget ansvar, uanset livssituation. En fælles økonomi er godt; en egen portefølje er nødvendig.',
+      's4-c2-text': 'Når livet forandrer sig — kørekort, bolig, partner, børn — er det let at stoppe med at investere. Behold <em>altid</em> dine investeringer i eget navn. Din økonomiske frihed er dit eget ansvar, uanset livssituation. En fælles økonomi er god; din egen portefølje er nødvendig.',
       's4-c3-title': '20% af nettolønnen — som grundregel',
       's4-c3-text': 'Sommerferiejob, deltid, fuldtid, sideindkomster — prøv at sætte 20% af nettolønnen til side, så snart lønnen kommer ind. Opret en automatisk overførsel, så det sker, uden at du behøver at tænke på det. Når din indkomst stiger, så hæv det du investerer, ikke livsstilen. At gå fra 20% til 25% eller mere mærkes ikke i hverdagen, men i din portefølje kan det tydeligt ses efter ti år.',
       's4-c4-title': 'Boliglån er ikke det samme som dyre lån',
@@ -1048,8 +1052,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       'swr-input-label': 'Ønsket udbetaling om måneden (kr.)',
       'swr-ref-label': 'Pejlemærke (egen antagelse)',
       'swr-ref-text': 'Et groft bud på et komfortabelt liv: ca. 20.000–25.000 kr./md. (enlig)',
-      'swr-lasts-shrinks': 'Pengene rækker hele livet, men porteføljen skrumper hvert år.',
-      's5-disclaimer': '<strong>Generel information — ikke personlig rådgivning.</strong> Intet her er tilpasset din situation. Tallene er regneeksempler, ikke prognoser. De bygger på antagelser: det valgte afkast (7% nominelt eller 5% realt efter inflation) og 4%-reglen. Historisk afkast er ingen garanti for fremtidigt afkast, og du kan tabe penge, også i indexfonde. Banker, netmæglere og fonde, som guiden nævner, er kun eksempler. Beløbene er i danske kroner. Tallene er før skat af afkastet. Vil du have råd om netop din situation: tal med din bank eller en rådgiver med tilladelse fra Finanstilsynet, og lav din egen research.',
+      'swr-lasts-shrinks': 'Pengene rækker hele livet, hvis afkastet holder, men porteføljen skrumper hvert år.',
+      's5-disclaimer': '<strong>Generel information — ikke personlig rådgivning.</strong> Intet her er tilpasset din situation. Tallene er regneeksempler, ikke prognoser. De bygger på antagelser: det valgte afkast (7% før inflation eller 5% efter inflation) og 4%-reglen. Historisk afkast er ingen garanti for fremtidigt afkast, og du kan tabe penge, også i indexfonde. Banker, netmæglere og fonde, som guiden nævner, er kun eksempler. Beløbene er i danske kroner. Tallene er før skat af afkastet. Vil du have råd om netop din situation: tal med din bank eller en rådgiver med tilladelse fra Finanstilsynet, og lav din egen research.',
       's5-privacy': '<strong>Dit privatliv.</strong> Siden bruger ingen cookies og gemmer ikke selv noget om dig. De tal, du skriver i beregneren, bliver i din egen browser. Siden gemmer dem ikke og sender dem ingen steder hen. Den henter heller ikke noget fra andre virksomheder: skrifttyperne er indbygget i siden, og der er hverken besøgsstatistik eller reklamer. Men siden ligger på GitHub Pages, og når du besøger den, gemmer GitHub din IP-adresse af sikkerhedshensyn. Læs mere i <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#data-collection" hreflang="en">GitHubs egen beskrivelse</a> (på engelsk).',
       's5-copyright': '© Din finansielle rejse. Guiden må bruges til privat brug. Videredeling eller kommerciel brug kræver tilladelse.',
 
@@ -1071,9 +1075,9 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       's4-c6-text': 'Studie, barsel, sygdom, sabbatår — det er normalt at holde korte pauser i dine indbetalinger. Det vigtige er at du <em>ikke sælger</em> når du holder pause. Pengene der allerede er investeret fortsætter med at vokse. Start igen når du kan — selv om det kun er et mindre beløb om måneden.',
       'infl-label-off': 'Uden inflation',
       'infl-label-on': 'Med inflation',
-      'infl-desc-off': 'Estimeret afkast: 7% nominelt om året',
-      'infl-desc-on': 'Estimeret afkast: 5% realt om året efter inflation (ECB\'s inflationsmål 2%)',
-      'infl-warning': '<strong>Beløbene er i fremtidige kroner — ikke i nutidens købekraft.</strong> Med 2% inflation om året er 1 mio. kr. i år {year} kun ca. {amount} værd i dagens penge. Vælg <em>Med inflation</em> ovenfor for at se reale værdier.',
+      'infl-desc-off': 'Estimeret afkast: 7% om året, før inflation',
+      'infl-desc-on': 'Estimeret afkast: 5% om året, efter inflation (ECB\'s inflationsmål 2%)',
+      'infl-warning': '<strong>Beløbene er i fremtidige kroner — ikke i nutidens købekraft.</strong> Med 2% inflation om året er 1 mio. kr. i år {year} kun ca. {amount} værd i dagens penge. Vælg <em>Med inflation</em> ovenfor for at se værdierne i nutidens købekraft.',
       'js-total40': 'Samlet portefølje som {age}-årig',
       'js-total-invested': 'Totalt indbetalt',
       'js-total-cap-note': 'Indbetalinger efter {year} (året, hvor du fylder {age}) tælles ikke med i summen.',
@@ -1081,7 +1085,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       'js-year-err-summer': 'Slutåret skal være samme år som startåret eller senere. Derfor kan der ikke vises et resultat. Ret et af årene.',
       'js-year-err-later': 'Slutåret skal ligge efter startåret. Derfor kan der ikke vises et resultat. Ret et af årene.',
       'js-return': 'Afkast',
-      'js-value-at': 'Værdi ved',
+      'js-value-at': 'Værdi i',
       'js-years-saving': 'års investering',
       'js-paid-in': 'Indbetalt',
       'js-compound': 'Rentes rente-effekten år for år',
@@ -1167,6 +1171,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   var RATE = RATE_NOMINAL;
   var NET_FACTOR = 0.74; // nettolön ≈ 74% av bruttolön (Sverige, inkl. jobbskatteavdrag)
   var NET_FACTOR_DA = 0.55; // udbetalt løn ≈ 55% af Danmarks Statistiks tal (Danmark)
+  var lonStartTyped = false; // true while Lön's start year is one the visitor typed, not the rule's
   var lonTyped = false; // true while Lön's amount is one the visitor typed, not the job's
 
   // A press on a button does not leave the field being typed in: leave it here, so the year
@@ -1219,6 +1224,11 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   ];
   var activeScenario = 2; // default to polislön scenario
 
+  // Lön starts at 23 at the earliest: the default start year follows the start age.
+  function lonDefaultStartYear() {
+    return CURRENT_YEAR + Math.max(0, 23 - START_AGE);
+  }
+
   function onAgeChange() {
     var age = parseInt(document.getElementById('currentAge').value) || 18;
     age = Math.max(10, Math.min(60, age));
@@ -1230,6 +1240,12 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     // Sommarjobb keeps the years in its own fields (onSc0LumpChange sets them); the others end at the target age
     scenarios[1].endYear = AGE40_YEAR;
     scenarios[2].endYear = AGE40_YEAR;
+    if (!lonStartTyped) {
+      scenarios[2].startYear = lonDefaultStartYear();
+      if (activeScenario === 2) document.getElementById('startYear').value = scenarios[2].startYear;
+    } else if (activeScenario === 2 && document.getElementById('startYear').value === '') {
+      document.getElementById('startYear').value = scenarios[2].startYear;
+    }
     // Update endYear input for active scenario
     var endYearInput = document.getElementById('endYear');
     var newEndYear = activeScenario === 0 ? scenarios[0].endYear : AGE40_YEAR;
@@ -1398,7 +1414,14 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     var startVal   = document.getElementById('startYear').value;
     var endVal     = document.getElementById('endYear').value;
     scenarios[i].amount = parseFloat(monthlyVal) || 0;
-    if (startVal   !== '' && !isNaN(parseInt(startVal)))     scenarios[i].startYear = parseInt(startVal);
+    if (startVal   !== '' && !isNaN(parseInt(startVal))) {
+      var typedYear = parseInt(startVal);
+      // Only a real change of Lön's year counts as typed; an empty or unchanged field never does
+      if (i === 2 && typedYear !== scenarios[2].startYear) {
+        lonStartTyped = typedYear !== lonDefaultStartYear();
+      }
+      scenarios[i].startYear = typedYear;
+    }
     if (endVal     !== '' && !isNaN(parseInt(endVal)))       scenarios[i].endYear   = parseInt(endVal);
   }
 
@@ -1721,7 +1744,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         '🪄 <strong>' + (currentLang==='da' ? 'Magien ved rentes rente:' : 'Magin med ränta-på-ränta:') + '</strong> ' +
         (currentLang==='da'
           ? 'Med ' + (RATE*100).toFixed(0) + '% om året vokser porteføljen på 10 år med ca. ' + Math.round((Math.pow(1+RATE,10)-1)*100) + '% — uden at du sætter en eneste krone mere ind. Jo større din portefølje bliver, jo flere penge tjener den til dig helt af sig selv. Til sidst vokser porteføljen mere på ét år end du kunne sætte ind på flere. Derfor er det så kraftfuldt at starte tidligt.'
-          : 'Med ' + (RATE*100).toFixed(0) + '% per år växer portföljen på 10 år med ca. ' + Math.round((Math.pow(1+RATE,10)-1)*100) + '% — utan att du sätter in en enda krona till. Ju större din portfölj blir, desto mer pengar tjänar den åt dig helt av sig själv. Till slut växer portföljen mer på ett år än du kunde sätta in på flera. Det är därför tidig start är så kraftfullt.') +
+          : 'Med ' + (RATE*100).toFixed(0) + '% per år växer portföljen på 10 år med ca. ' + Math.round((Math.pow(1+RATE,10)-1)*100) + '% — utan att du sätter in en enda krona till. Ju större din portfölj blir, desto mer pengar tjänar den åt dig helt av sig själv. Till slut växer portföljen mer på ett år än du kunde sätta in på flera. Därför är det så kraftfullt att börja tidigt.') +
       '</div>';
 
     var savingLabel = isAnnual
@@ -1759,21 +1782,14 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   var showSwr = true;
   var swrRate = 0.04;
 
-  function renderSwrResult(portfolioAt40) {
-    var res = document.getElementById('swr-result');
-    if (!showSwr || !res) return;
-
-    var desiredMonthly = parseFloat(document.getElementById('swrMonthly').value) || 20000;
-    var annualWithdrawal = portfolioAt40 * swrRate;
-    var monthlyFromPortfolio = annualWithdrawal / 12;
-    var pctCovered = Math.round((monthlyFromPortfolio / desiredMonthly) * 100);
-
-    // ── RUNWAY SIMULATION — must run first so neverDepleted is known ──
+  // Works the portfolio out year by year to age 100 with the wanted monthly amount taken out.
+  // Used by both the screen and the print so the two cannot differ.
+  function runwayRun(portfolio, desiredMonthly) {
     var targetAge = TARGET_AGE;
     var stopYear = AGE40_YEAR;
     var annualWithdraw = desiredMonthly * 12;
     var runwayYears = [];
-    var balance = portfolioAt40;
+    var balance = portfolio;
     var depletedYear = null;
     var depletedAge = null;
     for (var yr = stopYear; yr <= stopYear + (100 - targetAge); yr++) {
@@ -1791,13 +1807,46 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     if (!depletedYear) {
       runwayYears = runwayYears.filter(function(r){ return r.age <= 90; });
     }
-
-    // ── THE VERDICT FOLLOWS THE BALANCES THE LOOP WORKED OUT ──────
     // Never depleted (money is left at age 100): the portfolio either grows (last balance not
     // below the first) or falls but lasts the whole life.
     var firstRow = runwayYears[0];
     var lastRow = runwayYears[runwayYears.length - 1];
     var lastsButShrinks = neverDepleted && !!lastRow && lastRow.balance < firstRow.balance;
+    return {
+      runwayYears: runwayYears,
+      depletedYear: depletedYear,
+      depletedAge: depletedAge,
+      neverDepleted: neverDepleted,
+      lastsButShrinks: lastsButShrinks
+    };
+  }
+
+  // The line on whether the money lasts or runs out, for a result of runwayRun().
+  // Used by both the screen and the print so the two cannot differ.
+  function runwayNoteText(run) {
+    var da = currentLang === 'da';
+    return run.lastsButShrinks
+      ? '✅ ' + t('swr-lasts-shrinks')
+      : run.neverDepleted
+      ? (da ? '✅ Pengene rækker, hvis afkastet holder — porteføljen bliver ved med at vokse hele livet.' : '✅ Pengarna räcker om avkastningen håller — portföljen fortsätter växa hela livet.')
+      : (da ? '⚠️ Porteføljen er tom, når du er ' + run.depletedAge + ' år (' + run.depletedYear + ')' : '⚠️ Portföljen tar slut vid ' + run.depletedAge + ' års ålder (' + run.depletedYear + ')');
+  }
+
+  function renderSwrResult(portfolioAt40) {
+    var res = document.getElementById('swr-result');
+    if (!showSwr || !res) return;
+
+    var desiredMonthly = parseFloat(document.getElementById('swrMonthly').value) || 20000;
+    var annualWithdrawal = portfolioAt40 * swrRate;
+    var monthlyFromPortfolio = annualWithdrawal / 12;
+    var pctCovered = Math.round((monthlyFromPortfolio / desiredMonthly) * 100);
+
+    var run = runwayRun(portfolioAt40, desiredMonthly);
+    var runwayYears = run.runwayYears;
+    var depletedYear = run.depletedYear;
+    var depletedAge = run.depletedAge;
+    var neverDepleted = run.neverDepleted;
+    var lastsButShrinks = run.lastsButShrinks;
     var lastsShrinksText = lastsButShrinks ? t('swr-lasts-shrinks') : '';
 
     // ── RESULT CARD CALCULATIONS ──────────────────────────────────
@@ -1818,25 +1867,20 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       ? ''
       : neverDepleted
       ? (currentLang==='da'
-          ? '✅ Porteføljen vokser fortsat — pengene løber aldrig ud ved denne udbetaling.'
-          : '✅ Portföljen fortsätter växa — pengarna tar aldrig slut med detta uttag.')
+          ? '✅ Porteføljen vokser fortsat — pengene rækker ved denne udbetaling, hvis afkastet holder.'
+          : '✅ Portföljen fortsätter växa — pengarna räcker med detta uttag, om avkastningen håller.')
       : (currentLang==='da'
-          ? '⚠️ Portefølje løber ud ved ' + depletedAge + ' år — overvej at reducere det månedlige beløb.'
+          ? '⚠️ Porteføljen er tom, når du er ' + depletedAge + ' år — overvej at reducere det månedlige beløb.'
           : '⚠️ Portföljen tar slut vid ' + depletedAge + ' år — överväg att minska det månatliga uttaget.');
 
     // Pick milestone years for bars (every 5 years + depletion point)
     var milestones = runwayYears.filter(function(r){ return r.age % 5 === 0 || r.age === depletedAge; });
     var maxBal = portfolioAt40;
 
-    var neverDepleted = !depletedYear;
     var runwayTitle = currentLang === 'da'
       ? 'Porteføljens udvikling — månedlig udbetaling ' + fmt(desiredMonthly)
       : 'Portföljens utveckling — månatligt uttag ' + fmt(desiredMonthly);
-    var runwayNote = lastsButShrinks
-      ? '✅ ' + lastsShrinksText
-      : neverDepleted
-      ? (currentLang==='da' ? '✅ Pengene løber aldrig ud — porteføljen bliver ved med at vokse hele livet.' : '✅ Pengarna tar aldrig slut — portföljen fortsätter växa hela livet.')
-      : (currentLang==='da' ? '⚠️ Portefølje løber ud ved ' + depletedAge + ' år (' + depletedYear + ')' : '⚠️ Portföljen tar slut vid ' + depletedAge + ' års ålder (' + depletedYear + ')');
+    var runwayNote = runwayNoteText(run);
     var noteColor = neverDepleted ? 'var(--green)' : '#c0392b';
 
     var runwayBars = milestones.map(function(r) {
@@ -1866,7 +1910,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         '<div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:8px;">' + swrLabel + ' · ' + fmt(portfolioAt40) + '</div>' +
         '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">' +
           '<div>' +
-            '<div style="font-size:10px;color:var(--muted);margin-bottom:2px;">' + (currentLang==='da' ? 'Portf. giver (4%-reglen)' : 'Portf. ger (4%-regeln)') + '</div>' +
+            '<div style="font-size:10px;color:var(--muted);margin-bottom:2px;">' + (currentLang==='da' ? 'Porteføljen giver' : 'Portföljen ger') + '</div>' +
             '<div style="font-family:Fraunces,serif;font-size:22px;font-weight:800;color:' + color + ';line-height:1;">' + fmt(monthlyFromPortfolio) + '<span style="font-size:12px;font-weight:400;">' + t('js-per-month') + '</span></div>' +
           '</div>' +
           '<div>' +
@@ -1958,14 +2002,14 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       var sel       = document.getElementById('jobSelect');
       var jobName   = sel ? sel.options[sel.selectedIndex].text.split('—')[0].trim() : '';
       var monthly   = parseInt((document.getElementById('monthly') || {}).value) || 0;
-      var desired   = parseInt((document.getElementById('swrMonthly') || {}).value) || 20000;
+      var desired   = parseFloat((document.getElementById('swrMonthly') || {}).value) || 20000;
       var _pd       = getLumpData();
       var lump      = _pd.amount;
       var lumpYear  = _pd.year;
       var swrLabel  = '4%';
       var inflLabel = useInflation
-        ? (currentLang==='da' ? '5% realafkast (inflationsjusteret)' : '5% realavkastning (inflationsjusterat)')
-        : (currentLang==='da' ? '7% nominelt afkast' : '7% nominell avkastning');
+        ? (currentLang==='da' ? '5% afkast efter inflation' : '5% avkastning efter inflation')
+        : (currentLang==='da' ? '7% afkast før inflation' : '7% avkastning före inflation');
       var da = currentLang === 'da';
       var perMonth = t('js-per-month');
       var today = new Date();
@@ -1994,10 +2038,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
         // Title
         '<h1 style="color:#2d6a4f;font-family:Georgia,serif;font-size:22px;margin:0 0 2px;">' + (da?'Mit investeringsmål':'Mitt investeringsmål') + '</h1>' +
-        '<div style="color:#6b6b5e;font-size:12px;margin-bottom:18px;">' + dateStr + '</div>' +
+        '<div class="p1-gap" style="color:#6b6b5e;font-size:12px;margin-bottom:18px;">' + dateStr + '</div>' +
 
         // Goal box
-        '<div style="background:#f0faf4;border-left:4px solid #2d6a4f;padding:12px 16px;border-radius:6px;margin-bottom:16px;">' +
+        '<div class="p1-gap" style="background:#f0faf4;border-left:4px solid #2d6a4f;padding:12px 16px;border-radius:6px;margin-bottom:16px;">' +
           '<div style="font-size:11px;color:#2d6a4f;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">' + (da?'Mål':'Mål') + '</div>' +
           '<div style="font-size:28px;font-weight:700;color:#2d6a4f;line-height:1.1;">' + (da?'Økonomisk frihed ved ':'Ekonomisk frihet vid ') + targetAge + ' ' + (da?'år':'år') + ' <span style="font-size:13px;color:#6b6b5e;font-weight:400;">(' + AGE40_YEAR + ')</span></div>' +
           '<div style="font-size:12px;color:#6b6b5e;margin-top:2px;">' + (da?'Startalder: ':'Startålder: ') + age + ' ' + (da?'år · ':'år · ') + (targetAge-age) + (da?' års investering':' års investerande') + '</div>' +
@@ -2005,9 +2049,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
         // Key figures table
         '<div style="font-size:11px;font-weight:700;color:#2d6a4f;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">' + (da?'Nøgletal':'Nyckeltal') + '</div>' +
-        '<table style="width:100%;border-collapse:collapse;margin-bottom:16px;font-size:13px;">' +
+        '<table class="p1-gap" style="width:100%;border-collapse:collapse;margin-bottom:16px;font-size:13px;">' +
           '<tr><td style="padding:6px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Job / løn':'Yrke / lön') + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;">' + jobName + '</td></tr>' +
-          '<tr><td style="padding:6px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + 'Investeringsandel' + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;">' + savePct + '% ' + (da?'af nettoløn':'av nettolön') + '</td></tr>' +
+          (selectedButton === 2 ?
+            '<tr><td style="padding:6px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + 'Investeringsandel' + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;">' + savePct + '% ' + (da?'af nettoløn':'av nettolön') + '</td></tr>' : '') +
           '<tr><td style="padding:6px 0;border-bottom:1px solid #e9e4d9;color:#7c5cbf;font-weight:600;">🟣 ' + (da?'Løn':'Lön') + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#7c5cbf;">' + fmt(scenarios[2].amount) + perMonth + ' · ' + scenarios[2].startYear + '–' + scenarios[2].endYear + '</td></tr>' +
           (scenarios[0].amount > 0 ?
             '<tr><td style="padding:6px 0;border-bottom:1px solid #e9e4d9;color:#2d6a4f;font-weight:600;">🟢 ' + (da?'Sommerferiejob':'Sommarjobb') + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#2d6a4f;">' +
@@ -2021,12 +2066,12 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
         // Inflation warning right after key figures
         (!useInflation ?
-        '<div style="background:#fff8e6;border:1px solid #f0cc6b;border-radius:8px;padding:12px 14px;margin-bottom:16px;display:flex;gap:10px;align-items:flex-start;">' +
+        '<div class="p1-gap" style="background:#fff8e6;border:1px solid #f0cc6b;border-radius:8px;padding:12px 14px;margin-bottom:16px;display:flex;gap:10px;align-items:flex-start;">' +
           '<span style="font-size:16px;flex-shrink:0;">⚠️</span>' +
           '<div style="font-size:11px;color:#7a5c10;line-height:1.5;">' +
-            '<strong>' + (da?'Beløbene er i fremtidige kroner — ikke dagens købekraft.':'Beloppen är i framtida kronor — inte dagens köpkraft.') + '</strong> ' +
-            (da?'Med 2% inflation per år er 1 mio. kr. i '+AGE40_YEAR+' værd ca. '+todaysMoneyLabel+' i dagens penge. Vælg <em>Med inflation</em> for at se reale værdier.':
-                'Med 2% inflation per år är 1 Mkr år '+AGE40_YEAR+' värd ca. '+todaysMoneyLabel+' i dagens pengar. Välj <em>Med inflation</em> för att se reala värden.') +
+            '<strong>' + (da?'Beløbene er i fremtidige kroner — ikke i nutidens købekraft.':'Beloppen är i framtida kronor — inte dagens köpkraft.') + '</strong> ' +
+            (da?'Med 2% inflation per år er 1 mio. kr. i '+AGE40_YEAR+' værd ca. '+todaysMoneyLabel+' i dagens penge. Vælg <em>Med inflation</em> for at se værdierne i nutidens købekraft.':
+                'Med 2% inflation per år är 1 Mkr år '+AGE40_YEAR+' värd ca. '+todaysMoneyLabel+' i dagens pengar. Välj <em>Med inflation</em> för att se värdena i dagens köpkraft.') +
           '</div>' +
         '</div>' : '') +
 
@@ -2034,7 +2079,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         '<div style="font-size:11px;font-weight:700;color:#2d6a4f;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">' + t('js-total40').replace('{age}', targetAge) + '</div>' +
         '<div style="font-size:26px;font-weight:700;color:#2d6a4f;margin-bottom:8px;">' + fmt(total40) + '</div>' +
         (printCapNote ? '<div id="print-total-cap-note" style="font-size:11px;color:#6b6b5e;margin:-4px 0 10px;">' + printCapNote + '</div>' : '') +
-        '<table style="width:100%;border-collapse:collapse;margin-bottom:16px;font-size:12px;">' +
+        '<table class="p1-gap" style="width:100%;border-collapse:collapse;margin-bottom:16px;font-size:12px;">' +
           (sc0val > 0 ? '<tr><td style="padding:5px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Sommerferiejob':'Sommarjobb') + ' (' + scenarios[0].startYear + '–' + scenarios[0].endYear + ')</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#2d6a4f;">' + fmt(sc0val) + '</td></tr>' : '') +
           (sc1val > 0 ? '<tr><td style="padding:5px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Deltidsjob':'Deltidsjobb') + ' (' + scenarios[1].startYear + '–' + scenarios[1].endYear + ')</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#7a5c10;">' + fmt(sc1val) + '</td></tr>' : '') +
           (sc2val > 0 ? '<tr><td style="padding:5px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Løn':'Lön') + ' (' + scenarios[2].startYear + '–' + scenarios[2].endYear + ')</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#7c5cbf;">' + fmt(sc2val) + '</td></tr>' : '') +
@@ -2042,7 +2087,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         '</table>' +
 
         // Monthly payout section with timeline chart
-        '<div style="background:#faf7f2;border-left:4px solid #c9a84c;padding:12px 16px;border-radius:6px;margin-bottom:16px;">' +
+        '<div class="p1-gap" style="background:#faf7f2;border-left:4px solid #c9a84c;padding:12px 16px;border-radius:6px;margin-bottom:16px;">' +
           '<div style="font-size:11px;color:#7a5c10;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">' + (da?'Månedlig udbetaling · 4%-reglen':'Månatligt uttag · 4%-regeln') + '</div>' +
           '<div style="font-size:24px;font-weight:700;color:#7a5c10;">' + fmt(monthlyPayout) + perMonth + '</div>' +
           '<div style="font-size:12px;color:#6b6b5e;margin-top:2px;margin-bottom:14px;">' + (da?'Ønsket: ':'Önskat: ') + fmt(desired) + perMonth + ' · ' + (da?'På en aktiesparekonto: ingen ekstra skat ved udbetaling, da skatten betales løbende. Det gælder kun penge på kontoen. Resten beskattes efter de almindelige regler.':'Uttag från ISK är skattefria') + '</div>' +
@@ -2138,15 +2183,19 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
               '<text x="' + xp(90) + '" y="' + (H-8) + '" text-anchor="middle" font-size="9" fill="#7a5c10">90 ' + (da?'år':'år') + '</text>' +
             '</svg>';
           })() +
+          (function() {
+            var runwayRunPrint = runwayRun(total40, desired);
+            return '<div style="margin-top:8px;font-size:12px;font-weight:600;color:' + (runwayRunPrint.neverDepleted ? '#2d6a4f' : '#c0392b') + ';">' + runwayNoteText(runwayRunPrint) + '</div>';
+          })() +
         '</div>' +
 
         // Mantra
-        '<div style="text-align:center;font-style:italic;color:#2d6a4f;font-size:14px;padding-top:14px;border-top:1px solid #d8f3dc;">' +
+        '<div class="p1-pad" style="text-align:center;font-style:italic;color:#2d6a4f;font-size:14px;padding-top:14px;border-top:1px solid #d8f3dc;">' +
           '"' + (da?'Start enkelt, tænk langsigtet, og lad tiden arbejde for dig.':'Börja enkelt, tänk långsiktigt, och låt tiden arbeta för dig.') + '"' +
         '</div>' +
 
         // Short disclaimer, last on page one
-        '<div style="margin-top:14px;font-size:11px;color:#6b6b5e;line-height:1.5;text-align:center;">' +
+        '<div class="p1-gap-top" style="margin-top:14px;font-size:11px;color:#6b6b5e;line-height:1.5;text-align:center;">' +
           (da?'<strong>Generel information — ikke personlig rådgivning.</strong> Tallene er regneeksempler, ikke prognoser. Hele teksten står sidst i bilaget.'
              :'<strong>Allmän information — inte personlig rådgivning.</strong> Siffrorna är räkneexempel, inte prognoser. Hela texten finns sist i bilagan.') +
         '</div>' +
