@@ -1201,7 +1201,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   // Init — default to Polislön scenario
 
 
-  var CURRENT_YEAR = 2026;
+  // This year by the visitor's clock, never before the year the page's own figures (tax rates, limits) are from.
+  var CURRENT_YEAR = Math.max(2026, new Date().getFullYear());
   var TARGET_AGE = 40;
   var START_AGE = 18;
   var AGE40_YEAR = CURRENT_YEAR + (TARGET_AGE - 18);
@@ -1661,7 +1662,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     var sc = activeScenario >= 0 ? scenarios[activeScenario] : {
       amount:    0,
       startYear: parseInt(document.getElementById('startYear').value)   || CURRENT_YEAR,
-      endYear:   parseInt(document.getElementById('endYear').value)     || 2040
+      endYear:   parseInt(document.getElementById('endYear').value)     || AGE40_YEAR
     };
 
     // When Engång selected: show only lump sum growth, no monthly
@@ -2101,8 +2102,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           ? '✅ Porteføljen vokser fortsat — pengene rækker ved denne udbetaling, hvis afkastet holder.'
           : '✅ Portföljen fortsätter växa — pengarna räcker med detta uttag om avkastningen håller.')
       : (currentLang==='da'
-          ? '⚠️ Porteføljen er tom, når du er ' + depletedAge + ' år — overvej at reducere det månedlige&nbsp;beløb.'
-          : '⚠️ Portföljen tar slut vid ' + depletedAge + ' års ålder — överväg att minska det månatliga uttaget.');
+          ? '⚠️ Porteføljen er tom, når du er ' + depletedAge + '&nbsp;år — overvej at reducere det månedlige&nbsp;beløb.'
+          : '⚠️ Portföljen tar slut vid ' + depletedAge + '&nbsp;års ålder — överväg att minska det månatliga uttaget.');
 
     // Pick milestone years for bars (every 5 years + depletion point)
     var milestones = runwayYears.filter(function(r){ return r.age % 5 === 0 || r.age === depletedAge; });
@@ -2478,6 +2479,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   selectedButton = 2; // default = Lön, so getLumpData() returns 0
   document.getElementById('savePct').value = 20;
   scenarios[2].amount = lonAmountFromJob(); // Lön starts from the job the list shows
+  // The year fields start from this year; the years written in the HTML are only a fallback.
+  document.getElementById('startYearSc0').value = CURRENT_YEAR;
+  document.getElementById('endYearSc0').value   = CURRENT_YEAR + 4;
+  document.getElementById('lumpYearSc3').value  = CURRENT_YEAR;
   onSc0LumpChange(); // sync sc0 scenario years only
   selectScenario(2);
   document.getElementById('endYear').value = AGE40_YEAR;
