@@ -315,6 +315,17 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
      !important because their inline border would win otherwise. */
   .focus-edge { transition: border-color 0.15s; }
   .focus-edge:focus { border-color: var(--green) !important; }
+  /* MESSAGES UNDER THE FIELDS: one line under each row of fields, empty and taking no space until an
+     age or a year does not fit. A warning (the result stays) has a thin frame; a blocking message
+     (no result) has a thick left edge and heavier text, so the two differ by more than colour.
+     Each has its own background, so its contrast is the same in the green age box and in white. */
+  .field-msg { display:none; margin-top:8px; padding:8px 10px; border-radius:8px; font-size:12.5px; line-height:1.5; text-align:left; }
+  .field-msg.level-1 { display:block; background:#fff8e6; color:#7a5c10; border:1px solid #f0cc6b; }
+  .age-limited-hidden { visibility:hidden; }
+  #inflation-warning.age-limited-hidden { display:none !important; }
+  .field-msg.level-2 { display:block; background:#fdecea; color:#8a1f14; border-left:4px solid #b83326; font-weight:600; }
+  /* A field with a blocking message gets a red edge at rest; while focused it keeps the green edge. */
+  .calc-input[aria-invalid="true"]:not(:focus), .focus-edge[aria-invalid="true"]:not(:focus) { border-color:#b83326 !important; }
 
   .scenario-grid { display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px; margin-bottom:20px; }
   .scenario-btn { border:2px solid transparent; border-radius:10px; padding:12px 8px; cursor:pointer; text-align:center; transition: all 0.15s; display:flex; align-items:center; justify-content:center; }
@@ -613,12 +624,12 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       <div style="background:var(--sand);border-radius:12px;padding:10px 14px;margin-bottom:16px;">
         <div style="font-size:11px;color:var(--muted);margin-bottom:8px;text-align:center;" id="infl-desc" data-i18n="infl-desc-off">Antagande: 7% avkastning per år, före inflation</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-          <button onclick="if(useInflation)toggleInflation()" id="infl-btn-no" aria-pressed="true"
+          <button onclick="leaveFocusedInput();if(useInflation)toggleInflation()" id="infl-btn-no" aria-pressed="true"
             style="padding:10px 6px;border-radius:8px;border:2px solid var(--green);background:var(--green);color:white;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s;text-align:center;">
             <div style="font-size:10px;" data-i18n="infl-label-off">Utan inflation</div>
             <div style="font-size:15px;font-weight:800;">7%</div>
           </button>
-          <button onclick="if(!useInflation)toggleInflation()" id="infl-btn-yes" aria-pressed="false"
+          <button onclick="leaveFocusedInput();if(!useInflation)toggleInflation()" id="infl-btn-yes" aria-pressed="false"
             style="padding:10px 6px;border-radius:8px;border:2px solid transparent;background:white;color:var(--muted);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all 0.15s;text-align:center;">
             <div style="font-size:10px;" data-i18n="infl-label-on">Med inflation</div>
             <div style="font-size:15px;font-weight:800;">5%</div>
@@ -664,16 +675,17 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         <div style="display:flex;align-items:center;justify-content:center;gap:10px;">
           <div style="text-align:center;">
             <div style="font-size:10px;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:0.06em;" id="current-age-label" data-i18n="lbl-current-age">Startålder</div>
-            <input type="number" id="currentAge" value="18" min="10" max="60" oninput="onAgeChange()" aria-labelledby="current-age-label" class="focus-edge"
+            <input type="number" id="currentAge" value="18" min="10" max="60" oninput="onAgeInput()" onblur="onAgeLeave()" aria-labelledby="current-age-label" class="focus-edge"
               style="width:62px;border:2px solid var(--green-light);border-radius:10px;padding:8px 6px;font-size:20px;font-weight:700;font-family:inherit;color:var(--green);background:white;outline:none;text-align:center;">
           </div>
           <div style="font-size:20px;color:var(--muted);margin-top:18px;" aria-hidden="true">→</div>
           <div style="text-align:center;">
             <div style="font-size:10px;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:0.06em;" id="target-age-label" data-i18n="lbl-target-age">Målålder</div>
-            <input type="number" id="targetAge" value="40" min="20" max="70" oninput="onAgeChange()" aria-labelledby="target-age-label" class="focus-edge"
+            <input type="number" id="targetAge" value="40" min="20" max="70" oninput="onAgeInput()" onblur="onAgeLeave()" aria-labelledby="target-age-label" class="focus-edge"
               style="width:62px;border:2px solid var(--gold);border-radius:10px;padding:8px 6px;font-size:20px;font-weight:700;font-family:inherit;color:#7a5c10;background:#fff8e6;outline:none;text-align:center;">
           </div>
         </div>
+        <div id="age-msg" class="field-msg"></div>
       </div>
 
       <!-- SCENARIO BUTTONS + FIELDS -->
@@ -711,6 +723,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             <input type="text" inputmode="numeric" id="endYearSc0" value="2030" class="calc-input" onblur="onSc0LumpChange()">
           </div>
         </div>
+        <div id="sc0-year-msg" class="field-msg"></div>
         <div style="margin-top:6px;font-size:11px;color:var(--muted);" data-i18n="sc0-lump-hint">Beloppet investeras en gång per år under perioden — varje insättning växer fram till målåldern.</div>
       </div>
 
@@ -736,6 +749,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             <input type="text" inputmode="numeric" id="endYear" value="2040" class="calc-input" onblur="onEndYearChange()">
           </div>
         </div>
+        <div id="monthly-year-msg" class="field-msg"></div>
       </div>
 
       <!-- SC3: Engångsbelopp -->
@@ -750,6 +764,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             <input type="text" inputmode="numeric" id="lumpYearSc3" value="2026" class="calc-input" onblur="calcGrowth()">
           </div>
         </div>
+        <div id="sc3-year-msg" class="field-msg"></div>
         <div style="margin-top:6px;font-size:11px;color:var(--muted);" data-i18n="lump-hint">Har du sparade pengar som du vill investera på en gång? Ange belopp och år — beräkningen visar vad just det beloppet växer till.</div>
       </div>
 
@@ -955,9 +970,21 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       'js-year-err-lump': 'Investeringsåret måste vara tidigare än {year} (året då du fyller {age}). Därför kan inget resultat visas. Ändra investeringsåret.',
       'js-year-err-summer': 'Slutåret måste vara samma år som startåret eller senare. Därför kan inget resultat visas. Ändra ett av åren.',
       'js-year-err-later': 'Slutåret måste vara senare än startåret. Därför kan inget resultat visas. Ändra ett av åren.',
+      'js-year-warn-after-target': 'Slutåret {end} är efter {ty}, året då du fyller {age}. Insättningar efter {ty} räknas inte med i den samlade portföljen. Ändra slutåret till {ty} eller höj målåldern.',
+      'js-year-err-start-target': 'Startåret måste vara senast {max}, eftersom du fyller {age} år {ty}. Därför kan inget resultat visas. Ändra startåret eller höj målåldern.',
+      'js-year-err-past': 'Året {year} är före i år ({cy}). Kalkylatorn räknar från i år. Därför kan inget resultat visas. Ändra året till {cy} eller senare.',
+      'js-year-err-nan': 'Fältet {field} innehåller inget årtal. Därför kan inget resultat visas. Skriv året med fyra siffror, t.ex. {cy}.',
+      'js-age-err-target': 'Målåldern måste vara högre än din startålder ({a}). Därför kan inget resultat visas. Ändra målåldern eller startåldern.',
+      'js-age-err-range-start': 'Startåldern måste vara mellan 10 och 60 år. Därför kan inget resultat visas. Ändra startåldern.',
+      'js-age-err-range-target': 'Målåldern måste vara mellan 20 och 70 år. Därför kan inget resultat visas. Ändra målåldern.',
+      'js-err-other-button': 'Åren under knappen {knap} behöver ändras. Därför kan inget resultat visas. Tryck på knappen {knap} och ändra fältet med meddelandet.',
+      'js-err-see-field': 'Ändra fältet med meddelandet ovan.',
       'js-return': 'Avkastning',
       'js-value-at': 'Värde år',
       'js-years-saving': 'års investerande',
+      'js-card-left-out-many': '{n} insättningar efter {ty} räknas inte med.',
+      'js-card-left-out-one': '1 insättning efter {ty} räknas inte med.',
+      'js-card-left-out-any': 'Insättningar efter {ty} räknas inte med.',
       'js-paid-in': 'Insatt',
       'js-compound': 'Ränta-på-ränta-effekten år för år',
       'js-legend1': 'Insatt kapital',
@@ -1084,9 +1111,21 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       'js-year-err-lump': 'Investeringsåret skal være tidligere end {year} (året, hvor du fylder {age}). Derfor kan der ikke vises et resultat. Ret investeringsåret.',
       'js-year-err-summer': 'Slutåret skal være samme år som startåret eller senere. Derfor kan der ikke vises et resultat. Ret et af årene.',
       'js-year-err-later': 'Slutåret skal ligge efter startåret. Derfor kan der ikke vises et resultat. Ret et af årene.',
+      'js-year-warn-after-target': 'Slutåret {end} er efter {ty}, året hvor du fylder {age}. Indbetalinger efter {ty} tælles ikke med i den samlede portefølje. Sæt slutåret til {ty}, eller hæv målalderen.',
+      'js-year-err-start-target': 'Startåret skal senest være {max}, fordi du fylder {age} i {ty}. Derfor kan der ikke vises et resultat. Ret startåret, eller hæv målalderen.',
+      'js-year-err-past': 'Året {year} er før i år ({cy}). Beregneren regner fra i år. Derfor kan der ikke vises et resultat. Ret året til {cy} eller senere.',
+      'js-year-err-nan': 'Feltet {field} indeholder ikke et årstal. Derfor kan der ikke vises et resultat. Skriv året med fire cifre, fx {cy}.',
+      'js-age-err-target': 'Målalderen skal være højere end din startalder ({a}). Derfor kan der ikke vises et resultat. Ret målalderen eller startalderen.',
+      'js-age-err-range-start': 'Startalderen skal være mellem 10 og 60 år. Derfor kan der ikke vises et resultat. Ret startalderen.',
+      'js-age-err-range-target': 'Målalderen skal være mellem 20 og 70 år. Derfor kan der ikke vises et resultat. Ret målalderen.',
+      'js-err-other-button': 'Årene under knappen {knap} skal rettes. Derfor kan der ikke vises et resultat. Tryk på knappen {knap}, og ret feltet med beskeden.',
+      'js-err-see-field': 'Ret feltet med beskeden ovenfor.',
       'js-return': 'Afkast',
       'js-value-at': 'Værdi i',
       'js-years-saving': 'års investering',
+      'js-card-left-out-many': '{n} indbetalinger efter {ty} tælles ikke med.',
+      'js-card-left-out-one': '1 indbetaling efter {ty} tælles ikke med.',
+      'js-card-left-out-any': 'Indbetalinger efter {ty} tælles ikke med.',
       'js-paid-in': 'Indbetalt',
       'js-compound': 'Rentes rente-effekten år for år',
       'js-legend1': 'Indbetalt kapital',
@@ -1106,6 +1145,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   function t(key) { return (translations[currentLang] && translations[currentLang][key]) || translations['sv'][key] || key; }
 
   function setLang(lang) {
+    // A tap on a language button does not leave the field being typed in: leave it first
+    leaveFocusedInput();
     currentLang = lang;
     document.querySelectorAll('[data-i18n]').forEach(function(el) {
       el.innerHTML = t(el.getAttribute('data-i18n'));
@@ -1224,9 +1265,40 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   ];
   var activeScenario = 2; // default to polislön scenario
 
-  // Lön starts at 23 at the earliest: the default start year follows the start age.
+  // Lön starts at 23 at the earliest: the default start year follows the start age. It is at the
+  // latest the year before the target year, so a start year the visitor never typed always fits.
+  // AGE40_YEAR must already hold the current target year when this is asked.
   function lonDefaultStartYear() {
-    return CURRENT_YEAR + Math.max(0, 23 - START_AGE);
+    return Math.min(CURRENT_YEAR + Math.max(0, 23 - START_AGE), AGE40_YEAR - 1);
+  }
+
+  // True while an age is typed and no age message shows: the page then works from the limited
+  // ages, as on every key before, and no new message appears until the field is left. Once an
+  // age message shows, the check follows each key.
+  var ageTyping = false;
+
+  function onAgeInput() {
+    if (!document.getElementById('age-msg').textContent) ageTyping = true;
+    onAgeChange();
+  }
+
+  // A mouse press elsewhere leaves an age field before the press ends. A message that then appears
+  // in the age box moves the scenario buttons below it, and the press would end beside the button
+  // it started on; so after a mouse press the messages wait for the release.
+  var mouseIsDown = false;
+  document.addEventListener('mousedown', function() { mouseIsDown = true; }, true);
+  document.addEventListener('mouseup', function() { mouseIsDown = false; }, true);
+
+  function onAgeLeave() {
+    ageTyping = false;
+    if (!mouseIsDown) {
+      calcGrowth();
+      return;
+    }
+    document.addEventListener('mouseup', function showAfterRelease() {
+      document.removeEventListener('mouseup', showAfterRelease, true);
+      setTimeout(calcGrowth, 0);
+    }, true);
   }
 
   function onAgeChange() {
@@ -1411,35 +1483,43 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     var mf = document.getElementById('monthly-fields-inner');
     if (!mf || mf.style.display === 'none') return;
     var monthlyVal = document.getElementById('monthly').value.toString();
-    var startVal   = document.getElementById('startYear').value;
-    var endVal     = document.getElementById('endYear').value;
+    // Only a four-digit year is taken; a field without one keeps the last year, and the check
+    // names the field instead.
+    var typedStart = yearOf(document.getElementById('startYear').value);
+    var typedEnd   = yearOf(document.getElementById('endYear').value);
     scenarios[i].amount = parseFloat(monthlyVal) || 0;
-    if (startVal   !== '' && !isNaN(parseInt(startVal))) {
-      var typedYear = parseInt(startVal);
+    if (!isNaN(typedStart)) {
       // Only a real change of Lön's year counts as typed; an empty or unchanged field never does
-      if (i === 2 && typedYear !== scenarios[2].startYear) {
-        lonStartTyped = typedYear !== lonDefaultStartYear();
+      if (i === 2 && typedStart !== scenarios[2].startYear) {
+        lonStartTyped = typedStart !== lonDefaultStartYear();
       }
-      scenarios[i].startYear = typedYear;
+      scenarios[i].startYear = typedStart;
     }
-    if (endVal     !== '' && !isNaN(parseInt(endVal)))       scenarios[i].endYear   = parseInt(endVal);
+    if (!isNaN(typedEnd)) scenarios[i].endYear = typedEnd;
   }
 
+  // A year as typed: exactly four digits give the year, anything else gives NaN.
+  function yearOf(text) {
+    var trimmed = String(text).trim();
+    return /^\d{4}$/.test(trimmed) ? Number(trimmed) : NaN;
+  }
+
+  // Sommarjobb's fields are read as typed and never rewritten; a year field without a four-digit
+  // year keeps the last year, and the check names the field instead.
   function onSc0LumpChange() {
     var amt   = parseFloat(document.getElementById('lumpSumSc0').value) || 0;
-    var start = parseInt(document.getElementById('startYearSc0').value) || CURRENT_YEAR;
-    var end   = parseInt(document.getElementById('endYearSc0').value) || (CURRENT_YEAR + 4);
-    if (end < start) {
-      document.getElementById('endYearSc0').value = start;
-      end = start;
-    }
-    scenarios[0].amount    = amt;   // annual deposit (once per year)
-    scenarios[0].startYear = start;
-    scenarios[0].endYear   = end;
+    var start = yearOf(document.getElementById('startYearSc0').value);
+    var end   = yearOf(document.getElementById('endYearSc0').value);
+    scenarios[0].amount = amt;   // annual deposit (once per year)
+    if (!isNaN(start)) scenarios[0].startYear = start;
+    if (!isNaN(end))   scenarios[0].endYear   = end;
     calcGrowth();
   }
 
   function selectScenario(i) {
+    // A press on a scenario button leaves the field being typed in first (a tap does not), so its
+    // years are read and checked before the switch, as on leaving it.
+    leaveFocusedInput();
     var previousButton = selectedButton;
     selectedButton = i;
     readCurrentScenario();
@@ -1483,23 +1563,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     calcGrowth();
   }
 
+  // Leaving Startår or Slutår of Deltidsjobb/Lön: the years are read and checked as typed, never
+  // rewritten (a start year after the end year gets a message instead).
   function onStartYearChange() {
-    var start = parseInt(document.getElementById('startYear').value) || CURRENT_YEAR;
-    var endEl = document.getElementById('endYear');
-    var end = parseInt(endEl.value) || start + 1;
-    if (end <= start) {
-      endEl.value = start + 1;
-    }
     calcGrowth();
   }
 
   function onEndYearChange() {
-    var start = parseInt(document.getElementById('startYear').value) || CURRENT_YEAR;
-    var endEl = document.getElementById('endYear');
-    var end = parseInt(endEl.value) || start + 1;
-    if (end <= start) {
-      endEl.value = start + 1;
-    }
     calcGrowth();
   }
 
@@ -1578,7 +1648,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           '<div style="font-family:Fraunces,serif;font-size:36px;font-weight:800;line-height:1;">' + fmt(total40) + '</div>' +
           '<div style="margin-top:8px;font-size:12.5px;opacity:0.92;">' +
             t('js-total-invested') + ': <strong>' + fmt(totalInvested) + '</strong> &nbsp;·&nbsp; ' +
-            t('js-return') + ': <span style="color:#b7f5c8;font-weight:700;">' + fmt(totalGain40) + '</span> (+' + totalGain40p + '%)' +
+            t('js-return') + ': <span style="white-space:nowrap;"><span style="color:#b7f5c8;font-weight:700;">' + fmt(totalGain40) + '</span>&nbsp;(+' + totalGain40p + '%)</span>' +
           '</div>' + capNoteHTML +
           '<div style="margin-top:14px;border-top:1px solid rgba(255,255,255,0.2);padding-top:12px;">' + lumpRowHTML + rowsHTML + '</div>' +
         '</div>'
@@ -1602,22 +1672,161 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     return sc;
   }
 
-  // The year message for the current state, or '' when the years are valid. The message names
-  // the check that failed: Sommarjobb allows one year (end = start), Deltidsjobb and Lön need a
-  // later end year, Engångsbelopp needs an investment year before the target year. Each message
-  // has three sentences: what is wrong, what that means (no result), what to change.
-  function yearErrorMessage() {
-    var sc = currentYearScenario();
-    if (!(sc.endYear < sc.startYear || (sc.endYear === sc.startYear && selectedButton !== 0))) return '';
-    if (selectedButton === 3) {
-      return t('js-year-err-lump').replace('{year}', AGE40_YEAR).replace('{age}', TARGET_AGE);
+  // -- THE CHECK OF AGES AND YEARS --------------------------------------------------------------
+  // A message is { field, level, text }: level 1 warns and the result stays; level 2 blocks the
+  // result. Each message has the pattern: what is wrong, what that means, what to change.
+  function fieldMessage(field, level, text) {
+    return { field: field, level: level, text: text };
+  }
+
+  // The two ages: start age 10-60 and target age 20-70, each a whole number, and the target age
+  // above the start age. Null when they fit.
+  function ageMessage() {
+    var startText  = document.getElementById('currentAge').value.trim();
+    var targetText = document.getElementById('targetAge').value.trim();
+    var start = Number(startText), target = Number(targetText);
+    if (!/^\d+$/.test(startText) || start < 10 || start > 60) {
+      return fieldMessage('currentAge', 2, t('js-age-err-range-start'));
     }
-    if (selectedButton === 0) return t('js-year-err-summer');
-    return t('js-year-err-later');
+    if (!/^\d+$/.test(targetText) || target < 20 || target > 70) {
+      return fieldMessage('targetAge', 2, t('js-age-err-range-target'));
+    }
+    if (target <= start) {
+      return fieldMessage('targetAge', 2, t('js-age-err-target').replace('{a}', start));
+    }
+    return null;
+  }
+
+  // One year field as typed: not a four-digit year, or a year before this one. Null when it fits.
+  // labelKey is the field's name on screen.
+  function yearFieldMessage(id, labelKey) {
+    var year = yearOf(document.getElementById(id).value);
+    if (isNaN(year)) {
+      return fieldMessage(id, 2, t('js-year-err-nan').replace('{field}', t(labelKey)).replace(/\{cy\}/g, CURRENT_YEAR));
+    }
+    if (year < CURRENT_YEAR) {
+      return fieldMessage(id, 2, t('js-year-err-past').replace('{year}', year).replace(/\{cy\}/g, CURRENT_YEAR));
+    }
+    return null;
+  }
+
+  // A period of a button (0 Sommarjobb, 1 Deltidsjobb, 2 Lön). Sommarjobb may start and end in the
+  // same year, the others need a later end year (the messages under Slutår). The start year must
+  // still count: Sommarjobb up to the target year, the others before it. An end year after the
+  // target year is a warning under Slutår. Null when the period fits.
+  function periodMessage(button, startYear, endYear, startId, endId) {
+    var sameYearAllowed = button === 0;
+    if (endYear < startYear || (endYear === startYear && !sameYearAllowed)) {
+      return fieldMessage(endId, 2, sameYearAllowed ? t('js-year-err-summer') : t('js-year-err-later'));
+    }
+    var lastStart = sameYearAllowed ? AGE40_YEAR : AGE40_YEAR - 1;
+    if (startYear > lastStart) {
+      return fieldMessage(startId, 2, t('js-year-err-start-target')
+        .replace('{max}', lastStart).replace('{age}', TARGET_AGE).replace('{ty}', AGE40_YEAR));
+    }
+    if (endYear > AGE40_YEAR) {
+      return fieldMessage(endId, 1, t('js-year-warn-after-target')
+        .replace('{end}', endYear).replace(/\{ty\}/g, AGE40_YEAR).replace('{age}', TARGET_AGE));
+    }
+    return null;
+  }
+
+  var YEAR_FIELDS = [['startYearSc0', 'endYearSc0'], ['startYear', 'endYear'], ['startYear', 'endYear']];
+
+  // The button that is shown: each year field as typed, then the period the calculation uses
+  // (Engångsbelopp: its year must be before the target year).
+  function shownButtonMessage() {
+    if (selectedButton === 3) {
+      var lumpMessage = yearFieldMessage('lumpYearSc3', 'lbl-lump-year');
+      if (lumpMessage) return lumpMessage;
+      if (getLumpData().year >= AGE40_YEAR) {
+        return fieldMessage('lumpYearSc3', 2, t('js-year-err-lump').replace('{year}', AGE40_YEAR).replace('{age}', TARGET_AGE));
+      }
+      return null;
+    }
+    var ids = YEAR_FIELDS[selectedButton];
+    var sc = scenarios[selectedButton];
+    return yearFieldMessage(ids[0], 'lbl-start') || yearFieldMessage(ids[1], 'lbl-end') ||
+      periodMessage(selectedButton, sc.startYear, sc.endYear, ids[0], ids[1]);
+  }
+
+  // A button that is not shown blocks the result when it adds to the total (an amount over 0) and
+  // its saved years cannot be counted. Sommarjobb's fields are also read as typed: a year field
+  // with text keeps the last saved year, but the check still names it.
+  function hiddenButtonBlocks(i) {
+    var sc = scenarios[i];
+    if (!(sc.amount > 0)) return false;
+    if (i === 0 && (yearFieldMessage('startYearSc0', 'lbl-start') || yearFieldMessage('endYearSc0', 'lbl-end'))) return true;
+    if (sc.startYear < CURRENT_YEAR || sc.endYear < CURRENT_YEAR) return true;
+    var message = periodMessage(i, sc.startYear, sc.endYear, '', '');
+    return !!message && message.level === 2;
+  }
+
+  // One check for the two ages and the years of all four buttons. rows: at most one message per
+  // row of fields; block: the text the result and the print show instead of numbers, '' when none.
+  // Order: the ages (an age message hides the year messages), then the shown button's fields,
+  // then the buttons that are not shown. When Engångsbelopp is chosen, the other three are not
+  // shown; its own year counts only while it is chosen.
+  function checkYearsAndAges() {
+    var rows = { age: null, sc0: null, monthly: null, sc3: null };
+    var age = ageTyping ? null : ageMessage();
+    if (age) {
+      rows.age = age;
+      return { rows: rows, block: age.text };
+    }
+    var shown = shownButtonMessage();
+    rows[selectedButton === 0 ? 'sc0' : selectedButton === 3 ? 'sc3' : 'monthly'] = shown;
+    if (shown && shown.level === 2) return { rows: rows, block: shown.text };
+    for (var i = 0; i < 3; i++) {
+      if (i !== selectedButton && hiddenButtonBlocks(i)) {
+        return { rows: rows, block: t('js-err-other-button').replace(/\{knap\}/g, t(scenarios[i].label)) };
+      }
+    }
+    return { rows: rows, block: '' };
+  }
+
+  var MESSAGE_ROWS = [
+    { key: 'age',     id: 'age-msg',          fields: ['currentAge', 'targetAge'] },
+    { key: 'sc0',     id: 'sc0-year-msg',     fields: ['startYearSc0', 'endYearSc0'] },
+    { key: 'monthly', id: 'monthly-year-msg', fields: ['startYear', 'endYear'] },
+    { key: 'sc3',     id: 'sc3-year-msg',     fields: ['lumpYearSc3'] }
+  ];
+
+  // Writes each row's message under its fields and ties it to the field it is about: that field
+  // is described by it, and invalid while it blocks. While an age is typed, a row with no message
+  // stays empty; a row that shows one follows the check.
+  function showFieldMessages(rows) {
+    MESSAGE_ROWS.forEach(function(row) {
+      var holder = document.getElementById(row.id);
+      var message = rows[row.key];
+      if (ageTyping && !holder.textContent) return;
+      holder.textContent = message ? message.text : '';
+      holder.className = 'field-msg' + (message ? ' level-' + message.level : '');
+      row.fields.forEach(function(id) {
+        var field = document.getElementById(id);
+        var mine = !!message && message.field === id;
+        if (mine) field.setAttribute('aria-describedby', row.id);
+        else field.removeAttribute('aria-describedby');
+        if (mine && message.level === 2) field.setAttribute('aria-invalid', 'true');
+        else field.removeAttribute('aria-invalid');
+      });
+    });
+    // While an age message shows, the age line and the inflation note would state a year worked
+    // out from the limited age: they are hidden (the age line keeps its space).
+    var ageMessageShows = !!document.getElementById('age-msg').textContent;
+    document.getElementById('age-desc').classList.toggle('age-limited-hidden', ageMessageShows);
+    document.getElementById('inflation-warning').classList.toggle('age-limited-hidden', ageMessageShows);
+  }
+
+  // The text the result and the print show instead of numbers, or '' when the ages and years fit.
+  function yearErrorMessage() {
+    return checkYearsAndAges().block;
   }
 
   function calcGrowth() {
     readCurrentScenario();
+    var check = checkYearsAndAges();
+    showFieldMessages(check.rows);
 
     var sc = currentYearScenario();
 
@@ -1626,8 +1835,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     var endYear   = sc.endYear;
     var container = document.getElementById('results');
 
-    var yearMsg = yearErrorMessage();
+    var yearMsg = check.block;
     if (yearMsg) {
+      // A message that stands in a row under the fields is not repeated here: a pointer instead.
+      var shownInRow = MESSAGE_ROWS.some(function(row) {
+        return document.getElementById(row.id).textContent === yearMsg;
+      });
+      if (shownInRow) yearMsg = t('js-err-see-field');
       container.innerHTML = '<div style="text-align:center;color:var(--muted);font-size:14px;padding:16px;">' + yearMsg + '</div>';
       // The 4 % section works from the portfolio the years describe. With a year error there is
       // none, so its result block stays empty until the years are valid and renderSwrResult runs.
@@ -1635,7 +1849,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       return;
     }
 
-    var years    = Math.max(1, endYear - startYear);
+    // The card and the chart stop at the target year, like the green box and the print: deposits
+    // after it are not counted.
+    var cardEnd  = Math.min(endYear, AGE40_YEAR);
+    var years    = Math.max(1, cardEnd - startYear);
     var _ld = getLumpData();
     var isAnnual = (selectedButton === 0);
 
@@ -1645,27 +1862,27 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         return (_ld.amount > 0 && ty >= _ld.year) ? fvLump(RATE, ty - _ld.year, _ld.amount) : 0;
       }
       if (isAnnual) {
-        return annualValueAt(monthly, startYear, endYear, ty);
+        return annualValueAt(monthly, startYear, cardEnd, ty);
       }
-      var activeMonths = Math.min(endYear, ty) - startYear;
+      var activeMonths = Math.min(cardEnd, ty) - startYear;
       if (activeMonths <= 0) return 0;
       var base = fvMonthly(RATE, activeMonths * 12, monthly);
-      return ty <= endYear ? base : fvLump(RATE, ty - endYear, base);
+      return ty <= cardEnd ? base : fvLump(RATE, ty - cardEnd, base);
     }
     function investedAtYear(ty) {
       if (selectedButton === 3) {
         return (_ld.amount > 0 && ty >= _ld.year) ? _ld.amount : 0;
       }
       if (isAnnual) {
-        return annualInvested(monthly, startYear, Math.min(endYear, ty));
+        return annualInvested(monthly, startYear, Math.min(cardEnd, ty));
       }
-      var activeMonths = Math.min(endYear, ty) - startYear;
+      var activeMonths = Math.min(cardEnd, ty) - startYear;
       if (activeMonths <= 0) return 0;
       return monthly * activeMonths * 12;
     }
 
-    var value    = valueAtYear(endYear);
-    var invested = investedAtYear(endYear);
+    var value    = valueAtYear(cardEnd);
+    var invested = investedAtYear(cardEnd);
     var lump = _ld.amount;
     var lumpYear = _ld.year;
 
@@ -1677,7 +1894,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     checkYears = checkYears.filter(function(y,i){ return checkYears.indexOf(y)===i; });
     checkYears.sort(function(a,b){ return a-b; });
 
-    var lastMilestoneYear = checkYears.length > 0 ? startYear + checkYears[checkYears.length-1] : endYear;
+    var lastMilestoneYear = checkYears.length > 0 ? startYear + checkYears[checkYears.length-1] : cardEnd;
     var maxV = Math.max(1, valueAtYear(lastMilestoneYear));
 
     var currentAge = START_AGE;
@@ -1703,7 +1920,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     // Divider + coasting bars every 5 years until age 80
     var age80Year = CURRENT_YEAR + (80 - currentAge);
     var coastStops = [];
-    var y = endYear + 10;
+    var y = cardEnd + 10;
     while (y <= age80Year) {
       coastStops.push(y);
       y += 10;
@@ -1714,7 +1931,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     }
 
     // Recalculate maxV including all coasting bars
-    var maxCoastVal = coastStops.length > 0 ? fvLump(RATE, coastStops[coastStops.length-1] - endYear, value) : value;
+    var maxCoastVal = coastStops.length > 0 ? fvLump(RATE, coastStops[coastStops.length-1] - cardEnd, value) : value;
     maxV = Math.max(maxV, maxCoastVal);
 
     var coastBarsHTML =
@@ -1724,7 +1941,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         '<div style="flex:1;height:1px;background:var(--sand);"></div>' +
       '</div>' +
       coastStops.map(function(yr) {
-        var yearsCoasting = yr - endYear;
+        var yearsCoasting = yr - cardEnd;
         var cv = fvLump(RATE, yearsCoasting, value);
         var ageAtYr = currentAge + (yr - CURRENT_YEAR);
         return '<div class="bar-row">' +
@@ -1748,17 +1965,31 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       '</div>';
 
     var savingLabel = isAnnual
-      ? annualCount(startYear, endYear) + ' ' + (currentLang==='da' ? 'årlige indbetalinger' : 'årliga insättningar')
+      ? annualCount(startYear, cardEnd) + ' ' + (currentLang==='da' ? 'årlige indbetalinger' : 'årliga insättningar')
       : years + ' ' + t('js-years-saving');
+
+    // What the card leaves out when the end year is after the target year.
+    var leftOutHTML = '';
+    if (endYear > cardEnd) {
+      var leftOutText;
+      if (isAnnual) {
+        var leftOutCount = annualCount(Math.max(startYear, cardEnd + 1), endYear);
+        leftOutText = t(leftOutCount === 1 ? 'js-card-left-out-one' : 'js-card-left-out-many').replace('{n}', leftOutCount);
+      } else {
+        leftOutText = t('js-card-left-out-any');
+      }
+      leftOutHTML = '<div id="card-left-out" style="margin-top:4px;font-size:11px;opacity:0.8;">' + leftOutText.replace('{ty}', cardEnd) + '</div>';
+    }
 
     var total = calcTotal();
 
     container.innerHTML =
       '<div class="result-card primary">' +
-        '<div class="result-label">' + t('js-value-at') + ' ' + endYear + ' (' + savingLabel + ')</div>' +
+        '<div class="result-label">' + t('js-value-at') + ' ' + cardEnd + ' (' + savingLabel + ')</div>' +
         '<div class="result-big">' + fmt(value) + '</div>' +
-        '<div class="result-detail">' + t('js-paid-in') + ': <strong>' + fmt(invested) + '</strong> &nbsp;·&nbsp; ' + t('js-return') + ': <span style="color:#b7f5c8;font-weight:700;">' + fmt(gain) + '</span> (+' + gainPct + '%)</div>' +
+        '<div class="result-detail">' + t('js-paid-in') + ': <strong>' + fmt(invested) + '</strong> &nbsp;·&nbsp; ' + t('js-return') + ': <span style="white-space:nowrap;"><span style="color:#b7f5c8;font-weight:700;">' + fmt(gain) + '</span>&nbsp;(+' + gainPct + '%)</span></div>' +
         (useLump() && _ld.amount > 0 ? '<div style="margin-top:4px;font-size:11px;opacity:0.8;">' + (currentLang==='da' ? 'Inkl. engangsbeløb ' : 'Inkl. engångsbelopp ') + fmt(_ld.amount) + ' (' + _ld.year + ')</div>' : '') +
+        leftOutHTML +
       '</div>' +
 
       '<div style="background:white;border-radius:12px;padding:16px 18px;margin-bottom:10px;">' +
@@ -1829,7 +2060,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       ? '✅ ' + t('swr-lasts-shrinks')
       : run.neverDepleted
       ? (da ? '✅ Pengene rækker, hvis afkastet holder — porteføljen bliver ved med at vokse hele livet.' : '✅ Pengarna räcker om avkastningen håller — portföljen fortsätter växa hela livet.')
-      : (da ? '⚠️ Porteføljen er tom, når du er ' + run.depletedAge + ' år (' + run.depletedYear + ')' : '⚠️ Portföljen tar slut vid ' + run.depletedAge + ' års ålder (' + run.depletedYear + ')');
+      : (da ? '⚠️ Porteføljen er tom, når du er ' + run.depletedAge + '&nbsp;år&nbsp;('+ run.depletedYear + ')' : '⚠️ Portföljen tar slut vid ' + run.depletedAge + '&nbsp;års ålder&nbsp;('+ run.depletedYear + ')');
   }
 
   function renderSwrResult(portfolioAt40) {
@@ -1856,8 +2087,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       ? '✅ ' + lastsShrinksText
       : neverDepleted
       ? (currentLang==='da'
-          ? '✅ Porteføljen dækker fuldt ud — og vokser fortsat.'
-          : '✅ Portföljen täcker fullt ut — och fortsätter växa.')
+          ? '✅ Porteføljen dækker fuldt ud — og vokser fortsat, hvis afkastet holder.'
+          : '✅ Portföljen täcker fullt ut — och fortsätter växa om avkastningen håller.')
       : (emoji + ' <strong style="color:' + color + ';">' + pctCovered + '%</strong> ' +
           (currentLang==='da' ? 'af ønsket beløb dækkes af 4%-udbetalingen' : 'av önskat belopp täcks av 4%-uttaget'));
     var swrLabel = (swrRate===0.04)
@@ -1868,10 +2099,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       : neverDepleted
       ? (currentLang==='da'
           ? '✅ Porteføljen vokser fortsat — pengene rækker ved denne udbetaling, hvis afkastet holder.'
-          : '✅ Portföljen fortsätter växa — pengarna räcker med detta uttag, om avkastningen håller.')
+          : '✅ Portföljen fortsätter växa — pengarna räcker med detta uttag om avkastningen håller.')
       : (currentLang==='da'
-          ? '⚠️ Porteføljen er tom, når du er ' + depletedAge + ' år — overvej at reducere det månedlige beløb.'
-          : '⚠️ Portföljen tar slut vid ' + depletedAge + ' år — överväg att minska det månatliga uttaget.');
+          ? '⚠️ Porteføljen er tom, når du er ' + depletedAge + ' år — overvej at reducere det månedlige&nbsp;beløb.'
+          : '⚠️ Portföljen tar slut vid ' + depletedAge + ' års ålder — överväg att minska det månatliga uttaget.');
 
     // Pick milestone years for bars (every 5 years + depletion point)
     var milestones = runwayYears.filter(function(r){ return r.age % 5 === 0 || r.age === depletedAge; });
@@ -1925,8 +2156,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         '<div style="font-size:12px;color:var(--muted);margin-bottom:4px;">' + coverageText + '</div>' +
         (neverDepleted && !lastsButShrinks ? '<div style="font-size:11px;color:var(--muted);font-style:italic;">' +
           (currentLang==='da'
-            ? 'Afkastet (' + (RATE*100).toFixed(0) + '%) overstiger din udbetaling — porteføljen vokser netto hvert år.'
-            : 'Avkastningen (' + (RATE*100).toFixed(0) + '%) överstiger ditt uttag — portföljen växer netto varje år.') +
+            ? 'Afkastet (' + (RATE*100).toFixed(0) + '%) overstiger din udbetaling — porteføljen vokser netto hvert år, hvis afkastet holder.'
+            : 'Avkastningen (' + (RATE*100).toFixed(0) + '%) överstiger ditt uttag — portföljen växer netto varje år om avkastningen håller.') +
         '</div>' : '') +
         (surplusText ? '<div style="font-size:12px;color:var(--muted);margin-top:4px;">' + surplusText + '</div>' : '') +
       '</div>' +
@@ -2070,7 +2301,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           '<span style="font-size:16px;flex-shrink:0;">⚠️</span>' +
           '<div style="font-size:11px;color:#7a5c10;line-height:1.5;">' +
             '<strong>' + (da?'Beløbene er i fremtidige kroner — ikke i nutidens købekraft.':'Beloppen är i framtida kronor — inte dagens köpkraft.') + '</strong> ' +
-            (da?'Med 2% inflation per år er 1 mio. kr. i '+AGE40_YEAR+' værd ca. '+todaysMoneyLabel+' i dagens penge. Vælg <em>Med inflation</em> for at se værdierne i nutidens købekraft.':
+            (da?'Med 2% inflation om året er 1 mio. kr. i år '+AGE40_YEAR+' kun ca. '+todaysMoneyLabel+' værd i dagens penge. Vælg <em>Med inflation</em> for at se værdierne i nutidens købekraft.':
                 'Med 2% inflation per år är 1 Mkr år '+AGE40_YEAR+' värd ca. '+todaysMoneyLabel+' i dagens pengar. Välj <em>Med inflation</em> för att se värdena i dagens köpkraft.') +
           '</div>' +
         '</div>' : '') +
