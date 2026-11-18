@@ -334,8 +334,40 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   .scenario-tag { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; text-align:center; width:100%; }
   .scenario-amount { font-size:14px; color:var(--ink); font-weight:600; margin-top:3px; }
   .scenario-desc { font-size:10.5px; color:var(--muted); margin-top:1px; }
+  /* The "!" mark in a scenario button's top right corner (attribute data-flag on the button): a red
+     dot when the button's fields stop the result, a triangle with a dark edge for a warning, so the
+     two differ by shape as well as colour. It lies on top of the button and never changes its size;
+     screen readers get the words of .flag-words in the button's name instead. Only a button with a
+     mark is positioned, so a button without one is drawn exactly as before. */
+  .scenario-btn[data-flag] { position:relative; }
+  .flag-mark { position:absolute; top:-2px; right:-2px; z-index:0; width:14px; height:14px; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; line-height:1; pointer-events:none; }
+  .scenario-btn[data-flag="error"] .flag-mark { border-radius:50%; background:#b83326; color:#fff; }
+  .scenario-btn[data-flag="warning"] .flag-mark { width:16px; padding-top:3px; color:#3d2e08; }
+  .scenario-btn[data-flag="warning"] .flag-mark::before,
+  .scenario-btn[data-flag="warning"] .flag-mark::after { content:''; position:absolute; z-index:-1; -webkit-clip-path:polygon(50% 0, 100% 100%, 0 100%); clip-path:polygon(50% 0, 100% 100%, 0 100%); }
+  .scenario-btn[data-flag="warning"] .flag-mark::before { top:0; right:0; bottom:0; left:0; background:#7a5c10; }
+  .scenario-btn[data-flag="warning"] .flag-mark::after { top:3px; right:2.6px; bottom:1.5px; left:2.6px; background:#f0cc6b; }
+  /* Keeps the dot and the triangle apart by shape in Windows high-contrast mode. */
+  @media (forced-colors: active) { .flag-mark, .flag-mark::before, .flag-mark::after { forced-color-adjust: none; } }
+  .flag-words { position:absolute; width:1px; height:1px; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); white-space:nowrap; }
 
   .year-range { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px; }
+  /* "FROM AGE" OF DELTIDSJOBB AND LÖN: the year under the age field, and beside it the end of the
+     deposits, in the field's own size so the two read as one line. */
+  .year-under { display:block; margin-top:4px; font-size:12px; color:var(--muted); min-height:1.35em; }
+  .follows { padding:9px 0; font-size:15px; line-height:1.35; color:var(--ink); }
+  .year-muted { color:var(--muted); }
+  /* "SLUTÅLDER" FOLD-OUT OF DELTIDSJOBB AND LÖN: closed until opened, and it can always be closed; its
+     heading names a typed stop age, so a closed fold-out still shows it. The heading is a 44 px target
+     with the buttons' focus ring; the arrow is hidden from screen readers (the fold-out state is read). */
+  .stop-box { margin-top:8px; border-top:1px solid var(--sand); }
+  .stop-box summary { display:block; min-height:44px; padding:12px 0; cursor:pointer; font-size:13px; font-weight:600; line-height:1.5; color:var(--green); list-style:none; touch-action:manipulation; }
+  .stop-box summary::-webkit-details-marker { display:none; }
+  .stop-box summary::before { content:'▸'; content:'▸' / ''; display:inline-block; width:1.1em; }
+  .stop-box[open] summary::before { content:'▾'; content:'▾' / ''; }
+  .stop-box summary:focus-visible { outline:3px solid var(--green); outline-offset:2px; border-radius:4px; }
+  .stop-value { font-weight:400; color:var(--muted); overflow-wrap:anywhere; }
+  .stop-hint { margin-top:6px; font-size:11px; color:var(--muted); }
 
   .result-card { border-radius:12px; padding:18px 20px; margin-bottom:10px; }
   .result-card.primary { background:var(--green); color:white; }
@@ -670,11 +702,11 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
       <!-- AGE SELECTOR -->
       <div style="background:var(--green-pale);border-radius:12px;padding:14px 16px;margin-bottom:14px;text-align:center;">
-        <div style="font-size:13px;font-weight:500;color:var(--green);margin-bottom:2px;" data-i18n="lbl-age">Startålder</div>
+        <div style="font-size:13px;font-weight:500;color:var(--green);margin-bottom:2px;" data-i18n="lbl-age">Ålder</div>
         <div style="font-size:11px;color:var(--muted);margin-bottom:12px;" id="age-desc">Du fyller 40 år 2048</div>
         <div style="display:flex;align-items:center;justify-content:center;gap:10px;">
           <div style="text-align:center;">
-            <div style="font-size:10px;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:0.06em;" id="current-age-label" data-i18n="lbl-current-age">Startålder</div>
+            <div style="font-size:10px;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:0.06em;" id="current-age-label" data-i18n="lbl-current-age">Din ålder</div>
             <input type="number" id="currentAge" value="18" min="10" max="60" oninput="onAgeInput()" onblur="onAgeLeave()" aria-labelledby="current-age-label" class="focus-edge"
               style="width:62px;border:2px solid var(--green-light);border-radius:10px;padding:8px 6px;font-size:20px;font-weight:700;font-family:inherit;color:var(--green);background:white;outline:none;text-align:center;">
           </div>
@@ -716,11 +748,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           </div>
           <div>
             <label class="calc-label" for="startYearSc0" data-i18n="lbl-start">Startår</label>
-            <input type="text" inputmode="numeric" id="startYearSc0" value="2026" class="calc-input" onblur="onSc0LumpChange()">
+            <input type="text" inputmode="numeric" id="startYearSc0" value="2026" class="calc-input" oninput="showYouTurn()" onblur="onSc0LumpChange()">
+            <span class="year-under you-turn" id="youTurnStartSc0"></span>
           </div>
           <div>
             <label class="calc-label" for="endYearSc0" data-i18n="lbl-end">Slutår</label>
-            <input type="text" inputmode="numeric" id="endYearSc0" value="2030" class="calc-input" onblur="onSc0LumpChange()">
+            <input type="text" inputmode="numeric" id="endYearSc0" value="2030" class="calc-input" oninput="showYouTurn()" onblur="onSc0LumpChange()">
+            <span class="year-under you-turn" id="youTurnEndSc0"></span>
           </div>
         </div>
         <div id="sc0-year-msg" class="field-msg"></div>
@@ -739,17 +773,55 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             <input type="number" id="monthly" value="6497" min="0" max="100000" step="100" class="calc-input" oninput="onManualInput()">
           </div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <!-- Each button has its own "from age" field, so what is typed under one stays with it; only the chosen button's are shown -->
+        <div class="year-range" data-for-button="1" style="display:none;margin-top:0;">
           <div>
-            <label class="calc-label" for="startYear" data-i18n="lbl-start">Startår</label>
-            <input type="text" inputmode="numeric" id="startYear" value="2026" class="calc-input" onblur="onStartYearChange()">
+            <label class="calc-label" for="fromAgeSc1" data-i18n="lbl-from-dt">Deltidsjobb från ålder</label>
+            <input type="text" inputmode="numeric" id="fromAgeSc1" value="18" class="calc-input" oninput="onFromAgeInput(1)" onblur="onFromAgeLeave()" aria-describedby="fromYearSc1 fromHintSc1">
+            <span class="year-under" id="fromYearSc1">år 2026</span>
           </div>
           <div>
-            <label class="calc-label" for="endYear" data-i18n="lbl-end">Slutår</label>
-            <input type="text" inputmode="numeric" id="endYear" value="2040" class="calc-input" onblur="onEndYearChange()">
+            <span class="calc-label" data-i18n="lbl-to-dt">Deltidsjobb till</span>
+            <div class="follows" id="toTextSc1">målåldern 40, <span class="year-muted">år 2048</span></div>
+          </div>
+        </div>
+        <div class="year-range" data-for-button="2" style="margin-top:0;">
+          <div>
+            <label class="calc-label" for="fromAgeSc2" data-i18n="lbl-from-lon">Lön från ålder</label>
+            <input type="text" inputmode="numeric" id="fromAgeSc2" value="23" class="calc-input" oninput="onFromAgeInput(2)" onblur="onFromAgeLeave()" aria-describedby="fromYearSc2 fromHintSc2">
+            <span class="year-under" id="fromYearSc2">år 2031</span>
+          </div>
+          <div>
+            <span class="calc-label" data-i18n="lbl-to-lon">Lön till</span>
+            <div class="follows" id="toTextSc2">målåldern 40, <span class="year-muted">år 2048</span></div>
           </div>
         </div>
         <div id="monthly-year-msg" class="field-msg"></div>
+        <div id="fromHintSc1" data-for-button="1" style="display:none;margin-top:6px;font-size:11px;color:var(--muted);" data-i18n="hint-from-dt">Förslaget är din ålder. Skriv en annan ålder om du börjar senare.</div>
+        <div id="fromHintSc2" data-for-button="2" style="margin-top:6px;font-size:11px;color:var(--muted);">Förslaget är 23 år. Skriv den ålder då du räknar med att få fast lön.</div>
+        <!-- Each button's fold-out to stop the deposits before the target age; an empty "Slutålder" pays in to the target age -->
+        <details class="stop-box" id="stopBoxSc1" data-for-button="1" style="display:none;">
+          <summary><span data-i18n="stop-q">Slutar du sätta in pengar före målåldern?</span> <span class="stop-value" id="stopSumSc1"></span></summary>
+          <div class="year-range" style="margin-top:0;">
+            <div>
+              <label class="calc-label" for="stopAgeSc1" data-i18n="lbl-stop">Slutålder</label>
+              <input type="text" inputmode="numeric" id="stopAgeSc1" value="" class="calc-input" oninput="showFromAgeLines()" onblur="calcWhenReleased()" aria-describedby="stopHintSc1">
+            </div>
+          </div>
+          <div id="stopMsgSc1" class="field-msg"></div>
+          <div id="stopHintSc1" class="stop-hint" data-i18n="stop-hint">Tomt fält: du sätter in pengar fram till målåldern. Slutar du tidigare räknar kalkylatorn med att pengarna växer vidare till målåldern utan nya insättningar.</div>
+        </details>
+        <details class="stop-box" id="stopBoxSc2" data-for-button="2">
+          <summary><span data-i18n="stop-q">Slutar du sätta in pengar före målåldern?</span> <span class="stop-value" id="stopSumSc2"></span></summary>
+          <div class="year-range" style="margin-top:0;">
+            <div>
+              <label class="calc-label" for="stopAgeSc2" data-i18n="lbl-stop">Slutålder</label>
+              <input type="text" inputmode="numeric" id="stopAgeSc2" value="" class="calc-input" oninput="showFromAgeLines()" onblur="calcWhenReleased()" aria-describedby="stopHintSc2">
+            </div>
+          </div>
+          <div id="stopMsgSc2" class="field-msg"></div>
+          <div id="stopHintSc2" class="stop-hint" data-i18n="stop-hint">Tomt fält: du sätter in pengar fram till målåldern. Slutar du tidigare räknar kalkylatorn med att pengarna växer vidare till målåldern utan nya insättningar.</div>
+        </details>
       </div>
 
       <!-- SC3: Engångsbelopp -->
@@ -761,7 +833,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           </div>
           <div>
             <label class="calc-label" for="lumpYearSc3" data-i18n="lbl-lump-year">Investeringsår</label>
-            <input type="text" inputmode="numeric" id="lumpYearSc3" value="2026" class="calc-input" onblur="calcGrowth()">
+            <input type="text" inputmode="numeric" id="lumpYearSc3" value="2026" class="calc-input" oninput="showYouTurn()" onblur="calcGrowth()">
+            <span class="year-under you-turn" id="youTurnLumpSc3"></span>
           </div>
         </div>
         <div id="sc3-year-msg" class="field-msg"></div>
@@ -924,13 +997,19 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       'job-ingen-lon': '⏸️ Ingen lön (studerande / föräldraledig) — 0 kr/mån',
       'age-desc': 'Du fyller {age} år {year}',
       'sc0-lump-hint': 'Beloppet investeras en gång per år under perioden — varje insättning växer fram till målåldern.',
-      'lbl-age': 'Startålder', 'lbl-current-age': 'Startålder', 'lbl-target-age': 'Målålder', 'lbl-pct': '% av nettolönen', 'lbl-amount': 'kr/mån', 'lbl-start': 'Startår', 'lbl-end': 'Slutår',
+      'lbl-age': 'Ålder', 'lbl-current-age': 'Din ålder', 'lbl-target-age': 'Målålder', 'lbl-pct': '% av nettolönen', 'lbl-amount': 'kr/mån', 'lbl-start': 'Startår', 'lbl-end': 'Slutår',
       'sc0-tag': 'Sommarjobb',
       'sc1-tag': 'Deltidsjobb',
       'sc2-tag': 'Lön',
       'sc3-tag': 'Engångsbelopp',
       'lbl-lump': 'Belopp (kr)',
       'lbl-lump-year': 'Investeringsår',
+      'lbl-from-dt': 'Deltidsjobb från ålder', 'lbl-from-lon': 'Lön från ålder',
+      'lbl-to-dt': 'Deltidsjobb till', 'lbl-to-lon': 'Lön till',
+      'hint-from-dt': 'Förslaget är din ålder. Skriv en annan ålder om du börjar senare.',
+      'stop-q': 'Slutar du sätta in pengar före målåldern?',
+      'lbl-stop': 'Slutålder',
+      'stop-hint': 'Tomt fält: du sätter in pengar fram till målåldern. Slutar du tidigare räknar kalkylatorn med att pengarna växer vidare till målåldern utan nya insättningar.',
       'lump-hint': 'Har du sparade pengar som du vill investera på en gång? Ange belopp och år — beräkningen visar vad just det beloppet växer till.',
       'swr-label-on': 'Månatligt uttag när du slutat sätta in pengar',
       'swr-desc-4pct': '4%-regeln: att ta ut 4% av portföljen per år har historiskt oftast räckt i 30 år (Trinity-studien, USA).',
@@ -974,11 +1053,32 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       'js-year-err-start-target': 'Startåret måste vara senast {max}, eftersom du fyller {age} år {ty}. Därför kan inget resultat visas. Ändra startåret eller höj målåldern.',
       'js-year-err-past': 'Året {year} är före i år ({cy}). Kalkylatorn räknar från i år. Därför kan inget resultat visas. Ändra året till {cy} eller senare.',
       'js-year-err-nan': 'Fältet {field} innehåller inget årtal. Därför kan inget resultat visas. Skriv året med fyra siffror, t.ex. {cy}.',
-      'js-age-err-target': 'Målåldern måste vara högre än din startålder ({a}). Därför kan inget resultat visas. Ändra målåldern eller startåldern.',
-      'js-age-err-range-start': 'Startåldern måste vara mellan 10 och 60 år. Därför kan inget resultat visas. Ändra startåldern.',
+      'js-age-err-target': 'Målåldern måste vara högre än din ålder ({a}). Därför kan inget resultat visas. Ändra målåldern eller din ålder.',
+      'js-age-err-range-start': 'Din ålder måste vara mellan 10 och 60 år. Därför kan inget resultat visas. Ändra åldern.',
       'js-age-err-range-target': 'Målåldern måste vara mellan 20 och 70 år. Därför kan inget resultat visas. Ändra målåldern.',
       'js-err-other-button': 'Åren under knappen {knap} behöver ändras. Därför kan inget resultat visas. Tryck på knappen {knap} och ändra fältet med meddelandet.',
+      'js-err-other-age': 'Ett fält under knappen {knap} behöver ändras. Därför kan inget resultat visas. Tryck på knappen {knap} och ändra fältet med meddelandet.',
+      'js-age-err-nan': 'Fältet {field} innehåller ingen ålder. Därför kan inget resultat visas. Skriv åldern med siffror, t.ex. {ex}.',
+      'js-from-age-err-young': 'Åldern i "{field}" är lägre än din ålder ({a}). Därför kan inget resultat visas. Ändra åldern till {a} eller högre.',
+      'js-from-age-err-old': 'Åldern i "{field}" måste vara under målåldern ({target}), alltså högst {max}. Därför kan inget resultat visas. Ändra åldern eller höj målåldern.',
+      'js-age-year': 'år {year}',
+      'js-you-turn': 'du fyller {age}',
+      'js-you-turn-target': 'du fyller {age} (målåldern)',
+      'js-you-turn-after': 'du fyller {age} (efter målåldern)',
+      'js-only': 'Bara',
+      'js-sum-note': 'Summan lägger ihop Sommarjobb, Deltidsjobb och Lön, även de du inte har tryckt på. Ska en inkomstkälla inte räknas med, sätt dess belopp till 0.',
+      'js-sum-note-lump': 'Summan lägger ihop Sommarjobb, Deltidsjobb och Lön, även de du inte har tryckt på, plus engångsbeloppet, eftersom knappen Engångsbelopp är vald. Ska en inkomstkälla inte räknas med, sätt dess belopp till 0.',
+      'js-to-target': 'målåldern {age}',
+      'js-to-age': 'ålder {age}',
+      'js-stop-sum': '· Slutålder {age}',
+      'js-stop-age-err-low': 'Slutåldern måste vara över {from} (åldern i "{field}"). Därför kan inget resultat visas. Ändra slutåldern eller töm fältet för att fortsätta till målåldern.',
+      'js-stop-age-warn': 'Slutåldern {stop} är efter målåldern {target}. Insättningar efter {target} räknas inte med i den samlade portföljen. Ändra slutåldern till {target} eller höj målåldern.',
+      'js-hint-lon': 'Förslaget är {n} år. Skriv den ålder då du räknar med att få fast lön.',
+      'js-hint-lon-now': 'Förslaget är din ålder ({a}). Skriv den ålder då du räknar med att få fast lön.',
+      'js-hint-lon-short': 'Förslaget är {n} år, åldern strax före målåldern. Skriv den ålder då du räknar med att få fast lön.',
       'js-err-see-field': 'Ändra fältet med meddelandet ovan.',
+      'js-flag-error': 'behöver ändras',
+      'js-flag-warning': 'har en varning',
       'js-return': 'Avkastning',
       'js-value-at': 'Värde år',
       'js-years-saving': 'års investerande',
@@ -1063,7 +1163,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       'job-servitor': '🍽️ Tjener / restaurantansat — 31.273 kr./md.',
       'job-ingen-lon': '⏸️ Ingen løn (studerende / på barsel) — 0 kr./md.',
       'age-desc': 'Du fylder {age} i {year}',
-      'lbl-age': 'Startalder', 'lbl-current-age': 'Startalder', 'lbl-target-age': 'Målalder',
+      'lbl-age': 'Alder', 'lbl-current-age': 'Din alder', 'lbl-target-age': 'Målalder',
       'lbl-pct': '% af nettoløn', 'lbl-amount': 'kr./md.', 'lbl-start': 'Startår', 'lbl-end': 'Slutår',
       'sc0-tag': 'Sommerferiejob',
       'sc1-tag': 'Deltidsjob',
@@ -1072,6 +1172,12 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       'sc0-lump-hint': 'Beløbet investeres én gang om året i perioden — hver indbetaling vokser frem til målalderen.',
       'lbl-lump': 'Beløb (kr.)',
       'lbl-lump-year': 'Investeringsår',
+      'lbl-from-dt': 'Deltidsjob fra alder', 'lbl-from-lon': 'Løn fra alder',
+      'lbl-to-dt': 'Deltidsjob til', 'lbl-to-lon': 'Løn til',
+      'hint-from-dt': 'Forslaget er din alder. Skriv en anden alder, hvis du starter senere.',
+      'stop-q': 'Stopper du indbetalingerne før målalderen?',
+      'lbl-stop': 'Slutalder',
+      'stop-hint': 'Tomt felt: du indbetaler til målalderen. Stopper du før, regner beregneren med, at pengene vokser videre til målalderen uden nye indbetalinger.',
       'lump-hint': 'Har du en opsparing, du vil investere på én gang? Indtast beløb og år — beregningen viser, hvad netop det beløb vokser til.',
       'swr-label-on': 'Månedlig udbetaling, når du er stoppet med at indbetale',
       'swr-desc-4pct': '4%-reglen: at hæve 4% af porteføljen om året har historisk oftest holdt i 30 år (Trinity-studiet, USA).',
@@ -1115,11 +1221,32 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       'js-year-err-start-target': 'Startåret skal senest være {max}, fordi du fylder {age} i {ty}. Derfor kan der ikke vises et resultat. Ret startåret, eller hæv målalderen.',
       'js-year-err-past': 'Året {year} er før i år ({cy}). Beregneren regner fra i år. Derfor kan der ikke vises et resultat. Ret året til {cy} eller senere.',
       'js-year-err-nan': 'Feltet {field} indeholder ikke et årstal. Derfor kan der ikke vises et resultat. Skriv året med fire cifre, fx {cy}.',
-      'js-age-err-target': 'Målalderen skal være højere end din startalder ({a}). Derfor kan der ikke vises et resultat. Ret målalderen eller startalderen.',
-      'js-age-err-range-start': 'Startalderen skal være mellem 10 og 60 år. Derfor kan der ikke vises et resultat. Ret startalderen.',
+      'js-age-err-target': 'Målalderen skal være højere end din alder ({a}). Derfor kan der ikke vises et resultat. Ret målalderen eller din alder.',
+      'js-age-err-range-start': 'Din alder skal være mellem 10 og 60 år. Derfor kan der ikke vises et resultat. Ret alderen.',
       'js-age-err-range-target': 'Målalderen skal være mellem 20 og 70 år. Derfor kan der ikke vises et resultat. Ret målalderen.',
       'js-err-other-button': 'Årene under knappen {knap} skal rettes. Derfor kan der ikke vises et resultat. Tryk på knappen {knap}, og ret feltet med beskeden.',
+      'js-err-other-age': 'Et felt under knappen {knap} skal rettes. Derfor kan der ikke vises et resultat. Tryk på knappen {knap}, og ret feltet med beskeden.',
+      'js-age-err-nan': 'Feltet {field} indeholder ikke en alder. Derfor kan der ikke vises et resultat. Skriv alderen med tal, fx {ex}.',
+      'js-from-age-err-young': 'Alderen i "{field}" er lavere end din alder ({a}). Derfor kan der ikke vises et resultat. Ret alderen til {a} eller højere.',
+      'js-from-age-err-old': 'Alderen i "{field}" skal være under målalderen ({target}), altså højst {max}. Derfor kan der ikke vises et resultat. Ret alderen, eller hæv målalderen.',
+      'js-age-year': 'år {year}',
+      'js-you-turn': 'du fylder {age}',
+      'js-you-turn-target': 'du fylder {age} (målalderen)',
+      'js-you-turn-after': 'du fylder {age} (efter målalderen)',
+      'js-only': 'Kun',
+      'js-sum-note': 'Summen lægger Sommerferiejob, Deltidsjob og Løn sammen, også dem, du ikke har trykket på. Skal en indkomstkilde ikke tælle med, så sæt dens beløb til 0.',
+      'js-sum-note-lump': 'Summen lægger Sommerferiejob, Deltidsjob og Løn sammen, også dem, du ikke har trykket på, plus engangsbeløbet, fordi Engangsbeløb er valgt. Skal en indkomstkilde ikke tælle med, så sæt dens beløb til 0.',
+      'js-to-target': 'målalderen {age}',
+      'js-to-age': 'alder {age}',
+      'js-stop-sum': '· Slutalder {age}',
+      'js-stop-age-err-low': 'Slutalderen skal være over {from} (alderen i "{field}"). Derfor kan der ikke vises et resultat. Ret slutalderen, eller tøm feltet for at fortsætte til målalderen.',
+      'js-stop-age-warn': 'Slutalderen {stop} er efter målalderen {target}. Indbetalinger efter {target} tælles ikke med i den samlede portefølje. Sæt slutalderen til {target}, eller hæv målalderen.',
+      'js-hint-lon': 'Forslaget er {n} år. Skriv den alder, hvor du regner med at få fast løn.',
+      'js-hint-lon-now': 'Forslaget er din alder ({a}). Skriv den alder, hvor du regner med at få fast løn.',
+      'js-hint-lon-short': 'Forslaget er {n} år, alderen lige før målalderen. Skriv den alder, hvor du regner med at få fast løn.',
       'js-err-see-field': 'Ret feltet med beskeden ovenfor.',
+      'js-flag-error': 'skal rettes',
+      'js-flag-warning': 'har en advarsel',
       'js-return': 'Afkast',
       'js-value-at': 'Værdi i',
       'js-years-saving': 'års investering',
@@ -1213,7 +1340,11 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   var RATE = RATE_NOMINAL;
   var NET_FACTOR = 0.74; // nettolön ≈ 74% av bruttolön (Sverige, inkl. jobbskatteavdrag)
   var NET_FACTOR_DA = 0.55; // udbetalt løn ≈ 55% af Danmarks Statistiks tal (Danmark)
-  var lonStartTyped = false; // true while Lön's start year is one the visitor typed, not the rule's
+  var LON_EARLIEST_AGE = 23; // Lön is suggested from this age at the earliest
+  // Per button (1 Deltidsjobb, 2 Lön): true while the "från ålder" field holds what the visitor typed,
+  // not the suggestion; and the last whole age the field held.
+  var fromAgeTyped = { 1: false, 2: false };
+  var lastFromAge = { 1: 18, 2: 23 };
   var lonTyped = false; // true while Lön's amount is one the visitor typed, not the job's
 
   // A press on a button does not leave the field being typed in: leave it here, so the year
@@ -1266,11 +1397,103 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   ];
   var activeScenario = 2; // default to polislön scenario
 
-  // Lön starts at 23 at the earliest: the default start year follows the start age. It is at the
-  // latest the year before the target year, so a start year the visitor never typed always fits.
-  // AGE40_YEAR must already hold the current target year when this is asked.
-  function lonDefaultStartYear() {
-    return Math.min(CURRENT_YEAR + Math.max(0, 23 - START_AGE), AGE40_YEAR - 1);
+  // The suggested "från ålder": Deltidsjobb from din alder; Lön from 23 at the earliest (din alder
+  // when older), and at the latest the age just below the target age, so a suggestion always fits.
+  // START_AGE and TARGET_AGE must already hold the current ages when this is asked.
+  function defaultFromAge(i) {
+    if (i === 1) return START_AGE;
+    return Math.min(Math.max(LON_EARLIEST_AGE, START_AGE), TARGET_AGE - 1);
+  }
+
+  // An age as typed: a whole number of at most three digits gives the age, anything else (empty
+  // too) gives NaN, so no age is ever shown as an exponent number.
+  function ageOf(text) {
+    var trimmed = String(text).trim();
+    return /^\d{1,3}$/.test(trimmed) ? Number(trimmed) : NaN;
+  }
+
+  // Deltidsjobb and Lön keep years for the calculation, worked out from their "från ålder" fields:
+  // year = this year + (age - din alder); they end in the target year, or in the year of their
+  // "Slutålder" (stopYearOf). A field without a whole number keeps the last year. An age outside din
+  // alder .. target age - 1 is limited for the calculation only, so the numbers keep following
+  // while an age above is typed; the check names the field instead.
+  function readFromAges() {
+    [1, 2].forEach(function(i) {
+      var age = ageOf(document.getElementById('fromAgeSc' + i).value);
+      if (!isNaN(age)) {
+        lastFromAge[i] = age;
+        var limited = Math.max(START_AGE, Math.min(TARGET_AGE - 1, age));
+        scenarios[i].startYear = CURRENT_YEAR + (limited - START_AGE);
+      }
+      scenarios[i].endYear = stopYearOf(i);
+    });
+  }
+
+  // The "från ålder" a "Slutålder" is compared with: the field's age (its last whole age while it
+  // holds none), limited to din alder .. target age - 1 as in the calculation.
+  function fromAgeForStop(i) {
+    var age = ageOf(document.getElementById('fromAgeSc' + i).value);
+    if (isNaN(age)) age = lastFromAge[i];
+    return Math.max(START_AGE, Math.min(TARGET_AGE - 1, age));
+  }
+
+  // The year the deposits of Deltidsjobb (1) or Lön (2) end: the year of the "Slutålder" when it is
+  // a whole number above the "från ålder", also after the target age (the warning names that, and
+  // the calculation stops counting at the target year); otherwise, an empty field too, the target year.
+  function stopYearOf(i) {
+    var stop = ageOf(document.getElementById('stopAgeSc' + i).value);
+    return stop > fromAgeForStop(i) ? CURRENT_YEAR + (stop - START_AGE) : AGE40_YEAR;
+  }
+
+  // The year under each "från ålder" field, the line beside it (to the target age, or to an earlier
+  // "Slutålder"), the heading of the fold-out (it names a typed "Slutålder", so a closed fold-out
+  // still shows it) and Lön's hint, which names the suggestion.
+  function showFromAgeLines() {
+    [1, 2].forEach(function(i) {
+      var age = ageOf(document.getElementById('fromAgeSc' + i).value);
+      document.getElementById('fromYearSc' + i).textContent =
+        isNaN(age) ? '' : t('js-age-year').replace('{year}', CURRENT_YEAR + (age - START_AGE));
+      var endYear = stopYearOf(i);
+      var early = endYear < AGE40_YEAR;
+      document.getElementById('toTextSc' + i).innerHTML =
+        (early ? t('js-to-age').replace('{age}', START_AGE + (endYear - CURRENT_YEAR)) : t('js-to-target').replace('{age}', TARGET_AGE)) +
+        ', <span class="year-muted">' + t('js-age-year').replace('{year}', early ? endYear : AGE40_YEAR) + '</span>';
+      var stopText = document.getElementById('stopAgeSc' + i).value.trim();
+      document.getElementById('stopSumSc' + i).textContent = stopText ? t('js-stop-sum').replace('{age}', stopText) : '';
+    });
+    var suggestion = defaultFromAge(2);
+    var hint;
+    if (suggestion < Math.max(LON_EARLIEST_AGE, START_AGE)) hint = t('js-hint-lon-short').replace('{n}', suggestion);
+    else if (START_AGE > LON_EARLIEST_AGE) hint = t('js-hint-lon-now').replace('{a}', START_AGE);
+    else hint = t('js-hint-lon').replace('{n}', LON_EARLIEST_AGE);
+    document.getElementById('fromHintSc2').textContent = hint;
+  }
+
+  // The age under each year field of Sommarjobb and Engångsbelopp, worked out from the typed year:
+  // "du fyller 23", with a note at and after the target age. Nothing for a field that holds no year
+  // or a year before this one.
+  function showYouTurn() {
+    [['startYearSc0', 'youTurnStartSc0'], ['endYearSc0', 'youTurnEndSc0'], ['lumpYearSc3', 'youTurnLumpSc3']].forEach(function(pair) {
+      var year = yearOf(document.getElementById(pair[0]).value);
+      var text = '';
+      if (!isNaN(year) && year >= CURRENT_YEAR) {
+        var key = year === AGE40_YEAR ? 'js-you-turn-target' : year > AGE40_YEAR ? 'js-you-turn-after' : 'js-you-turn';
+        text = t(key).replace('{age}', START_AGE + (year - CURRENT_YEAR));
+      }
+      document.getElementById(pair[1]).textContent = text;
+    });
+  }
+
+  // Typing in a "från ålder" field: the year under it follows each key; the check and the numbers
+  // wait until the field is left. An age equal to the suggestion, or no text at all, counts as not typed.
+  function onFromAgeInput(i) {
+    var text = document.getElementById('fromAgeSc' + i).value.trim();
+    fromAgeTyped[i] = text !== '' && text !== String(defaultFromAge(i));
+    showFromAgeLines();
+  }
+
+  function onFromAgeLeave() {
+    calcWhenReleased();
   }
 
   // True while an age is typed and no age message shows: the page then works from the limited
@@ -1283,15 +1506,14 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     onAgeChange();
   }
 
-  // A mouse press elsewhere leaves an age field before the press ends. A message that then appears
-  // in the age box moves the scenario buttons below it, and the press would end beside the button
+  // A mouse press elsewhere leaves an age field (or a "från ålder" field) before the press ends. A
+  // message that then appears moves what lies below it, and the press would end beside the button
   // it started on; so after a mouse press the messages wait for the release.
   var mouseIsDown = false;
   document.addEventListener('mousedown', function() { mouseIsDown = true; }, true);
   document.addEventListener('mouseup', function() { mouseIsDown = false; }, true);
 
-  function onAgeLeave() {
-    ageTyping = false;
+  function calcWhenReleased() {
     if (!mouseIsDown) {
       calcGrowth();
       return;
@@ -1302,6 +1524,11 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     }, true);
   }
 
+  function onAgeLeave() {
+    ageTyping = false;
+    calcWhenReleased();
+  }
+
   function onAgeChange() {
     var age = parseInt(document.getElementById('currentAge').value) || 18;
     age = Math.max(10, Math.min(60, age));
@@ -1310,20 +1537,15 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     TARGET_AGE = Math.max(age + 1, Math.min(70, TARGET_AGE));
     AGE40_YEAR = CURRENT_YEAR + (TARGET_AGE - age);
     AGE50_YEAR = CURRENT_YEAR + (TARGET_AGE + 10 - age);
-    // Sommarjobb keeps the years in its own fields (onSc0LumpChange sets them); the others end at the target age
+    // Sommarjobb keeps the years in its own fields (onSc0LumpChange sets them); the others end at the
+    // target age, or at a "Slutålder" (readFromAges, run by calcGrowth below)
     scenarios[1].endYear = AGE40_YEAR;
     scenarios[2].endYear = AGE40_YEAR;
-    if (!lonStartTyped) {
-      scenarios[2].startYear = lonDefaultStartYear();
-      if (activeScenario === 2) document.getElementById('startYear').value = scenarios[2].startYear;
-    } else if (activeScenario === 2 && document.getElementById('startYear').value === '') {
-      document.getElementById('startYear').value = scenarios[2].startYear;
-    }
-    // Update endYear input for active scenario
-    var endYearInput = document.getElementById('endYear');
-    var newEndYear = activeScenario === 0 ? scenarios[0].endYear : AGE40_YEAR;
-    endYearInput.value = newEndYear;
-    if (activeScenario >= 0) scenarios[activeScenario].endYear = newEndYear;
+    // A "från ålder" the visitor never typed follows the suggestion; a typed one stays as typed, and
+    // the check says when it no longer fits.
+    [1, 2].forEach(function(i) {
+      if (!fromAgeTyped[i]) document.getElementById('fromAgeSc' + i).value = defaultFromAge(i);
+    });
     document.getElementById('age-desc').textContent = ageDescText();
     refreshInflationWarning();
     calcGrowth();
@@ -1477,6 +1699,14 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     return Math.round(n).toLocaleString(da ? 'da-DK' : 'sv-SE') + (da ? ' kr.' : ' kr');
   }
 
+  // The years of a row with the ages in brackets: "2031–2048 (23–40 år)", one year as "2026 (18 år)".
+  // Age = din alder + (year − this year).
+  function yearsWithAges(fromYear, toYear) {
+    var fromAge = START_AGE + (fromYear - CURRENT_YEAR);
+    if (fromYear === toYear) return fromYear + ' (' + fromAge + ' år)';
+    return fromYear + '–' + toYear + ' (' + fromAge + '–' + (START_AGE + (toYear - CURRENT_YEAR)) + ' år)';
+  }
+
   function readCurrentScenario() {
     var i = activeScenario;
     if (i < 0 || i > 2) return;
@@ -1484,25 +1714,30 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     var mf = document.getElementById('monthly-fields-inner');
     if (!mf || mf.style.display === 'none') return;
     var monthlyVal = document.getElementById('monthly').value.toString();
-    // Only a four-digit year is taken; a field without one keeps the last year, and the check
-    // names the field instead.
-    var typedStart = yearOf(document.getElementById('startYear').value);
-    var typedEnd   = yearOf(document.getElementById('endYear').value);
     scenarios[i].amount = parseFloat(monthlyVal) || 0;
-    if (!isNaN(typedStart)) {
-      // Only a real change of Lön's year counts as typed; an empty or unchanged field never does
-      if (i === 2 && typedStart !== scenarios[2].startYear) {
-        lonStartTyped = typedStart !== lonDefaultStartYear();
-      }
-      scenarios[i].startYear = typedStart;
-    }
-    if (!isNaN(typedEnd)) scenarios[i].endYear = typedEnd;
   }
 
   // A year as typed: exactly four digits give the year, anything else gives NaN.
   function yearOf(text) {
     var trimmed = String(text).trim();
     return /^\d{4}$/.test(trimmed) ? Number(trimmed) : NaN;
+  }
+
+  // Deltidsjobb (1) and Lön (2) each have their own "från ålder" field, so what is typed under one
+  // button stays there while another is chosen. An empty field is not kept: when its button is left,
+  // it gets the suggestion back.
+  function refillEmptyFromAge(i) {
+    var field = document.getElementById('fromAgeSc' + i);
+    if (field.value.trim() !== '') return;
+    field.value = defaultFromAge(i);
+    fromAgeTyped[i] = false;
+  }
+
+  // Shows the "från ålder" field, its line and its hint of the chosen button (1 or 2) only.
+  function showFromAgeFieldsOf(i) {
+    document.querySelectorAll('#monthly-fields-inner [data-for-button]').forEach(function(el) {
+      el.style.display = el.getAttribute('data-for-button') === String(i) ? '' : 'none';
+    });
   }
 
   // Sommarjobb's fields are read as typed and never rewritten; a year field without a four-digit
@@ -1524,6 +1759,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     var previousButton = selectedButton;
     selectedButton = i;
     readCurrentScenario();
+    if (previousButton === 1 || previousButton === 2) refillEmptyFromAge(previousButton);
     activeScenario = i < 3 ? i : 2;
     var sc0f = document.getElementById('sc0-lump-fields');
     var sc3f = document.getElementById('sc3-lump-fields');
@@ -1545,8 +1781,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       activeScenario = i;
       // Fields are now independent (lumpSumSc0 / lumpSumSc3) - no clearing needed
       document.getElementById('monthly').value   = scenarios[i].amount;
-      document.getElementById('startYear').value = scenarios[i].startYear;
-      document.getElementById('endYear').value   = scenarios[i].endYear;
+      showFromAgeFieldsOf(i);
     } else if (i === 3) {
       sc3f.style.display = 'block';
       activeScenario = 2;
@@ -1561,16 +1796,6 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         btn.setAttribute('aria-pressed', j===i ? 'true' : 'false');
       }
     });
-    calcGrowth();
-  }
-
-  // Leaving Startår or Slutår of Deltidsjobb/Lön: the years are read and checked as typed, never
-  // rewritten (a start year after the end year gets a message instead).
-  function onStartYearChange() {
-    calcGrowth();
-  }
-
-  function onEndYearChange() {
     calcGrowth();
   }
 
@@ -1615,7 +1840,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           '<div style="width:3px;height:28px;border-radius:2px;background:#4a7fd4;flex-shrink:0;"></div>' +
           '<div>' +
             '<div style="font-size:11px;font-weight:700;color:#2c5aa0;text-transform:uppercase;letter-spacing:0.06em;">' + t('sc3-tag') + '</div>' +
-            '<div style="font-size:11px;color:var(--muted);">' + _lrd.year + ' &nbsp;·&nbsp; ' + fmt(_lrd.amount) + (currentLang==='da' ? ' investeret' : ' investerat') + '</div>' +
+            '<div style="font-size:11px;color:var(--muted);">' + yearsWithAges(_lrd.year, _lrd.year) + ' &nbsp;·&nbsp; ' + fmt(_lrd.amount) + (currentLang==='da' ? ' investeret' : ' investerat') + '</div>' +
           '</div>' +
         '</div>' +
         '<span style="font-size:14px;font-weight:700;color:var(--ink);">' + fmt(lumpValueAt(AGE40_YEAR)) + '</span>' +
@@ -1629,7 +1854,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           '<div style="width:3px;height:28px;border-radius:2px;background:' + c.border + ';flex-shrink:0;"></div>' +
           '<div>' +
             '<div style="font-size:11px;font-weight:700;color:' + c.tag + ';text-transform:uppercase;letter-spacing:0.06em;">' + t(sc.label) + '</div>' +
-            '<div style="font-size:11px;color:var(--muted);">' + sc.startYear + '–' + sc.endYear + ' &nbsp;·&nbsp; ' +
+            '<div style="font-size:11px;color:var(--muted);">' + yearsWithAges(sc.startYear, sc.endYear) + ' &nbsp;·&nbsp; ' +
               (i === 0
                 ? fmt(sc.amount) + (currentLang==='da' ? '/år' : '/år')
                 : fmt(sc.amount) + t('js-per-month')) +
@@ -1651,7 +1876,9 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
             t('js-total-invested') + ': <strong>' + fmt(totalInvested) + '</strong> &nbsp;·&nbsp; ' +
             t('js-return') + ': <span style="white-space:nowrap;"><span style="color:#b7f5c8;font-weight:700;">' + fmt(totalGain40) + '</span>&nbsp;(+' + totalGain40p + '%)</span>' +
           '</div>' + capNoteHTML +
-          '<div style="margin-top:14px;border-top:1px solid rgba(255,255,255,0.2);padding-top:12px;">' + lumpRowHTML + rowsHTML + '</div>' +
+          '<div style="margin-top:14px;border-top:1px solid rgba(255,255,255,0.2);padding-top:12px;">' +
+            '<div id="sum-note" style="font-size:12px;line-height:1.5;opacity:0.92;margin-bottom:10px;">' + t(useLump() ? 'js-sum-note-lump' : 'js-sum-note') + '</div>' +
+            lumpRowHTML + rowsHTML + '</div>' +
         '</div>'
     };
   }
@@ -1659,11 +1886,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   // The scenario whose years the result is drawn from; Engångsbelopp is a period from the
   // investment year to the target year.
   function currentYearScenario() {
-    var sc = activeScenario >= 0 ? scenarios[activeScenario] : {
-      amount:    0,
-      startYear: parseInt(document.getElementById('startYear').value)   || CURRENT_YEAR,
-      endYear:   parseInt(document.getElementById('endYear').value)     || AGE40_YEAR
-    };
+    var sc = scenarios[activeScenario];
 
     // When Engång selected: show only lump sum growth, no monthly
     if (selectedButton === 3) {
@@ -1712,9 +1935,10 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   }
 
   // A period of a button (0 Sommarjobb, 1 Deltidsjobb, 2 Lön). Sommarjobb may start and end in the
-  // same year, the others need a later end year (the messages under Slutår). The start year must
-  // still count: Sommarjobb up to the target year, the others before it. An end year after the
-  // target year is a warning under Slutår. Null when the period fits.
+  // same year, the others need a later end year. The start year must still count: Sommarjobb up to
+  // the target year, the others before it. An end year after the target year is a warning under
+  // Slutår. Null when the period fits. Deltidsjobb's and Lön's years are worked out from a "från
+  // ålder" that fromAgeMessage has passed, so for them this is only a guard.
   function periodMessage(button, startYear, endYear, startId, endId) {
     var sameYearAllowed = button === 0;
     if (endYear < startYear || (endYear === startYear && !sameYearAllowed)) {
@@ -1732,9 +1956,53 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     return null;
   }
 
-  var YEAR_FIELDS = [['startYearSc0', 'endYearSc0'], ['startYear', 'endYear'], ['startYear', 'endYear']];
+  // The "från ålder" field of Deltidsjobb (1) or Lön (2) as typed: not a whole number, lower than
+  // din alder, or not below the target age. Null when it fits. While an age above is typed, only
+  // "not a number" is judged: the ages are half typed, and the check waits until the field is left.
+  function fromAgeMessage(i) {
+    var id = 'fromAgeSc' + i;
+    var label = t(i === 1 ? 'lbl-from-dt' : 'lbl-from-lon');
+    var age = ageOf(document.getElementById(id).value);
+    if (isNaN(age)) {
+      return fieldMessage(id, 2, t('js-age-err-nan').replace('{field}', label).replace('{ex}', defaultFromAge(i)));
+    }
+    if (ageTyping) return null;
+    if (age < START_AGE) {
+      return fieldMessage(id, 2, t('js-from-age-err-young').replace('{field}', label).replace(/\{a\}/g, START_AGE));
+    }
+    if (age > TARGET_AGE - 1) {
+      return fieldMessage(id, 2, t('js-from-age-err-old').replace('{field}', label)
+        .replace('{target}', TARGET_AGE).replace('{max}', TARGET_AGE - 1));
+    }
+    return null;
+  }
 
-  // The button that is shown: each year field as typed, then the period the calculation uses
+  // The "Slutålder" of Deltidsjobb (1) or Lön (2) as typed, asked once its "från ålder" fits: empty
+  // is fine (deposits to the target age); not a whole number, or not above the "från ålder", blocks;
+  // after the target age it only warns, and the calculation counts to the target year. While an age
+  // above is typed, only "not a number" is judged, as for the "från ålder".
+  function stopAgeMessage(i) {
+    var id = 'stopAgeSc' + i;
+    var text = document.getElementById(id).value.trim();
+    if (text === '') return null;
+    var stop = ageOf(text);
+    var from = fromAgeForStop(i);
+    if (isNaN(stop)) {
+      return fieldMessage(id, 2, t('js-age-err-nan').replace('{field}', t('lbl-stop'))
+        .replace('{ex}', Math.max(from + 1, Math.min(35, TARGET_AGE - 1))));
+    }
+    if (ageTyping) return null;
+    if (stop <= from) {
+      return fieldMessage(id, 2, t('js-stop-age-err-low').replace('{from}', from)
+        .replace('{field}', t(i === 1 ? 'lbl-from-dt' : 'lbl-from-lon')));
+    }
+    if (stop > TARGET_AGE) {
+      return fieldMessage(id, 1, t('js-stop-age-warn').replace('{stop}', stop).replace(/\{target\}/g, TARGET_AGE));
+    }
+    return null;
+  }
+
+  // The button that is shown: each field as typed, then the period the calculation uses
   // (Engångsbelopp: its year must be before the target year).
   function shownButtonMessage() {
     if (selectedButton === 3) {
@@ -1745,19 +2013,27 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       }
       return null;
     }
-    var ids = YEAR_FIELDS[selectedButton];
     var sc = scenarios[selectedButton];
-    return yearFieldMessage(ids[0], 'lbl-start') || yearFieldMessage(ids[1], 'lbl-end') ||
-      periodMessage(selectedButton, sc.startYear, sc.endYear, ids[0], ids[1]);
+    if (selectedButton === 0) {
+      return yearFieldMessage('startYearSc0', 'lbl-start') || yearFieldMessage('endYearSc0', 'lbl-end') ||
+        periodMessage(0, sc.startYear, sc.endYear, 'startYearSc0', 'endYearSc0');
+    }
+    var id = 'fromAgeSc' + selectedButton;
+    return fromAgeMessage(selectedButton) || stopAgeMessage(selectedButton) ||
+      periodMessage(selectedButton, sc.startYear, sc.endYear, id, id);
   }
 
   // A button that is not shown blocks the result when it adds to the total (an amount over 0) and
   // its saved years cannot be counted. Sommarjobb's fields are also read as typed: a year field
-  // with text keeps the last saved year, but the check still names it.
+  // with text keeps the last saved year, but the check still names it; Deltidsjobb's and Lön's
+  // "från ålder" and "Slutålder" fields likewise.
   function hiddenButtonBlocks(i) {
     var sc = scenarios[i];
     if (!(sc.amount > 0)) return false;
     if (i === 0 && (yearFieldMessage('startYearSc0', 'lbl-start') || yearFieldMessage('endYearSc0', 'lbl-end'))) return true;
+    if (i > 0 && fromAgeMessage(i)) return true;
+    var stopMessage = i > 0 ? stopAgeMessage(i) : null;
+    if (stopMessage && stopMessage.level === 2) return true;
     if (sc.startYear < CURRENT_YEAR || sc.endYear < CURRENT_YEAR) return true;
     var message = periodMessage(i, sc.startYear, sc.endYear, '', '');
     return !!message && message.level === 2;
@@ -1769,18 +2045,19 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   // then the buttons that are not shown. When Engångsbelopp is chosen, the other three are not
   // shown; its own year counts only while it is chosen.
   function checkYearsAndAges() {
-    var rows = { age: null, sc0: null, monthly: null, sc3: null };
+    var rows = { age: null, sc0: null, monthly: null, stop1: null, stop2: null, sc3: null };
     var age = ageTyping ? null : ageMessage();
     if (age) {
       rows.age = age;
       return { rows: rows, block: age.text };
     }
     var shown = shownButtonMessage();
-    rows[selectedButton === 0 ? 'sc0' : selectedButton === 3 ? 'sc3' : 'monthly'] = shown;
+    if (shown) rows[rowKeyOf(shown.field)] = shown;
     if (shown && shown.level === 2) return { rows: rows, block: shown.text };
     for (var i = 0; i < 3; i++) {
       if (i !== selectedButton && hiddenButtonBlocks(i)) {
-        return { rows: rows, block: t('js-err-other-button').replace(/\{knap\}/g, t(scenarios[i].label)) };
+        var otherKey = i === 0 ? 'js-err-other-button' : 'js-err-other-age';
+        return { rows: rows, block: t(otherKey).replace(/\{knap\}/g, t(scenarios[i].label)) };
       }
     }
     return { rows: rows, block: '' };
@@ -1789,34 +2066,122 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   var MESSAGE_ROWS = [
     { key: 'age',     id: 'age-msg',          fields: ['currentAge', 'targetAge'] },
     { key: 'sc0',     id: 'sc0-year-msg',     fields: ['startYearSc0', 'endYearSc0'] },
-    { key: 'monthly', id: 'monthly-year-msg', fields: ['startYear', 'endYear'] },
+    { key: 'monthly', id: 'monthly-year-msg', fields: ['fromAgeSc1', 'fromAgeSc2'] },
+    { key: 'stop1',   id: 'stopMsgSc1',       fields: ['stopAgeSc1'], box: 'stopBoxSc1' },
+    { key: 'stop2',   id: 'stopMsgSc2',       fields: ['stopAgeSc2'], box: 'stopBoxSc2' },
     { key: 'sc3',     id: 'sc3-year-msg',     fields: ['lumpYearSc3'] }
   ];
 
+  // The row a message about this field stands in.
+  function rowKeyOf(field) {
+    for (var r = 0; r < MESSAGE_ROWS.length; r++) {
+      if (MESSAGE_ROWS[r].fields.indexOf(field) !== -1) return MESSAGE_ROWS[r].key;
+    }
+    return null;
+  }
+
+  // The rows under a button's fields: Deltidsjobb and Lön have the row under "från ålder" and the
+  // one in their own fold-out.
+  function rowKeysOf(button) {
+    return button === 0 ? ['sc0'] : button === 3 ? ['sc3'] : ['monthly', 'stop' + button];
+  }
+
+  // What describes a field besides its message: the "från ålder" fields always have their year
+  // line and their hint, the "Slutålder" fields their hint.
+  var FIELD_DESCRIPTIONS = {
+    fromAgeSc1: 'fromYearSc1 fromHintSc1', fromAgeSc2: 'fromYearSc2 fromHintSc2',
+    stopAgeSc1: 'stopHintSc1', stopAgeSc2: 'stopHintSc2'
+  };
+
   // Writes each row's message under its fields and ties it to the field it is about: that field
   // is described by it, and invalid while it blocks. While an age is typed, a row with no message
-  // stays empty; a row that shows one follows the check.
+  // stays empty; a row that shows one follows the check. A message that comes into a closed
+  // fold-out opens it, so the message is seen; the fold-out can be closed again.
   function showFieldMessages(rows) {
     MESSAGE_ROWS.forEach(function(row) {
       var holder = document.getElementById(row.id);
       var message = rows[row.key];
       if (ageTyping && !holder.textContent) return;
+      var shownBefore = !!holder.textContent;
       holder.textContent = message ? message.text : '';
       holder.className = 'field-msg' + (message ? ' level-' + message.level : '');
+      if (row.box && message && !shownBefore) document.getElementById(row.box).open = true;
       row.fields.forEach(function(id) {
         var field = document.getElementById(id);
         var mine = !!message && message.field === id;
-        if (mine) field.setAttribute('aria-describedby', row.id);
+        var describedBy = (FIELD_DESCRIPTIONS[id] ? [FIELD_DESCRIPTIONS[id]] : []).concat(mine ? [row.id] : []).join(' ');
+        if (describedBy) field.setAttribute('aria-describedby', describedBy);
         else field.removeAttribute('aria-describedby');
         if (mine && message.level === 2) field.setAttribute('aria-invalid', 'true');
         else field.removeAttribute('aria-invalid');
       });
     });
-    // While an age message shows, the age line and the inflation note would state a year worked
-    // out from the limited age: they are hidden (the age line keeps its space).
+    // While an age message shows, the age line, the inflation note, the years by the "från
+    // ålder" fields and their hints would state an age or year worked out from the limited age:
+    // they are hidden (the lines keep their space).
     var ageMessageShows = !!document.getElementById('age-msg').textContent;
     document.getElementById('age-desc').classList.toggle('age-limited-hidden', ageMessageShows);
     document.getElementById('inflation-warning').classList.toggle('age-limited-hidden', ageMessageShows);
+    document.querySelectorAll('.year-under, #monthly-fields-inner .follows, #fromHintSc1, #fromHintSc2').forEach(function(el) {
+      el.classList.toggle('age-limited-hidden', ageMessageShows);
+    });
+    showButtonFlags(rows);
+  }
+
+  // The "!" mark of each of the four buttons, judged on the button's own fields: 'error' when they
+  // stop the result, 'warning' when they give a warning, '' otherwise. The chosen button follows
+  // its message under the fields (also at 0 kr); a button that is not chosen counts only with an
+  // amount over 0, and Engångsbelopp only while chosen. An age message gives no marks.
+  function buttonFlags(rows) {
+    var flags = ['', '', '', ''];
+    if (rows.age) return flags;
+    var shown = null;
+    rowKeysOf(selectedButton).forEach(function(key) { shown = shown || rows[key]; });
+    if (shown) flags[selectedButton] = shown.level === 2 ? 'error' : 'warning';
+    for (var i = 0; i < 3; i++) {
+      var sc = scenarios[i];
+      if (i === selectedButton || !(sc.amount > 0)) continue;
+      if (hiddenButtonBlocks(i)) {
+        flags[i] = 'error';
+      } else {
+        var message = (i > 0 ? stopAgeMessage(i) : null) || periodMessage(i, sc.startYear, sc.endYear, '', '');
+        if (message && message.level === 1) flags[i] = 'warning';
+      }
+    }
+    return flags;
+  }
+
+  // Sets the marks together with the messages; while an age is typed they stand still, as the
+  // empty message rows do. The words in the button's name follow the page's language either way.
+  function showButtonFlags(rows) {
+    var flags = ageTyping ? null : buttonFlags(rows);
+    [0, 1, 2, 3].forEach(function(i) {
+      var button = document.getElementById('sc' + i);
+      var flag = flags ? flags[i] : (button.getAttribute('data-flag') || '');
+      var mark = button.querySelector('[data-flag-mark]');
+      var words = button.querySelector('.flag-words');
+      if (!flag) {
+        button.removeAttribute('data-flag');
+        if (mark) button.removeChild(mark);
+        if (words) button.removeChild(words);
+        return;
+      }
+      button.setAttribute('data-flag', flag);
+      if (!mark) {
+        mark = document.createElement('span');
+        mark.className = 'flag-mark';
+        mark.setAttribute('data-flag-mark', '');
+        mark.setAttribute('aria-hidden', 'true');
+        mark.textContent = '!';
+        button.appendChild(mark);
+      }
+      if (!words) {
+        words = document.createElement('span');
+        words.className = 'flag-words';
+        button.appendChild(words);
+      }
+      words.textContent = ', ' + t(flag === 'error' ? 'js-flag-error' : 'js-flag-warning');
+    });
   }
 
   // The text the result and the print show instead of numbers, or '' when the ages and years fit.
@@ -1826,6 +2191,9 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
   function calcGrowth() {
     readCurrentScenario();
+    readFromAges();
+    showFromAgeLines();
+    showYouTurn();
     var check = checkYearsAndAges();
     showFieldMessages(check.rows);
 
@@ -1851,8 +2219,11 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     }
 
     // The card and the chart stop at the target year, like the green box and the print: deposits
-    // after it are not counted.
-    var cardEnd  = Math.min(endYear, AGE40_YEAR);
+    // after it are not counted. Deposits end at the button's end year (depositEnd); Deltidsjobb's and
+    // Lön's card shows the value in the target year, so money from an earlier "Slutålder" keeps
+    // growing to it, the same number as their row in the green box.
+    var depositEnd = Math.min(endYear, AGE40_YEAR);
+    var cardEnd  = (selectedButton === 1 || selectedButton === 2) ? AGE40_YEAR : depositEnd;
     var years    = Math.max(1, cardEnd - startYear);
     var _ld = getLumpData();
     var isAnnual = (selectedButton === 0);
@@ -1863,21 +2234,21 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         return (_ld.amount > 0 && ty >= _ld.year) ? fvLump(RATE, ty - _ld.year, _ld.amount) : 0;
       }
       if (isAnnual) {
-        return annualValueAt(monthly, startYear, cardEnd, ty);
+        return annualValueAt(monthly, startYear, depositEnd, ty);
       }
-      var activeMonths = Math.min(cardEnd, ty) - startYear;
+      var activeMonths = Math.min(depositEnd, ty) - startYear;
       if (activeMonths <= 0) return 0;
       var base = fvMonthly(RATE, activeMonths * 12, monthly);
-      return ty <= cardEnd ? base : fvLump(RATE, ty - cardEnd, base);
+      return ty <= depositEnd ? base : fvLump(RATE, ty - depositEnd, base);
     }
     function investedAtYear(ty) {
       if (selectedButton === 3) {
         return (_ld.amount > 0 && ty >= _ld.year) ? _ld.amount : 0;
       }
       if (isAnnual) {
-        return annualInvested(monthly, startYear, Math.min(cardEnd, ty));
+        return annualInvested(monthly, startYear, Math.min(depositEnd, ty));
       }
-      var activeMonths = Math.min(cardEnd, ty) - startYear;
+      var activeMonths = Math.min(depositEnd, ty) - startYear;
       if (activeMonths <= 0) return 0;
       return monthly * activeMonths * 12;
     }
@@ -1986,7 +2357,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
     container.innerHTML =
       '<div class="result-card primary">' +
-        '<div class="result-label">' + t('js-value-at') + ' ' + cardEnd + ' (' + savingLabel + ')</div>' +
+        '<div class="result-label">' + t('js-only') + ' ' + t('sc' + selectedButton + '-tag') + ' · ' + t('js-value-at') + ' ' + cardEnd + ' (' + savingLabel + ')</div>' +
         '<div class="result-big">' + fmt(value) + '</div>' +
         '<div class="result-detail">' + t('js-paid-in') + ': <strong>' + fmt(invested) + '</strong> &nbsp;·&nbsp; ' + t('js-return') + ': <span style="white-space:nowrap;"><span style="color:#b7f5c8;font-weight:700;">' + fmt(gain) + '</span>&nbsp;(+' + gainPct + '%)</span></div>' +
         (useLump() && _ld.amount > 0 ? '<div style="margin-top:4px;font-size:11px;opacity:0.8;">' + (currentLang==='da' ? 'Inkl. engangsbeløb ' : 'Inkl. engångsbelopp ') + fmt(_ld.amount) + ' (' + _ld.year + ')</div>' : '') +
@@ -2276,7 +2647,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         '<div class="p1-gap" style="background:#f0faf4;border-left:4px solid #2d6a4f;padding:12px 16px;border-radius:6px;margin-bottom:16px;">' +
           '<div style="font-size:11px;color:#2d6a4f;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;">' + (da?'Mål':'Mål') + '</div>' +
           '<div style="font-size:28px;font-weight:700;color:#2d6a4f;line-height:1.1;">' + (da?'Økonomisk frihed ved ':'Ekonomisk frihet vid ') + targetAge + ' ' + (da?'år':'år') + ' <span style="font-size:13px;color:#6b6b5e;font-weight:400;">(' + AGE40_YEAR + ')</span></div>' +
-          '<div style="font-size:12px;color:#6b6b5e;margin-top:2px;">' + (da?'Startalder: ':'Startålder: ') + age + ' ' + (da?'år · ':'år · ') + (targetAge-age) + (da?' års investering':' års investerande') + '</div>' +
+          '<div style="font-size:12px;color:#6b6b5e;margin-top:2px;">' + (da?'Din alder: ':'Din ålder: ') + age + ' ' + (da?'år · ':'år · ') + (targetAge-age) + (da?' års investering':' års investerande') + '</div>' +
         '</div>' +
 
         // Key figures table
@@ -2285,14 +2656,14 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
           '<tr><td style="padding:6px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Job / løn':'Yrke / lön') + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;">' + jobName + '</td></tr>' +
           (selectedButton === 2 ?
             '<tr><td style="padding:6px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + 'Investeringsandel' + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;">' + savePct + '% ' + (da?'af nettoløn':'av nettolön') + '</td></tr>' : '') +
-          '<tr><td style="padding:6px 0;border-bottom:1px solid #e9e4d9;color:#7c5cbf;font-weight:600;">🟣 ' + (da?'Løn':'Lön') + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#7c5cbf;">' + fmt(scenarios[2].amount) + perMonth + ' · ' + scenarios[2].startYear + '–' + scenarios[2].endYear + '</td></tr>' +
+          '<tr><td style="padding:6px 0;border-bottom:1px solid #e9e4d9;color:#7c5cbf;font-weight:600;">🟣 ' + (da?'Løn':'Lön') + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#7c5cbf;">' + fmt(scenarios[2].amount) + perMonth + ' · ' + yearsWithAges(scenarios[2].startYear, scenarios[2].endYear) + '</td></tr>' +
           (scenarios[0].amount > 0 ?
             '<tr><td style="padding:6px 0;border-bottom:1px solid #e9e4d9;color:#2d6a4f;font-weight:600;">🟢 ' + (da?'Sommerferiejob':'Sommarjobb') + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#2d6a4f;">' +
-            fmt(scenarios[0].amount) + '/år · ' + scenarios[0].startYear + '–' + scenarios[0].endYear + '</td></tr>' : '') +
+            fmt(scenarios[0].amount) + '/år · ' + yearsWithAges(scenarios[0].startYear, scenarios[0].endYear) + '</td></tr>' : '') +
           (scenarios[1].amount > 0 ?
-            '<tr><td style="padding:6px 0;border-bottom:1px solid #e9e4d9;color:#7a5c10;font-weight:600;">🟡 ' + (da?'Deltidsjob':'Deltidsjobb') + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#7a5c10;">' + fmt(scenarios[1].amount) + perMonth + ' · ' + scenarios[1].startYear + '–' + scenarios[1].endYear + '</td></tr>' : '') +
+            '<tr><td style="padding:6px 0;border-bottom:1px solid #e9e4d9;color:#7a5c10;font-weight:600;">🟡 ' + (da?'Deltidsjob':'Deltidsjobb') + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#7a5c10;">' + fmt(scenarios[1].amount) + perMonth + ' · ' + yearsWithAges(scenarios[1].startYear, scenarios[1].endYear) + '</td></tr>' : '') +
           (selectedButton === 3 && lump > 0 ?
-            '<tr><td style="padding:6px 0;border-bottom:1px solid #e9e4d9;color:#2c5aa0;font-weight:600;">🔵 ' + (da?'Engangsbeløb':'Engångsbelopp') + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#2c5aa0;">' + fmt(lump) + ' (' + lumpYear + ')</td></tr>' : '') +
+            '<tr><td style="padding:6px 0;border-bottom:1px solid #e9e4d9;color:#2c5aa0;font-weight:600;">🔵 ' + (da?'Engangsbeløb':'Engångsbelopp') + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#2c5aa0;">' + fmt(lump) + ' · ' + yearsWithAges(lumpYear, lumpYear) + '</td></tr>' : '') +
           '<tr><td style="padding:6px 0;color:#6b6b5e;">' + (da?'Afkastforudsætning':'Avkastningsantagande') + '</td><td style="text-align:right;font-weight:600;">' + inflLabel + '</td></tr>' +
         '</table>' +
 
@@ -2311,11 +2682,12 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
         '<div style="font-size:11px;font-weight:700;color:#2d6a4f;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">' + t('js-total40').replace('{age}', targetAge) + '</div>' +
         '<div style="font-size:26px;font-weight:700;color:#2d6a4f;margin-bottom:8px;">' + fmt(total40) + '</div>' +
         (printCapNote ? '<div id="print-total-cap-note" style="font-size:11px;color:#6b6b5e;margin:-4px 0 10px;">' + printCapNote + '</div>' : '') +
+        '<div id="print-sum-note" style="font-size:11px;color:#6b6b5e;margin:0 0 10px;">' + t(useLump() ? 'js-sum-note-lump' : 'js-sum-note') + '</div>' +
         '<table class="p1-gap" style="width:100%;border-collapse:collapse;margin-bottom:16px;font-size:12px;">' +
-          (sc0val > 0 ? '<tr><td style="padding:5px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Sommerferiejob':'Sommarjobb') + ' (' + scenarios[0].startYear + '–' + scenarios[0].endYear + ')</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#2d6a4f;">' + fmt(sc0val) + '</td></tr>' : '') +
-          (sc1val > 0 ? '<tr><td style="padding:5px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Deltidsjob':'Deltidsjobb') + ' (' + scenarios[1].startYear + '–' + scenarios[1].endYear + ')</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#7a5c10;">' + fmt(sc1val) + '</td></tr>' : '') +
-          (sc2val > 0 ? '<tr><td style="padding:5px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Løn':'Lön') + ' (' + scenarios[2].startYear + '–' + scenarios[2].endYear + ')</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#7c5cbf;">' + fmt(sc2val) + '</td></tr>' : '') +
-          (lump > 0 ? '<tr><td style="padding:5px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Engangsbeløb':'Engångsbelopp') + ' (' + lumpYear + '→' + AGE40_YEAR + ')</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#2c5aa0;">' + fmt(lumpVal) + '</td></tr>' : '') +
+          (sc0val > 0 ? '<tr><td style="padding:5px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Sommerferiejob':'Sommarjobb') + ' ' + yearsWithAges(scenarios[0].startYear, scenarios[0].endYear) + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#2d6a4f;">' + fmt(sc0val) + '</td></tr>' : '') +
+          (sc1val > 0 ? '<tr><td style="padding:5px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Deltidsjob':'Deltidsjobb') + ' ' + yearsWithAges(scenarios[1].startYear, scenarios[1].endYear) + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#7a5c10;">' + fmt(sc1val) + '</td></tr>' : '') +
+          (sc2val > 0 ? '<tr><td style="padding:5px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Løn':'Lön') + ' ' + yearsWithAges(scenarios[2].startYear, scenarios[2].endYear) + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#7c5cbf;">' + fmt(sc2val) + '</td></tr>' : '') +
+          (lump > 0 ? '<tr><td style="padding:5px 0;border-bottom:1px solid #e9e4d9;color:#6b6b5e;">' + (da?'Engangsbeløb':'Engångsbelopp') + ' ' + yearsWithAges(lumpYear, lumpYear) + ' → ' + yearsWithAges(AGE40_YEAR, AGE40_YEAR) + '</td><td style="text-align:right;font-weight:600;border-bottom:1px solid #e9e4d9;color:#2c5aa0;">' + fmt(lumpVal) + '</td></tr>' : '') +
         '</table>' +
 
         // Monthly payout section with timeline chart
@@ -2485,7 +2857,6 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   document.getElementById('lumpYearSc3').value  = CURRENT_YEAR;
   onSc0LumpChange(); // sync sc0 scenario years only
   selectScenario(2);
-  document.getElementById('endYear').value = AGE40_YEAR;
   onAgeChange();
 
   // ── DEBUG / TEST HARNESS (off by default) ──────────────────────
